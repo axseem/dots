@@ -1,0 +1,92 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
+  "editor.formatOnSave": false,
+  "eslint.rules.customizations": [
+    {
+      "fixable": true,
+      "rule": "style/*",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "format/*",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-indent",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-spacing",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-spaces",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-order",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-dangle",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*-newline",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*quotes",
+      "severity": "off"
+    },
+    {
+      "fixable": true,
+      "rule": "*semi",
+      "severity": "off"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
+  ],
+  "prettier.enable": false,
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
+  "window.density.editorTabHeight": "default",
+  "workbench.activityBar.location": "top",
+  "workbench.colorTheme": "Dark+ Pure Black (OLED)",
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.tabSizing": "shrink",
+  "editor.minimap.enabled": false
+}

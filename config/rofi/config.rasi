@@ -1,0 +1,5 @@
+configuration {
+    auto-select: true;
+}
+
+@theme "axseem"

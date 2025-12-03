@@ -1,0 +1,8 @@
+module components
+TopSection 1.0 TopSection.qml
+MiddleSection 1.0 MiddleSection.qml
+BottomSection 1.0 BottomSection.qml
+Separator 1.0 Separator.qml
+FigmaIcon 1.0 FigmaIcon.qml
+WorkspaceItem 1.0 WorkspaceItem.qml
+TrayPopup 1.0 TrayPopup.qml

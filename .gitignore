@@ -1,2 +1,4 @@
-nixos/firmware/
-nixos/apple-silicon-support/
+result
+.direnv
+.envrc
+hosts/laptop/secrets.nix
