@@ -5,6 +5,7 @@
   },
   "editor.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
   "editor.formatOnSave": false,
+  "editor.minimap.enabled": false,
   "eslint.rules.customizations": [
     {
       "fixable": true,
@@ -81,6 +82,7 @@
     "postcss"
   ],
   "prettier.enable": false,
+  "svelte.enable-ts-plugin": true,
   "telemetry.telemetryLevel": "off",
   "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
   "window.density.editorTabHeight": "default",
@@ -88,5 +90,6 @@
   "workbench.colorTheme": "Dark+ Pure Black (OLED)",
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.tabSizing": "shrink",
-  "editor.minimap.enabled": false
+  "chat.agent.maxRequests": 100,
+  "claudeCode.preferredLocation": "panel"
 }

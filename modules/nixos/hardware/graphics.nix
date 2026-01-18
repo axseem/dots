@@ -12,7 +12,8 @@
     modesetting.enable = true;
     powerManagement = {
       enable = true;
-      finegrained = true;
+      # Disable fine-grained power management - known to cause freezes with newer GPUs
+      finegrained = false;
     };
     nvidiaSettings = true;
     prime = {

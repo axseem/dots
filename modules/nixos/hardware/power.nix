@@ -1,4 +1,8 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   services.tlp = {
     enable = true;
     settings = {
@@ -13,8 +17,9 @@
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 40;
 
-      PLATFORM_PROFILE_ON_AC = "balanced";
-      PLATFORM_PROFILE_ON_BAT = "low-power";
+      # Disable PLATFORM_PROFILE to avoid conflict with AMD PMF
+      # PLATFORM_PROFILE_ON_AC = "balanced";
+      # PLATFORM_PROFILE_ON_BAT = "low-power";
 
       START_CHARGE_THRESH_BAT0 = 80;
       STOP_CHARGE_THRESH_BAT0 = 80;
@@ -27,4 +32,3 @@
 
   zramSwap.enable = true;
 }
-

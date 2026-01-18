@@ -5,18 +5,25 @@
   lib,
   ...
 }: {
-  imports = [
-    ../../modules/home/fish
-    ../../modules/home/vscode
-    ../../modules/home/git.nix
-    ../../modules/home/ui.nix
-    ../../modules/home/xdg.nix
-    
-    ../../modules/home/cli.nix
-    ../../modules/home/media.nix
-    ../../modules/home/apps.nix
-    ../../modules/home/desktop-utils.nix
-  ] ++ (if builtins.pathExists ./secrets.nix then [ ./secrets.nix ] else []);
+  imports =
+    [
+      ../../../modules/home/common/fish
+      ../../../modules/home/common/vscode
+      ../../../modules/home/common/git.nix
+      ../../../modules/home/common/cli.nix
+
+      ../../../modules/home/linux/ui.nix
+      ../../../modules/home/linux/xdg.nix
+      ../../../modules/home/linux/cli-linux.nix
+      ../../../modules/home/linux/media.nix
+      ../../../modules/home/linux/apps.nix
+      ../../../modules/home/linux/desktop-utils.nix
+    ]
+    ++ (
+      if builtins.pathExists ./secrets.nix
+      then [./secrets.nix]
+      else []
+    );
 
   home = {
     username = "axseem";

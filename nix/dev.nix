@@ -9,7 +9,7 @@
       check-build = {
         enable = true;
         name = "Check Build";
-        entry = "${pkgs.nix}/bin/nix build .#nixosConfigurations.laptop.config.system.build.toplevel --no-link";
+        entry = "${pkgs.nix}/bin/nix build .#nixosConfigurations.ideapad.config.system.build.toplevel --no-link";
         pass_filenames = false;
       };
     };

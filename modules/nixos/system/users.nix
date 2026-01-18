@@ -1,11 +1,9 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   users.users.axseem = {
     shell = pkgs.fish;
     isNormalUser = true;
     extraGroups = ["wheel" "video" "dialout" "networkmanager" "docker" "adbusers" "audio"];
   };
 
-  programs.adb.enable = true;
+  programs.nix-ld.enable = true;
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # File Management
     file-roller
@@ -9,9 +9,9 @@
     # Utilities
     gnome-calculator
     qalculate-gtk
-    
+
     # System / Desktop Integration
-    (rofi.override { plugins = [ rofi-emoji rofi-calc ]; })
+    (rofi.override {plugins = [rofi-emoji rofi-calc];})
     rofi-bluetooth
     networkmanager_dmenu
     cliphist
