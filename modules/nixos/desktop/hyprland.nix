@@ -8,8 +8,6 @@
 
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
-    hyprlock
-    hypridle
     hyprpaper
     quickshell
 
@@ -27,5 +25,5 @@
     foot
   ];
 
-  security.pam.services.hyprlock = {};
+  security.pam.services.swaylock = {};
 }

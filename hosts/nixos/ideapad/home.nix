@@ -39,9 +39,7 @@
       LOCK_CMD = "swaylock -f -i eDP-1:${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
     };
 
-    packages = [
-      inputs.dirmd.packages.${pkgs.system}.default
-    ];
+    packages = [];
   };
 
   # Host-specific Hyprland Configuration

@@ -2,12 +2,9 @@
   home.packages = with pkgs; [
     # File Management
     file-roller
-    nemo
-    kdePackages.dolphin
     nautilus
 
     # Utilities
-    gnome-calculator
     qalculate-gtk
 
     # System / Desktop Integration
@@ -17,6 +14,5 @@
     cliphist
     pavucontrol
     gcr
-    seahorse
   ];
 }
