@@ -26,8 +26,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-utils.url = "github:numtide/flake-utils";
-
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -35,93 +33,97 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
-    home-manager,
     nix-darwin,
-    flake-utils,
     ...
-  } @ inputs:
-    flake-utils.lib.eachDefaultSystem (system:
+  } @ inputs: let
+    username = "max";
+    systems = ["x86_64-linux" "aarch64-darwin"];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+    devFor = system:
       import ./nix/dev.nix {
         pkgs = nixpkgs.legacyPackages.${system};
         inherit inputs;
-      })
-    // {
-      nixosModules = {
-        # Common
-        nix = import ./modules/common/nix.nix;
-        fonts = import ./modules/common/fonts.nix;
-
-        # Desktop
-        hyprland = import ./modules/nixos/desktop/hyprland.nix;
-        display-manager = import ./modules/nixos/desktop/display-manager.nix;
-
-        # Hardware
-        audio = import ./modules/nixos/hardware/audio.nix;
-        bluetooth = import ./modules/nixos/hardware/bluetooth.nix;
-        graphics = import ./modules/nixos/hardware/graphics.nix;
-        input = import ./modules/nixos/hardware/input.nix;
-        power = import ./modules/nixos/hardware/power.nix;
-
-        # Security
-        hardening = import ./modules/nixos/security/hardening.nix;
-
-        # Services
-        system-services = import ./modules/nixos/services/system.nix;
-        virtualization = import ./modules/nixos/services/virtualization.nix;
-
-        # System
-        nix-nixos = import ./modules/nixos/system/nix.nix;
-        boot = import ./modules/nixos/system/boot.nix;
-        locale = import ./modules/nixos/system/locale.nix;
-        networking = import ./modules/nixos/system/networking.nix;
-
-        # Packages
-        dev-tools = import ./modules/nixos/system/dev-tools.nix;
-        audio-production = import ./modules/nixos/system/audio-production.nix;
       };
+  in {
+    formatter = forAllSystems (system: (devFor system).formatter);
+    checks = forAllSystems (system: (devFor system).checks);
+    devShells = forAllSystems (system: (devFor system).devShells);
 
-      darwinModules = {
-        # Common
-        nix = import ./modules/common/nix.nix;
-        fonts = import ./modules/common/fonts.nix;
+    nixosModules = {
+      # Common
+      nix = import ./modules/common/nix.nix;
+      fonts = import ./modules/common/fonts.nix;
 
-        # Darwin
-        nix-darwin = import ./modules/darwin/nix.nix;
-        homebrew = import ./modules/darwin/homebrew.nix;
-      };
+      # Desktop
+      hyprland = import ./modules/nixos/desktop/hyprland.nix;
+      display-manager = import ./modules/nixos/desktop/display-manager.nix;
 
-      homeManagerModules = {
-        # Common
-        fish = import ./modules/home/common/fish;
-        vscode = import ./modules/home/common/vscode;
-        git = import ./modules/home/common/git.nix;
-        cli = import ./modules/home/common/cli.nix;
+      # Hardware
+      audio = import ./modules/nixos/hardware/audio.nix;
+      bluetooth = import ./modules/nixos/hardware/bluetooth.nix;
+      graphics = import ./modules/nixos/hardware/graphics.nix;
+      input = import ./modules/nixos/hardware/input.nix;
+      power = import ./modules/nixos/hardware/power.nix;
 
-        # Linux
-        ui = import ./modules/home/linux/ui.nix;
-        xdg = import ./modules/home/linux/xdg.nix;
-        cli-linux = import ./modules/home/linux/cli-linux.nix;
-        media = import ./modules/home/linux/media.nix;
-        apps = import ./modules/home/linux/apps.nix;
-        desktop-utils = import ./modules/home/linux/desktop-utils.nix;
-      };
+      # Security
+      hardening = import ./modules/nixos/security/hardening.nix;
 
-      nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/nixos/ideapad/configuration.nix
-        ];
-      };
+      # Services
+      system-services = import ./modules/nixos/services/system.nix;
+      virtualization = import ./modules/nixos/services/virtualization.nix;
 
-      darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./hosts/darwin/macbook/default.nix
-        ];
-      };
+      # System
+      nix-nixos = import ./modules/nixos/system/nix.nix;
+      boot = import ./modules/nixos/system/boot.nix;
+      locale = import ./modules/nixos/system/locale.nix;
+      networking = import ./modules/nixos/system/networking.nix;
+
+      # Packages
+      dev-tools = import ./modules/nixos/system/dev-tools.nix;
+      audio-production = import ./modules/nixos/system/audio-production.nix;
     };
+
+    darwinModules = {
+      # Common
+      nix = import ./modules/common/nix.nix;
+      fonts = import ./modules/common/fonts.nix;
+
+      # Darwin
+      nix-darwin = import ./modules/darwin/nix.nix;
+      homebrew = import ./modules/darwin/homebrew.nix;
+    };
+
+    homeManagerModules = {
+      # Common
+      fish = import ./modules/home/common/fish;
+      vscode = import ./modules/home/common/vscode;
+      git = import ./modules/home/common/git.nix;
+      cli = import ./modules/home/common/cli.nix;
+
+      # Linux
+      ui = import ./modules/home/linux/ui.nix;
+      xdg = import ./modules/home/linux/xdg.nix;
+      cli-linux = import ./modules/home/linux/cli-linux.nix;
+      media = import ./modules/home/linux/media.nix;
+      apps = import ./modules/home/linux/apps.nix;
+      desktop-utils = import ./modules/home/linux/desktop-utils.nix;
+    };
+
+    nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {inherit inputs username;};
+      modules = [
+        ./hosts/nixos/ideapad/configuration.nix
+      ];
+    };
+
+    darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      specialArgs = {inherit inputs username;};
+      modules = [
+        ./hosts/darwin/macbook/default.nix
+      ];
+    };
+  };
 }

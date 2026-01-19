@@ -7,7 +7,7 @@
     if isDarwin
     then ".#darwinConfigurations.macbook.config.system.build.toplevel"
     else ".#nixosConfigurations.ideapad.config.system.build.toplevel";
-  pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
+  pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.stdenv.hostPlatform.system}.run {
     src = ../.;
     hooks = {
       alejandra.enable = true;

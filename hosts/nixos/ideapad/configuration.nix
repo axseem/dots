@@ -1,5 +1,6 @@
 {
   inputs,
+  username,
   outputs,
   lib,
   config,
@@ -48,8 +49,8 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
-    users.axseem = import ./home.nix;
-    extraSpecialArgs = {inherit inputs;};
+    users.${username} = import ./home.nix;
+    extraSpecialArgs = {inherit inputs username;};
   };
 
   system.stateVersion = "25.05";

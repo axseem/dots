@@ -1,5 +1,6 @@
 {
   inputs,
+  username,
   pkgs,
   ...
 }: {
@@ -11,18 +12,20 @@
     # Darwin
     ../../../modules/darwin/nix.nix
     ../../../modules/darwin/homebrew.nix
+    ../../../modules/darwin/system.nix
+    ../../../modules/darwin/dev-tools.nix
 
     inputs.home-manager.darwinModules.home-manager
   ];
 
-  system.primaryUser = "axseem";
+  system.primaryUser = username;
 
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     backupFileExtension = "backup";
-    users.axseem = import ./home.nix;
-    extraSpecialArgs = {inherit inputs;};
+    users.${username} = import ./home.nix;
+    extraSpecialArgs = {inherit inputs username;};
   };
 
   system.stateVersion = 5;

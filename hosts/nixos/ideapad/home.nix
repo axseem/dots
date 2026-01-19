@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  username,
   config,
   lib,
   ...
@@ -11,6 +12,8 @@
       ../../../modules/home/common/vscode
       ../../../modules/home/common/git.nix
       ../../../modules/home/common/cli.nix
+      ../../../modules/home/common/node.nix
+      ../../../modules/home/common/xdg.nix
 
       ../../../modules/home/linux/ui.nix
       ../../../modules/home/linux/xdg.nix
@@ -26,8 +29,8 @@
     );
 
   home = {
-    username = "axseem";
-    homeDirectory = "/home/${config.home.username}";
+    inherit username;
+    homeDirectory = "/home/${username}";
     stateVersion = "25.11";
 
     sessionVariables = {
@@ -38,8 +41,6 @@
       LOCKSCREEN_PATH = "${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
       LOCK_CMD = "swaylock -f -i eDP-1:${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
     };
-
-    packages = [];
   };
 
   # Host-specific Hyprland Configuration

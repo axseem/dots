@@ -14,7 +14,6 @@
     bun
     docker-compose
     postgresql
-    nodejs
     pnpm
     zig
     zls

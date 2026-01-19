@@ -1,7 +1,5 @@
 {...}: {
   xdg.configFile = {
-    "ghostty".source = ../../../config/ghostty;
-
     # Hyprland
     "hypr/hyprland.conf".source = ../../../config/hypr/hyprland.conf;
 

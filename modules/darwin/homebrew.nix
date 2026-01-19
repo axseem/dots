@@ -16,7 +16,6 @@
       "docker-desktop"
       "elasticvue"
       "visual-studio-code"
-      "karabiner-elements"
       "claude-code"
       "brave-browser"
     ];
