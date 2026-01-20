@@ -8,6 +8,7 @@
     # Common
     ../../../modules/common/nix.nix
     ../../../modules/common/fonts.nix
+    ../../../modules/common/llama.nix
 
     # Darwin
     ../../../modules/darwin/nix.nix

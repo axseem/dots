@@ -30,6 +30,11 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llama-cpp = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -54,6 +59,7 @@
       # Common
       nix = import ./modules/common/nix.nix;
       fonts = import ./modules/common/fonts.nix;
+      llama = import ./modules/common/llama.nix;
 
       # Desktop
       hyprland = import ./modules/nixos/desktop/hyprland.nix;
@@ -88,6 +94,7 @@
       # Common
       nix = import ./modules/common/nix.nix;
       fonts = import ./modules/common/fonts.nix;
+      llama = import ./modules/common/llama.nix;
 
       # Darwin
       nix-darwin = import ./modules/darwin/nix.nix;
