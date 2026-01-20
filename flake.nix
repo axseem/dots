@@ -59,7 +59,6 @@
       # Common
       nix = import ./modules/common/nix.nix;
       fonts = import ./modules/common/fonts.nix;
-      llama = import ./modules/common/llama.nix;
 
       # Desktop
       hyprland = import ./modules/nixos/desktop/hyprland.nix;
@@ -94,7 +93,6 @@
       # Common
       nix = import ./modules/common/nix.nix;
       fonts = import ./modules/common/fonts.nix;
-      llama = import ./modules/common/llama.nix;
 
       # Darwin
       nix-darwin = import ./modules/darwin/nix.nix;
@@ -107,6 +105,7 @@
       vscode = import ./modules/home/common/vscode;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
+      llama = import ./modules/home/common/llama.nix;
 
       # Linux
       ui = import ./modules/home/linux/ui.nix;

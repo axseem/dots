@@ -34,7 +34,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages =
+    home.packages =
       [llamaPkgs.${cfg.backend}]
       ++ cfg.extraPackages;
   };

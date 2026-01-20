@@ -14,6 +14,7 @@
       ../../../modules/home/common/cli.nix
       ../../../modules/home/common/node.nix
       ../../../modules/home/common/xdg.nix
+      ../../../modules/home/common/llama.nix
 
       ../../../modules/home/linux/ui.nix
       ../../../modules/home/linux/xdg.nix
@@ -60,6 +61,7 @@
   '';
 
   programs.neovim.enable = false;
+  programs.llama-cpp.enable = true;
 
   services.gnome-keyring.enable = true;
 
