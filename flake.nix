@@ -37,7 +37,7 @@
     nix-darwin,
     ...
   } @ inputs: let
-    username = "max";
+    username = "axseem";
     systems = ["x86_64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     devFor = system:
