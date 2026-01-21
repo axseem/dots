@@ -1,5 +1,7 @@
 {pkgs, ...}: {
   fonts.packages = with pkgs; [
+    cozette
+    creep
     jetbrains-mono
     nerd-fonts.jetbrains-mono
     noto-fonts
