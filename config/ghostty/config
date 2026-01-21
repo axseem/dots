@@ -1,6 +1,8 @@
 theme = Carbonfox
 
-font-size = 10
+font-family = Cozette
+font-size = 13
+font-synthetic-style = no-bold,no-bold-italic
 
 background = 000000
 foreground = ffffff
