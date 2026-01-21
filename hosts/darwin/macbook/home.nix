@@ -16,7 +16,7 @@
     ../../../modules/home/common/llama.nix
   ];
 
-  programs.llama-cpp.enable = true;
+  #programs.llama-cpp.enable = true;
 
   home = {
     inherit username;
