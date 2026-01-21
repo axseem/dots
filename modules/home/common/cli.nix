@@ -82,6 +82,7 @@
     parallel
     glow
     github-copilot-cli
+    gemini-cli
 
     inputs.dirmd.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
