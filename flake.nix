@@ -70,6 +70,7 @@
 
       # System
       nix-nixos = import ./modules/nixos/system/nix.nix;
+      fonts-config = import ./modules/nixos/system/fonts.nix;
       boot = import ./modules/nixos/system/boot.nix;
       locale = import ./modules/nixos/system/locale.nix;
       networking = import ./modules/nixos/system/networking.nix;
