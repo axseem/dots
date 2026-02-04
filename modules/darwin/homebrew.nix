@@ -12,12 +12,14 @@
     ];
     casks = [
       "ghostty"
+      "aerospace"
       "openvpn-connect"
       "docker-desktop"
       "elasticvue"
       "visual-studio-code"
       "claude-code"
       "brave-browser"
+      "foot"
     ];
   };
 }

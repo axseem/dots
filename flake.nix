@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nvim-stable-pkgs.url = "github:NixOS/nixpkgs/70801e06d9730c4f1704fbd3bbf5b8e11c03a2a7";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,8 +16,10 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    nvim.url = "github:axseem/nvim";
+    nvim = {
+      url = "github:axseem/nvim";
+      inputs.nixpkgs.follows = "nvim-stable-pkgs";
+    };
     dirmd.url = "github:axseem/dirmd";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     llama-cpp.url = "github:ggml-org/llama.cpp";
@@ -28,7 +31,7 @@
     nix-darwin,
     ...
   } @ inputs: let
-    username = "axseem";
+    username = "max";
     systems = ["x86_64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     devFor = system:

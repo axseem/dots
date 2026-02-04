@@ -25,7 +25,6 @@
 
     packages = [
       pkgs.claude-code
-      pkgs.aerospace
     ];
   };
 

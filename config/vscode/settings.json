@@ -5,6 +5,8 @@
   },
   "editor.fontFamily": "Cozette, 'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
   "editor.fontSize": 13,
+  "editor.lineHeight": 13,
+  "editor.letterSpacing": 1,
   "editor.formatOnSave": false,
   "editor.minimap.enabled": false,
   "eslint.rules.customizations": [
