@@ -5,6 +5,9 @@
       cleanup = "zap";
       upgrade = true;
     };
+    taps = [
+      "nikitabobko/tap"
+    ];
     brews = [
       "docker"
       "docker-compose"
@@ -12,14 +15,13 @@
     ];
     casks = [
       "ghostty"
-      "aerospace"
+      "nikitabobko/tap/aerospace"
       "openvpn-connect"
       "docker-desktop"
       "elasticvue"
       "visual-studio-code"
       "claude-code"
       "brave-browser"
-      "foot"
     ];
   };
 }

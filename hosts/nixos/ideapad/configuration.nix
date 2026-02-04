@@ -14,6 +14,7 @@
     # Common
     ../../../modules/common/nix.nix
     ../../../modules/common/fonts.nix
+    ../../../modules/common/dev-tools.nix
     ../../../modules/nixos/system/fonts.nix
 
     # Hardware

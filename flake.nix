@@ -24,6 +24,12 @@
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     llama-cpp.url = "github:ggml-org/llama.cpp";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    zig.url = "github:mitchellh/zig-overlay/8c20e76ce9751556dae0d1a9862ff18cda0daf1e";
+    zls = {
+      url = "github:zigtools/zls/f6d2476552e616e093d3713364bc0295dcd64641";
+      inputs.zig-overlay.follows = "zig";
+    };
   };
 
   outputs = {
@@ -31,7 +37,6 @@
     nix-darwin,
     ...
   } @ inputs: let
-    username = "max";
     systems = ["x86_64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     devFor = system:
@@ -109,7 +114,10 @@
 
     nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = {inherit inputs username;};
+      specialArgs = {
+        inherit inputs;
+        username = "axseem";
+      };
       modules = [
         ./hosts/nixos/ideapad/configuration.nix
       ];
@@ -117,7 +125,10 @@
 
     darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      specialArgs = {inherit inputs username;};
+      specialArgs = {
+        inherit inputs;
+        username = "max";
+      };
       modules = [
         ./hosts/darwin/macbook/default.nix
       ];

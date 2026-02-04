@@ -15,8 +15,6 @@
     docker-compose
     postgresql
     pnpm
-    zig
-    zls
     uv
     ruff
     ty

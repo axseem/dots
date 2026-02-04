@@ -8,7 +8,7 @@ in {
     '';
   };
 
-  xdg.configFile."fish/conf.d".source = ../../../../config/fish/conf.d;
+  xdg.configFile."fish/conf.d/prompt.fish".source = ../../../../config/fish/conf.d/prompt.fish;
   xdg.configFile."fish/functions".source = ../../../../config/fish/functions;
 
   # Generate Fish Theme
