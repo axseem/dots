@@ -38,6 +38,7 @@
     # Services
     ../../../modules/nixos/services/system.nix
     ../../../modules/nixos/services/virtualization.nix
+    ../../../modules/nixos/services/flatpak.nix
 
     # Security
     ../../../modules/nixos/security/hardening.nix

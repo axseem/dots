@@ -15,7 +15,7 @@
 
     # Synth
     vital
-    surge
+    #surge
     odin2
   ];
 }

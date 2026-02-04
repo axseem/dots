@@ -12,9 +12,10 @@
     bitwarden-desktop
     kdePackages.okular
     ghostty
+    foot
 
     # Development / Creative
-    # freecad  # Temporarily disabled due to broken openturns dependency
+    freecad
     kicad
     lmstudio
     zed-editor
@@ -30,5 +31,7 @@
     prismlauncher
     aseprite
     qbittorrent
+    godot
+    bitsnpicas
   ];
 }

@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  fonts.fontconfig.allowBitmaps = true;
+  fonts.fontconfig.useEmbeddedBitmaps = true;
+  fonts.enableFontDir = true;
+
   fonts.packages = with pkgs; [
     cozette
     creep

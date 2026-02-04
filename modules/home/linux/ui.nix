@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    gsettings-desktop-schemas
+  ];
+
   gtk = {
     enable = true;
     theme = {

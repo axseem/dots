@@ -61,7 +61,14 @@
   '';
 
   programs.neovim.enable = false;
-  programs.llama-cpp.enable = true;
+  programs.llama-cpp = {
+    enable = false;
+    backend = "cuda";
+  };
+
+  # Workaround for CUDA packages having license as a list
+  # which breaks home-manager's man module
+  programs.man.generateCaches = false;
 
   services.gnome-keyring.enable = true;
 

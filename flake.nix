@@ -9,32 +9,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvim = {
-      url = "github:axseem/nvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    dirmd = {
-      url = "github:axseem/dirmd";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    llama-cpp = {
-      url = "github:ggml-org/llama.cpp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nvim.url = "github:axseem/nvim";
+    dirmd.url = "github:axseem/dirmd";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    llama-cpp.url = "github:ggml-org/llama.cpp";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs = {
@@ -77,6 +63,7 @@
       # Services
       system-services = import ./modules/nixos/services/system.nix;
       virtualization = import ./modules/nixos/services/virtualization.nix;
+      flatpak = import ./modules/nixos/services/flatpak.nix;
 
       # System
       nix-nixos = import ./modules/nixos/system/nix.nix;

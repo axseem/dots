@@ -1,12 +1,18 @@
 {
-  inputs,
   pkgs,
   lib,
   config,
   ...
 }: let
   cfg = config.programs.llama-cpp;
-  llamaPkgs = inputs.llama-cpp.packages.${pkgs.system};
+
+  # Build llama-cpp from nixpkgs with appropriate backend support
+  llamaPackage = pkgs.llama-cpp.override {
+    cudaSupport = cfg.backend == "cuda";
+    rocmSupport = cfg.backend == "rocm";
+    vulkanSupport = cfg.backend == "vulkan";
+    # Metal is automatically enabled on Darwin
+  };
 in {
   options.programs.llama-cpp = {
     enable = lib.mkEnableOption "llama.cpp";
@@ -35,7 +41,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages =
-      [llamaPkgs.${cfg.backend}]
+      [llamaPackage]
       ++ cfg.extraPackages;
   };
 }
