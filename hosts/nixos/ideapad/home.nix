@@ -14,7 +14,6 @@
       ../../../modules/home/common/cli.nix
       ../../../modules/home/common/node.nix
       ../../../modules/home/common/xdg.nix
-      ../../../modules/home/common/llama.nix
 
       ../../../modules/home/linux/ui.nix
       ../../../modules/home/linux/xdg.nix
@@ -34,11 +33,16 @@
     homeDirectory = "/home/${username}";
     stateVersion = "25.11";
 
+    packages = [
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.droid
+      inputs.mux.packages.${pkgs.stdenv.hostPlatform.system}.default
+    ];
+
     sessionVariables = {
       # NOTE: This path is specific to my directory structure.
       # If you are using this config, you might want to change this.
       SCREENSHOT_DIR = "${config.home.homeDirectory}/me/library/img/screenshots";
-      WALLPAPER_PATH = "${config.home.homeDirectory}/me/library/img/wallpaper/cat.png";
       LOCKSCREEN_PATH = "${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
       LOCK_CMD = "swaylock -f -i eDP-1:${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
     };
@@ -53,22 +57,6 @@
     # Host-specific variables
     $lock = swaylock -f -i eDP-1:${config.home.sessionVariables.LOCKSCREEN_PATH}
   '';
-
-  # Host-specific Hyprpaper Configuration
-  xdg.configFile."hypr/hyprpaper.conf".text = ''
-    preload = ${config.home.sessionVariables.WALLPAPER_PATH}
-    wallpaper = , ${config.home.sessionVariables.WALLPAPER_PATH}
-  '';
-
-  programs.neovim.enable = false;
-  programs.llama-cpp = {
-    enable = false;
-    backend = "cuda";
-  };
-
-  # Workaround for CUDA packages having license as a list
-  # which breaks home-manager's man module
-  programs.man.generateCaches = false;
 
   services.gnome-keyring.enable = true;
 
