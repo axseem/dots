@@ -5,7 +5,9 @@
   },
 
   "editor.formatOnSave": false,
+  "editor.fontSize": 12,
   "editor.minimap.enabled": false,
+  "terminal.integrated.fontSize": 12,
   "eslint.rules.customizations": [
     {
       "fixable": true,

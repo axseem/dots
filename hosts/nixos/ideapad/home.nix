@@ -9,7 +9,7 @@
   imports =
     [
       ../../../modules/home/common/fish
-      ../../../modules/home/common/vscode
+      ../../../modules/home/common/vscodium
       ../../../modules/home/common/git.nix
       ../../../modules/home/common/cli.nix
       ../../../modules/home/common/node.nix

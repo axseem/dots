@@ -100,7 +100,7 @@
     homeManagerModules = {
       # Common
       fish = import ./modules/home/common/fish;
-      vscode = import ./modules/home/common/vscode;
+      vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
       llama = import ./modules/home/common/llama.nix;

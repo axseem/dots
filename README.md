@@ -12,7 +12,7 @@ Personal NixOS and macOS (nix-darwin) configuration. Most of the `config` files 
   - `darwin/`: macOS-specific modules (homebrew, nix)
   - `nixos/`: NixOS-specific modules (desktop, hardware, security, services, system)
   - `home/`: Home Manager modules
-    - `common/`: Cross-platform (cli, fish, git, vscode)
+    - `common/`: Cross-platform (cli, fish, git, vscodium)
     - `linux/`: Linux-specific (apps, media, ui, xdg)
 - `config/`: Dotfiles symlinked via Home Manager (fish, ghostty, hypr, rofi, etc.)
 - `nix/`: Devshell configuration
@@ -40,7 +40,7 @@ This configuration exposes several atomic modules that you can import into your 
 
 - **Common** (cross-platform):
   - `fish`: Fish shell configuration
-  - `vscode`: VS Code configuration
+  - `vscodium`: VSCodium configuration
   - `git`: Git configuration
   - `cli`: Command line tools
 - **Linux**:

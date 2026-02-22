@@ -12,7 +12,7 @@
     ../../../modules/home/common/cli.nix
     ../../../modules/home/common/node.nix
     ../../../modules/home/common/xdg.nix
-    ../../../modules/home/common/vscode
+    ../../../modules/home/common/vscodium
   ];
 
   #programs.llama-cpp.enable = true;
