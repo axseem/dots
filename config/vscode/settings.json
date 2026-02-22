@@ -3,10 +3,7 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  "editor.fontFamily": "Cozette, 'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
-  "editor.fontSize": 13,
-  "editor.lineHeight": 13,
-  "editor.letterSpacing": 1,
+
   "editor.formatOnSave": false,
   "editor.minimap.enabled": false,
   "eslint.rules.customizations": [
@@ -87,11 +84,7 @@
   "prettier.enable": false,
   "svelte.enable-ts-plugin": true,
   "telemetry.telemetryLevel": "off",
-  "terminal.integrated.fontFamily": "Cozette, 'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
-  "terminal.integrated.fontSize": 13,
-  "terminal.integrated.fontWeightBold": "normal",
-  "terminal.integrated.letterSpacing": 1,
-  "terminal.integrated.lineHeight": 1,
+
   "window.density.editorTabHeight": "default",
   "workbench.activityBar.location": "top",
   "workbench.colorTheme": "Dark+ Pure Black (OLED)",
