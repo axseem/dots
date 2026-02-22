@@ -21,7 +21,6 @@
     zed-editor
     orca-slicer
     sniffnet
-    claude-code
     sly
     darktable
     opencode
