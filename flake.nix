@@ -24,6 +24,8 @@
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     llama-cpp.url = "github:ggml-org/llama.cpp";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    mux.url = "github:coder/mux";
 
     zig.url = "github:mitchellh/zig-overlay/8c20e76ce9751556dae0d1a9862ff18cda0daf1e";
     zls = {
