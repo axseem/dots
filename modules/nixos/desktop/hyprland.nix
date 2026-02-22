@@ -9,7 +9,6 @@
   environment.systemPackages = with pkgs; [
     # Hyprland ecosystem
     hyprpaper
-    quickshell
 
     # Screenshot tools
     grim
