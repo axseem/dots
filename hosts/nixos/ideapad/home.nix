@@ -43,8 +43,7 @@
       # NOTE: This path is specific to my directory structure.
       # If you are using this config, you might want to change this.
       SCREENSHOT_DIR = "${config.home.homeDirectory}/me/library/img/screenshots";
-      LOCKSCREEN_PATH = "${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
-      LOCK_CMD = "swaylock -f -i eDP-1:${config.home.homeDirectory}/me/library/img/wallpaper/lockscreen.png";
+      LOCK_CMD = "swaylock -f -c 000000";
     };
   };
 
@@ -55,7 +54,7 @@
     monitor = HDMI-A-2, 2560x1440@100.00Hz, 1440x0, 1
 
     # Host-specific variables
-    $lock = swaylock -f -i eDP-1:${config.home.sessionVariables.LOCKSCREEN_PATH}
+    $lock = swaylock -f -c 000000
   '';
 
   services.gnome-keyring.enable = true;

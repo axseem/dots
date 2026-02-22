@@ -7,9 +7,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # Hyprland ecosystem
-    hyprpaper
-
     # Screenshot tools
     grim
     slurp
@@ -19,7 +16,6 @@
     wl-clipboard
     way-displays
     swaylock
-    swww
     swayidle
     foot
   ];
