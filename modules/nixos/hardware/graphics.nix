@@ -12,7 +12,6 @@
     modesetting.enable = true;
     powerManagement = {
       enable = true;
-      # Disable fine-grained power management - known to cause freezes with newer GPUs
       finegrained = false;
     };
     nvidiaSettings = true;
@@ -25,4 +24,9 @@
       amdgpuBusId = "PCI:65:00:0";
     };
   };
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030000", ATTR{power/control}="auto"
+    SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030200", ATTR{power/control}="auto"
+  '';
 }
