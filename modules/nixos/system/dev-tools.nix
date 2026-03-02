@@ -8,6 +8,7 @@
     go
     gotools
     delve
+    air
     cargo
     rustc
     rust-analyzer
