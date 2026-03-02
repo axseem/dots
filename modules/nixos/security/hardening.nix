@@ -12,7 +12,6 @@
   services.fail2ban.enable = true;
 
   security.sudo.execWheelOnly = true;
-  security.audit.enable = true;
 
   environment.systemPackages = with pkgs; [
     vulnix
