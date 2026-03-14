@@ -1,5 +1,10 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   fonts.packages = with pkgs; [
+    inputs.iosevka-unambiguous.packages.${pkgs.system}.default
     cozette
     creep
     jetbrains-mono

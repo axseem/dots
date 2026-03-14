@@ -1,8 +1,7 @@
-theme = axterm
+theme = Carbonfox
 
-font-family = Cozette
-font-size = 13
-font-synthetic-style = no-bold,no-bold-italic
+font-family = Iosevka Unambiguous
+font-size = 8
 
 background = 000000
 foreground = ffffff
