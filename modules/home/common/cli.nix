@@ -88,5 +88,6 @@
 
     inputs.dirmd.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.forge.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

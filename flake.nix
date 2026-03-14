@@ -20,12 +20,17 @@
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nvim-stable-pkgs";
     };
+    iosevka-unambiguous.url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
     dirmd.url = "github:axseem/dirmd";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     llama-cpp.url = "github:ggml-org/llama.cpp";
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     llm-agents.url = "github:numtide/llm-agents.nix";
     mux.url = "github:coder/mux";
+    # Pinned to specific dev commit - dev builds currently have telemetry DISABLED
+    # Production releases already have telemetry ENABLED
+    # This pin prevents accidentally updating if they enable telemetry in dev builds too
+    forge.url = "github:antinomyhq/forge/aa2a050a312dc8e18ed28ecdc8e1e83a0b08438f";
 
     zig.url = "github:mitchellh/zig-overlay/8c20e76ce9751556dae0d1a9862ff18cda0daf1e";
     zls = {
