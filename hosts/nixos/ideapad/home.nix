@@ -4,6 +4,7 @@
   username,
   config,
   lib,
+  cudaPackages ? false,
   ...
 }: {
   imports =
@@ -21,6 +22,8 @@
       ../../../modules/home/linux/media.nix
       ../../../modules/home/linux/apps.nix
       ../../../modules/home/linux/desktop-utils.nix
+
+      inputs.voxtype.homeManagerModules.default
     ]
     ++ (
       if builtins.pathExists ./secrets.nix
@@ -31,11 +34,10 @@
   home = {
     inherit username;
     homeDirectory = "/home/${username}";
-    stateVersion = "25.11";
+    stateVersion = "26.05";
 
     packages = [
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
-      inputs.mux.packages.${pkgs.stdenv.hostPlatform.system}.default
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.droid
     ];
 
     sessionVariables = {
@@ -57,6 +59,27 @@
   '';
 
   services.gnome-keyring.enable = true;
+
+  programs.voxtype = {
+    enable = true;
+    package =
+      if cudaPackages
+      then inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx-cuda
+      else inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx;
+    engine = "parakeet";
+    service.enable = true;
+    settings = {
+      hotkey.enabled = false;
+      parakeet = {
+        model = "parakeet-tdt-0.6b-v3";
+        on_demand_loading = true;
+      };
+      output = {
+        mode = "type";
+        fallback_to_clipboard = true;
+      };
+    };
+  };
 
   programs.home-manager.enable = true;
 }
