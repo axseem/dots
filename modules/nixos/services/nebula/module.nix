@@ -62,9 +62,12 @@ in {
 
     meshHosts = mkOption {
       type = types.attrsOf types.str;
-      default = {};
+      default = {
+        "mesh-axsmsrvr" = "10.10.0.1";
+        "mesh-ideapad" = "10.10.0.2";
+        "mesh-phone" = "10.10.0.3";
+      };
       description = "Map of hostname to mesh IP for /etc/hosts entries.";
-      example = {"mesh-axsmsrvr" = "10.10.0.1";};
     };
 
     firewallAllowFromMesh = mkOption {
