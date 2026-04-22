@@ -4,7 +4,7 @@
   ...
 }: {
   fonts.packages = with pkgs; [
-    inputs.iosevka-unambiguous.packages.${pkgs.system}.default
+    inputs.iosevka-unambiguous.packages.${pkgs.stdenv.hostPlatform.system}.default
     cozette
     creep
     jetbrains-mono

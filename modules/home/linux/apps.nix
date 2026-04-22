@@ -23,9 +23,8 @@
     sniffnet
     sly
     darktable
-    opencode
 
-    protonvpn-gui
+    proton-vpn
 
     prismlauncher
     aseprite

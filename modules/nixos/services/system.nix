@@ -8,14 +8,11 @@
   };
 
   programs = {
-    direnv.enable = true;
-    dconf.enable = true;
-
-    fish = {
+    direnv = {
       enable = true;
-      interactiveShellInit = ''
-        set fish_greeting
-      '';
+      silent = true;
     };
+    dconf.enable = true;
+    fish.enable = true;
   };
 }

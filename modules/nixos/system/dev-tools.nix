@@ -12,8 +12,6 @@
     cargo
     rustc
     rust-analyzer
-    bun
-    docker-compose
     postgresql
     pnpm
     uv

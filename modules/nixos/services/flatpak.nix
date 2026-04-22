@@ -19,5 +19,4 @@
     enable = true;
     extraPortals = [pkgs.xdg-desktop-portal-gtk];
   };
-
 }

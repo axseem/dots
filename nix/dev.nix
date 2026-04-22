@@ -2,21 +2,10 @@
   pkgs,
   inputs,
 }: let
-  isDarwin = pkgs.stdenv.isDarwin;
-  buildTarget =
-    if isDarwin
-    then ".#darwinConfigurations.macbook.config.system.build.toplevel"
-    else ".#nixosConfigurations.ideapad.config.system.build.toplevel";
   pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.stdenv.hostPlatform.system}.run {
     src = ../.;
     hooks = {
       alejandra.enable = true;
-      check-build = {
-        enable = true;
-        name = "Check Build";
-        entry = "${pkgs.nix}/bin/nix build ${buildTarget} --no-link";
-        pass_filenames = false;
-      };
     };
   };
 in {

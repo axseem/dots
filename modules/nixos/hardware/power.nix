@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  environment.systemPackages = [ pkgs.powertop ];
+  environment.systemPackages = [pkgs.powertop];
 
   services.tlp = {
     enable = true;
@@ -18,8 +18,8 @@
 
   systemd.services.ideapad-conservation = {
     description = "Enable IdeaPad battery conservation mode";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "sysfs.target" ];
+    wantedBy = ["multi-user.target"];
+    after = ["sysfs.target"];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.coreutils}/bin/echo 1 > /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode";

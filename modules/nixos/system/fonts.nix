@@ -3,5 +3,5 @@
     allowBitmaps = true;
     useEmbeddedBitmaps = true;
   };
-  fonts.enableFontDir = true;
+  fonts.fontDir.enable = true;
 }

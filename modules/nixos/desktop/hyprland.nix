@@ -17,7 +17,6 @@
     way-displays
     swaylock
     swayidle
-    foot
   ];
 
   security.pam.services.swaylock = {};

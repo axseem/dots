@@ -1,11 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}: {
+{...}: {
   xdg.configFile = {
-    "ghostty/config".source = ../../../config/ghostty/config;
-    "ghostty/themes/Carbonfox".source = ../../../config/ghostty/themes/Carbonfox;
+    "ghostty".source = ../../../config/ghostty;
     "foot".source = ../../../config/foot;
+    "opencode" = {
+      source = ../../../config/opencode;
+      force = true;
+    };
   };
 }

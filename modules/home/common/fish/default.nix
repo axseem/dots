@@ -1,10 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
-  theme = import ../../../themes/axterm.nix;
-in {
+{pkgs, ...}: {
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
