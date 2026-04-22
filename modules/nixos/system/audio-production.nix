@@ -1,13 +1,10 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    reaper # DAW
-
-    # REMOVED: Sfizz (It is currently broken on NixOS Unstable)
-    # ADDED: Carla (Has built-in SFZ support)
+    reaper
     carla
 
-    drumgizmo # Drums
-    geonkick # Percussion
+    drumgizmo
+    geonkick
 
     # Effects
     dragonfly-reverb
@@ -15,7 +12,6 @@
 
     # Synth
     vital
-    #surge
     odin2
   ];
 }

@@ -88,7 +88,6 @@
     bun
 
     opencode
-    #inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.dirmd.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
 
