@@ -3,33 +3,26 @@
   inputs,
   username,
   config,
-  lib,
   cudaPackages ? false,
   ...
 }: {
-  imports =
-    [
-      ../../../modules/home/common/fish
-      ../../../modules/home/common/vscodium
-      ../../../modules/home/common/git.nix
-      ../../../modules/home/common/cli.nix
-      ../../../modules/home/common/node.nix
-      ../../../modules/home/common/xdg.nix
+  imports = [
+    ../../../modules/home/common/fish
+    ../../../modules/home/common/vscodium
+    ../../../modules/home/common/git.nix
+    ../../../modules/home/common/cli.nix
+    ../../../modules/home/common/node.nix
+    ../../../modules/home/common/xdg.nix
 
-      ../../../modules/home/linux/ui.nix
-      ../../../modules/home/linux/xdg.nix
-      ../../../modules/home/linux/cli-linux.nix
-      ../../../modules/home/linux/media.nix
-      ../../../modules/home/linux/apps.nix
-      ../../../modules/home/linux/desktop-utils.nix
+    ../../../modules/home/linux/ui.nix
+    ../../../modules/home/linux/xdg.nix
+    ../../../modules/home/linux/cli-linux.nix
+    ../../../modules/home/linux/media.nix
+    ../../../modules/home/linux/apps.nix
+    ../../../modules/home/linux/desktop-utils.nix
 
-      inputs.voxtype.homeManagerModules.default
-    ]
-    ++ (
-      if builtins.pathExists ./secrets.nix
-      then [./secrets.nix]
-      else []
-    );
+    inputs.voxtype.homeManagerModules.default
+  ];
 
   home = {
     inherit username;
@@ -41,8 +34,6 @@
     ];
 
     sessionVariables = {
-      # NOTE: This path is specific to my directory structure.
-      # If you are using this config, you might want to change this.
       SCREENSHOT_DIR = "${config.home.homeDirectory}/me/library/img/screenshots";
       LOCK_CMD = "swaylock -f -c 000000";
     };
