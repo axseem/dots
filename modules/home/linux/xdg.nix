@@ -6,6 +6,5 @@
     "networkmanager-dmenu".source = ../../../config/networkmanager-dmenu;
     "swaylock".source = ../../../config/swaylock;
     "qBittorrent".source = ../../../config/qBittorrent;
-    "foot".source = ../../../config/foot;
   };
 }
