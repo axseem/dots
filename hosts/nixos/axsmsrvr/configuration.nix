@@ -8,7 +8,7 @@
     ./hardware-configuration.nix
 
     ../../../modules/common/nix.nix
-    ../../../modules/nixos/system/nix.nix
+
     ../../../modules/nixos/services/garden/module.nix
     ../../../modules/nixos/services/nebula/module.nix
   ];
@@ -16,23 +16,19 @@
   networking.hostName = "axsmsrvr";
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [80 443];
-  networking.firewall.allowedUDPPorts = [4242];
 
   services.nebula-mesh = {
     enable = true;
     role = "lighthouse";
     meshIp = "10.10.0.1";
-    meshHosts = {
-      "mesh-axsmsrvr" = "10.10.0.1";
-      "mesh-ideapad" = "10.10.0.2";
-      "mesh-phone" = "10.10.0.3";
-    };
   };
 
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
-    settings.PermitRootLogin = "no";
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+    };
   };
 
   security.sudo.wheelNeedsPassword = false;

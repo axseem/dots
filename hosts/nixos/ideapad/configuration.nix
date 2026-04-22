@@ -1,7 +1,6 @@
 {
   inputs,
   username,
-  outputs,
   lib,
   config,
   pkgs,
@@ -25,7 +24,6 @@
     ../../../modules/nixos/hardware/input.nix
 
     # System
-    ../../../modules/nixos/system/nix.nix
     ../../../modules/nixos/system/boot.nix
     ../../../modules/nixos/system/networking.nix
     ../../../modules/nixos/system/locale.nix
@@ -68,19 +66,11 @@
 
   programs.steam.enable = true;
 
-  networking.firewall.allowedUDPPorts = [4242];
-
   services.nebula-mesh = {
     enable = true;
     role = "node";
     meshIp = "10.10.0.2";
     lighthouseHost = "axseem.me";
-    lighthousePort = 4242;
-    meshHosts = {
-      "mesh-axsmsrvr" = "10.10.0.1";
-      "mesh-ideapad" = "10.10.0.2";
-      "mesh-phone" = "10.10.0.3";
-    };
     firewallAllowFromMesh = ["22"];
   };
 
