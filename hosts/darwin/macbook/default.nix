@@ -11,7 +11,6 @@
     ../../../modules/common/dev-tools.nix
 
     # Darwin
-    ../../../modules/darwin/nix.nix
     ../../../modules/darwin/homebrew.nix
     ../../../modules/darwin/system.nix
     ../../../modules/darwin/dev-tools.nix

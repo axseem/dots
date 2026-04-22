@@ -3,14 +3,15 @@
   username,
   ...
 }: {
-  # Set fish as default shell
   environment.shells = [pkgs.fish];
   users.users.${username}.shell = pkgs.fish;
   programs.fish.enable = true;
 
-  system.defaults = {
-    universalaccess = {
-      reduceTransparency = true;
-    };
+  nix.gc.interval = {
+    Weekday = 0;
+    Hour = 2;
+    Minute = 0;
   };
+
+  system.defaults.universalaccess.reduceTransparency = true;
 }
