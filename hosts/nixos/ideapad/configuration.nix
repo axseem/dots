@@ -41,6 +41,7 @@
     ../../../modules/nixos/services/system.nix
     ../../../modules/nixos/services/virtualization.nix
     ../../../modules/nixos/services/flatpak.nix
+    ../../../modules/nixos/services/nebula/module.nix
 
     # Security
     ../../../modules/nixos/security/hardening.nix
@@ -53,7 +54,34 @@
     useUserPackages = true;
     backupFileExtension = "backup";
     users.${username} = import ./home.nix;
-    extraSpecialArgs = {inherit inputs username;};
+    extraSpecialArgs = {
+      inherit inputs username;
+      cudaPackages = true;
+    };
+  };
+
+  hardware.nvidia-prime = {
+    enable = true;
+    nvidiaBusId = "PCI:64:00:0";
+    amdgpuBusId = "PCI:65:00:0";
+  };
+
+  programs.steam.enable = true;
+
+  networking.firewall.allowedUDPPorts = [4242];
+
+  services.nebula-mesh = {
+    enable = true;
+    role = "node";
+    meshIp = "10.10.0.2";
+    lighthouseHost = "axseem.me";
+    lighthousePort = 4242;
+    meshHosts = {
+      "mesh-axsmsrvr" = "10.10.0.1";
+      "mesh-ideapad" = "10.10.0.2";
+      "mesh-phone" = "10.10.0.3";
+    };
+    firewallAllowFromMesh = ["22"];
   };
 
   system.stateVersion = "25.05";
