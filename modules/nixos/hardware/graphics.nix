@@ -25,6 +25,8 @@ in {
   config = mkIf cfg.enable {
     hardware.graphics.enable = true;
 
+    boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=0"];
+
     services.xserver.videoDrivers = ["amdgpu" "nvidia"];
 
     hardware.nvidia = {
