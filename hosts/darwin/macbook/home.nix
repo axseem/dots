@@ -1,8 +1,5 @@
 {
-  pkgs,
-  inputs,
   username,
-  config,
   lib,
   ...
 }: {
@@ -15,16 +12,10 @@
     ../../../modules/home/common/vscodium
   ];
 
-  #programs.llama-cpp.enable = true;
-
   home = {
     inherit username;
     homeDirectory = lib.mkForce "/Users/${username}";
     stateVersion = "25.11";
-
-    packages = [
-      pkgs.claude-code
-    ];
   };
 
   programs.home-manager.enable = true;
