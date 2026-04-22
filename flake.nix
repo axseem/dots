@@ -16,6 +16,11 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nvim = {
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nvim-stable-pkgs";
@@ -27,10 +32,11 @@
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     llm-agents.url = "github:numtide/llm-agents.nix";
     mux.url = "github:coder/mux";
-    # Pinned to specific dev commit - dev builds currently have telemetry DISABLED
-    # Production releases already have telemetry ENABLED
-    # This pin prevents accidentally updating if they enable telemetry in dev builds too
-    forge.url = "github:antinomyhq/forge/aa2a050a312dc8e18ed28ecdc8e1e83a0b08438f";
+    voxtype = {
+      url = "github:peteonrails/voxtype";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    opencode.url = "github:anomalyco/opencode";
 
     zig.url = "github:mitchellh/zig-overlay/8c20e76ce9751556dae0d1a9862ff18cda0daf1e";
     zls = {
@@ -44,7 +50,7 @@
     nix-darwin,
     ...
   } @ inputs: let
-    systems = ["x86_64-linux" "aarch64-darwin"];
+    systems = ["x86_64-linux" "aarch64-darwin" "aarch64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     devFor = system:
       import ./nix/dev.nix {
@@ -108,11 +114,12 @@
       vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
-      llama = import ./modules/home/common/llama.nix;
+      xdg-common = import ./modules/home/common/xdg.nix;
+      node = import ./modules/home/common/node.nix;
 
       # Linux
       ui = import ./modules/home/linux/ui.nix;
-      xdg = import ./modules/home/linux/xdg.nix;
+      xdg-linux = import ./modules/home/linux/xdg.nix;
       cli-linux = import ./modules/home/linux/cli-linux.nix;
       media = import ./modules/home/linux/media.nix;
       apps = import ./modules/home/linux/apps.nix;
@@ -127,6 +134,29 @@
       };
       modules = [
         ./hosts/nixos/ideapad/configuration.nix
+      ];
+    };
+
+    nixosConfigurations.ideapad-nocuda = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {
+        inherit inputs;
+        username = "axseem";
+      };
+      modules = [
+        ./hosts/nixos/ideapad/configuration-nocuda.nix
+      ];
+    };
+
+    nixosConfigurations.axsmsrvr = nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      specialArgs = {
+        inherit inputs;
+      };
+      modules = [
+        ./hosts/nixos/axsmsrvr/configuration.nix
+        ./hosts/nixos/axsmsrvr/disko-config.nix
+        inputs.disko.nixosModules.disko
       ];
     };
 
