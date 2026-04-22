@@ -1,3 +1,7 @@
 result
 .direnv
-.envrc
+flake.lock.backup
+
+# Nebula secrets
+secrets/
+*.key
