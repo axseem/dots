@@ -130,6 +130,7 @@
       media = import ./modules/home/linux/media.nix;
       apps = import ./modules/home/linux/apps.nix;
       desktop-utils = import ./modules/home/linux/desktop-utils.nix;
+      agent-config = inputs.agent-config.homeManagerModules.default;
     };
 
     nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
