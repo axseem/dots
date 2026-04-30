@@ -27,22 +27,42 @@
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nvim-stable-pkgs";
     };
-    iosevka-unambiguous.url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
-    dirmd.url = "github:axseem/dirmd";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
-    llm-agents.url = "github:numtide/llm-agents.nix";
-    llama-cpp.url = "github:ggml-org/llama.cpp";
-    opencode.url = "github:anomalyco/opencode";
+    iosevka-unambiguous = {
+      url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dirmd = {
+      url = "github:axseem/dirmd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-flatpak = {
+      url = "github:gmodena/nix-flatpak";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    llama-cpp = {
+      url = "github:ggml-org/llama.cpp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    opencode = {
+      url = "github:anomalyco/opencode";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     voxtype = {
       url = "github:peteonrails/voxtype";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zig.url = "github:mitchellh/zig-overlay/8c20e76ce9751556dae0d1a9862ff18cda0daf1e";
-    zls = {
-      url = "github:zigtools/zls/f6d2476552e616e093d3713364bc0295dcd64641";
-      inputs.zig-overlay.follows = "zig";
+    agent-config = {
+      url = "path:///home/axseem/me/system/agent-config";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
