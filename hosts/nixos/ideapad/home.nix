@@ -21,6 +21,7 @@
     ../../../modules/home/linux/desktop-utils.nix
 
     inputs.voxtype.homeManagerModules.default
+    inputs.agent-config.homeManagerModules.default
   ];
 
   home = {
@@ -69,4 +70,6 @@
   };
 
   programs.home-manager.enable = true;
+
+  agent-config.enable = true;
 }
