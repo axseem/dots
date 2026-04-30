@@ -3,7 +3,6 @@
   inputs,
   username,
   config,
-  cudaPackages ? false,
   ...
 }: {
   imports = [
@@ -53,10 +52,7 @@
 
   programs.voxtype = {
     enable = true;
-    package =
-      if cudaPackages
-      then inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx-cuda
-      else inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx;
+    package = inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx;
     engine = "parakeet";
     service.enable = true;
     settings = {
