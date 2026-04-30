@@ -91,6 +91,9 @@
     inputs.dirmd.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
 
+    # Dirac CLI (built from source in flake packages)
+    (pkgs.callPackage ../../../packages/dirac {})
+
     (pkgs.llama-cpp.override {cudaSupport = cudaPackages;})
   ];
 }

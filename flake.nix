@@ -83,6 +83,12 @@
     checks = forAllSystems (system: (devFor system).checks);
     devShells = forAllSystems (system: (devFor system).devShells);
 
+    packages = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      dirac = pkgs.callPackage ./packages/dirac {};
+    });
+
     nixosModules = {
       nix = import ./modules/common/nix.nix;
       fonts = import ./modules/common/fonts.nix;
