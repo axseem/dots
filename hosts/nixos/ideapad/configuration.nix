@@ -6,6 +6,8 @@
   pkgs,
   ...
 }: {
+  boot.kernelPackages = pkgs.linuxPackages_7_0;
+
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
     ./hardware-configuration.nix
@@ -40,6 +42,8 @@
     ../../../modules/nixos/services/virtualization.nix
     ../../../modules/nixos/services/flatpak.nix
     ../../../modules/nixos/services/nebula/module.nix
+    ../../../modules/nixos/services/lazy-socket/module.nix
+    ../../../modules/nixos/services/searxng/module.nix
 
     # Security
     ../../../modules/nixos/security/hardening.nix
@@ -65,6 +69,8 @@
   };
 
   programs.steam.enable = true;
+
+  services.searxng-local.enable = true;
 
   services.nebula-mesh = {
     enable = true;

@@ -55,15 +55,6 @@
       url = "github:anomalyco/opencode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    voxtype = {
-      url = "github:peteonrails/voxtype";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    agent-config = {
-      url = "path:///home/axseem/me/system/agent-config";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = {
@@ -96,6 +87,8 @@
       display-manager = import ./modules/nixos/desktop/display-manager.nix;
       audio = import ./modules/nixos/hardware/audio.nix;
       bluetooth = import ./modules/nixos/hardware/bluetooth.nix;
+      searxng-local = import ./modules/nixos/services/searxng/module.nix;
+      lazy-socket = import ./modules/nixos/services/lazy-socket/module.nix;
       graphics = import ./modules/nixos/hardware/graphics.nix;
       input = import ./modules/nixos/hardware/input.nix;
       power = import ./modules/nixos/hardware/power.nix;
@@ -130,7 +123,6 @@
       media = import ./modules/home/linux/media.nix;
       apps = import ./modules/home/linux/apps.nix;
       desktop-utils = import ./modules/home/linux/desktop-utils.nix;
-      agent-config = inputs.agent-config.homeManagerModules.default;
     };
 
     nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {

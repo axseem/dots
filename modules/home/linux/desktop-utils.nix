@@ -9,7 +9,6 @@
 
     # System / Desktop Integration
     (rofi.override {plugins = [rofi-emoji rofi-calc];})
-    rofi-bluetooth
     networkmanager_dmenu
     cliphist
     pavucontrol

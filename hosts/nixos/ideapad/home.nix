@@ -19,9 +19,6 @@
     ../../../modules/home/linux/media.nix
     ../../../modules/home/linux/apps.nix
     ../../../modules/home/linux/desktop-utils.nix
-
-    inputs.voxtype.homeManagerModules.default
-    inputs.agent-config.homeManagerModules.default
   ];
 
   home = {
@@ -30,11 +27,11 @@
     stateVersion = "26.05";
 
     packages = [
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.droid
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
     ];
 
     sessionVariables = {
-      SCREENSHOT_DIR = "${config.home.homeDirectory}/me/library/img/screenshots";
+      SCREENSHOT_DIR = "${config.home.homeDirectory}/me/screenshots";
       LOCK_CMD = "swaylock -f -c 000000";
     };
   };
@@ -51,25 +48,61 @@
 
   services.gnome-keyring.enable = true;
 
-  programs.voxtype = {
-    enable = true;
-    package = inputs.voxtype.packages.${pkgs.stdenv.hostPlatform.system}.onnx;
-    engine = "parakeet";
-    service.enable = true;
-    settings = {
-      hotkey.enabled = false;
-      parakeet = {
-        model = "parakeet-tdt-0.6b-v3";
-        on_demand_loading = true;
-      };
-      output = {
-        mode = "type";
-        fallback_to_clipboard = true;
-      };
-    };
-  };
-
   programs.home-manager.enable = true;
 
-  agent-config.enable = true;
+  programs.opencode = {
+    enable = true;
+    settings = {
+      permission = {
+        read = "allow";
+        glob = "allow";
+        grep = "allow";
+        list = "allow";
+        webfetch = "allow";
+        websearch = "allow";
+        codesearch = "allow";
+        lsp = "allow";
+        todoread = "allow";
+        edit = "ask";
+        bash = "ask";
+        todowrite = "ask";
+        task = "ask";
+        skill = "ask";
+      };
+      provider = {
+        local = {
+          npm = "@ai-sdk/openai-compatible";
+          name = "llama-server (local)";
+          options.baseURL = "http://localhost:8080/v1";
+          models.local-model = {
+            name = "local model";
+            limit = {
+              context = 131072;
+              output = 98304;
+            };
+          };
+        };
+        LAN = {
+          npm = "@ai-sdk/openai-compatible";
+          name = "llama-server (LAN)";
+          options.baseURL = "http://10.0.0.8:8080/v1";
+          models.LAN-model = {
+            name = "LAN model";
+            limit = {
+              context = 131072;
+              output = 98304;
+            };
+          };
+        };
+      };
+      agent = {
+        explore.disable = true;
+        general.disable = true;
+        build.disable = true;
+        plan.disable = true;
+      };
+    };
+    agents = ../../../config/opencode/agents;
+    skills = ../../../config/opencode/skills;
+  };
 }
