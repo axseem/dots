@@ -77,7 +77,6 @@
     packages = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
     in {
-      dirac = pkgs.callPackage ./packages/dirac {};
     });
 
     nixosModules = {
