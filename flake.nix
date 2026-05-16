@@ -131,17 +131,6 @@
       ];
     };
 
-    nixosConfigurations.ideapad-nocuda = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        username = "axseem";
-      };
-      modules = [
-        ./hosts/nixos/ideapad/configuration-nocuda.nix
-      ];
-    };
-
     nixosConfigurations.axsmsrvr = nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       specialArgs = {
