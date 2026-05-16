@@ -29,6 +29,7 @@
 
     packages = [
       inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
+      inputs.llama-cpp.packages.${pkgs.stdenv.hostPlatform.system}.cuda
     ];
 
     sessionVariables = {

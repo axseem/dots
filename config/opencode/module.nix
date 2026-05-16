@@ -80,5 +80,9 @@ in {
       recursive = true;
     };
     "opencode/AGENTS.md".source = ./AGENTS.md;
+    "opencode/skills" = {
+      source = ./skills;
+      recursive = true;
+    };
   };
 }
