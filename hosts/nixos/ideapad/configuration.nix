@@ -58,7 +58,6 @@
     users.${username} = import ./home.nix;
     extraSpecialArgs = {
       inherit inputs username;
-      cudaPackages = true;
     };
   };
 
