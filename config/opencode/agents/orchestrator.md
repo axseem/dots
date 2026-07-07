@@ -28,8 +28,6 @@ permission:
   task: allow
   webfetch: allow
   websearch: allow
-  codesearch: allow
-  todoread: allow
   todowrite: allow
   skill: allow
 ---

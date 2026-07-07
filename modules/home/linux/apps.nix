@@ -6,30 +6,23 @@
 
     # Communication
     signal-desktop
-    telegram-desktop
 
     # Productivity
-    bitwarden-desktop
     kdePackages.okular
-    ghostty
     foot
 
     # Development / Creative
     freecad
     kicad
-    lmstudio
-    zed-editor
     orca-slicer
-    sniffnet
-    sly
     darktable
+    kdePackages.kdenlive
+    gnome-clocks
 
     proton-vpn
 
-    prismlauncher
     aseprite
     qbittorrent
-    godot
     bitsnpicas
   ];
 }

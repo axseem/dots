@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: {
-  boot.kernelPackages = pkgs.linuxPackages_7_0;
+  # boot.kernelPackages = pkgs.linuxPackages_7_0; # BT debug: tried 7.0 kernel, reverted to default
 
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
@@ -16,14 +16,12 @@
     ../../../modules/common/nix.nix
     ../../../modules/common/fonts.nix
     ../../../modules/common/dev-tools.nix
-    ../../../modules/nixos/system/fonts.nix
 
     # Hardware
     ../../../modules/nixos/hardware/graphics.nix
     ../../../modules/nixos/hardware/audio.nix
     ../../../modules/nixos/hardware/bluetooth.nix
     ../../../modules/nixos/hardware/power.nix
-    ../../../modules/nixos/hardware/input.nix
 
     # System
     ../../../modules/nixos/system/boot.nix
@@ -35,13 +33,14 @@
 
     # Desktop
     ../../../modules/nixos/desktop/hyprland.nix
+    ../../../modules/nixos/desktop/dwl.nix
+    ../../../modules/nixos/desktop/dwm.nix
     ../../../modules/nixos/desktop/display-manager.nix
 
     # Services
     ../../../modules/nixos/services/system.nix
     ../../../modules/nixos/services/virtualization.nix
     ../../../modules/nixos/services/flatpak.nix
-    ../../../modules/nixos/services/nebula/module.nix
     ../../../modules/nixos/services/lazy-socket/module.nix
     ../../../modules/nixos/services/searxng/module.nix
 
@@ -67,16 +66,29 @@
     amdgpuBusId = "PCI:65:00:0";
   };
 
-  programs.steam.enable = true;
+  # Libinput (touchpad, keyboard, etc.)
+  services.libinput.enable = true;
+
+  # Fontconfig tweaks (NixOS-level; complements common/fonts.nix packages)
+  fonts.fontconfig = {
+    allowBitmaps = true;
+    useEmbeddedBitmaps = true;
+  };
+  fonts.fontDir.enable = true;
+
+  # NixOS-style GC schedule (darwin uses nix.gc.interval; see darwin/system.nix)
+  nix.gc = {
+    dates = "weekly";
+    options = "--delete-older-than 14d";
+  };
 
   services.searxng-local.enable = true;
 
-  services.nebula-mesh = {
+  # Set local SearXNG as default search engine in Brave (and Chromium)
+  programs.chromium = {
     enable = true;
-    role = "node";
-    meshIp = "10.10.0.2";
-    lighthouseHost = "axseem.me";
-    firewallAllowFromMesh = ["22"];
+    defaultSearchProviderEnabled = true;
+    defaultSearchProviderSearchURL = "http://localhost:8888/search?q={searchTerms}";
   };
 
   system.stateVersion = "25.05";

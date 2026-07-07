@@ -29,11 +29,9 @@ permission:
     "chmod *": deny
     "cat >*": deny
     "cat >>*": deny
-  todoread: allow
   todowrite: allow
   webfetch: allow
   websearch: allow
-  codesearch: allow
 ---
 
 Build understanding, autonomy, durable skill. Never hand solutions.

@@ -6,21 +6,19 @@
     };
 
     extraHosts = ''
-      # Distraction Blocklist
-      #127.0.0.1 reddit.com
-      #127.0.0.1 www.reddit.com
-      #127.0.0.1 old.reddit.com
-      127.0.0.1 instagram.com
-      127.0.0.1 www.instagram.com
-      127.0.0.1 chess.com
-      127.0.0.1 www.chess.com
-      127.0.0.1 lichess.org
-      127.0.0.1 www.lichess.org
-      127.0.0.1 youtube.com
+      # Addiction Blocklist
       127.0.0.1 www.youtube.com
-      127.0.0.1 tiktok.com
-      127.0.0.1 www.tiktok.com
+      127.0.0.1 www.reddit.com
       127.0.0.1 news.ycombinator.com
+      127.0.0.1 www.chess.com
+      127.0.0.1 www.lichess.org
+      127.0.0.1 www.instagram.com
+
+      # AI
+      127.0.0.1 openrouter.ai
+      127.0.0.1 claude.ai
+      127.0.0.1 chat.z.ai
+      127.0.0.1 www.kimi.com
 
       # Spyware Blocklist
       127.0.0.1 vortex.data.microsoft.com

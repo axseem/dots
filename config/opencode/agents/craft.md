@@ -52,10 +52,9 @@ permission:
     "jq *": allow
     "curl *": allow
     "wget *": allow
-  todoread: allow
+  todowrite: allow
   webfetch: allow
   websearch: allow
-  codesearch: allow
 ---
 
 You are a craft agent. You can freely read and write files. Most build, version control, and file management commands are auto-approved. Anything not explicitly whitelisted will prompt for approval — this is expected, not an error.

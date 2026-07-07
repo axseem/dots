@@ -28,8 +28,7 @@
     stateVersion = "26.05";
 
     packages = [
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi
-      inputs.llama-cpp.packages.${pkgs.stdenv.hostPlatform.system}.cuda
+      (pkgs.llama-cpp.override {cudaSupport = true;})
     ];
 
     sessionVariables = {

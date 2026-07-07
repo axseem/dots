@@ -60,7 +60,7 @@ func main() {
 	rawJSON := flag.Bool("json", false, "raw JSON output")
 	urlsOnly := flag.Bool("urls", false, "only URLs, one per line")
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: search [flags] <query>\n\nFlags:\n")
+		fmt.Fprintf(os.Stderr, "Usage: sxng [flags] <query>\n\nFlags:\n")
 		flag.PrintDefaults()
 	}
 	flag.Parse()

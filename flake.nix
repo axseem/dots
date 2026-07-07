@@ -31,25 +31,16 @@
       url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    dirmd = {
-      url = "github:axseem/dirmd";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    llama-cpp = {
-      url = "github:ggml-org/llama.cpp";
-      inputs.nixpkgs.follows = "nixpkgs";
+    opencode-source = {
+      url = "github:anomalyco/opencode";
+      flake = false; # just the source tree, not a flake
     };
   };
 
@@ -85,13 +76,11 @@
       searxng-local = import ./modules/nixos/services/searxng/module.nix;
       lazy-socket = import ./modules/nixos/services/lazy-socket/module.nix;
       graphics = import ./modules/nixos/hardware/graphics.nix;
-      input = import ./modules/nixos/hardware/input.nix;
       power = import ./modules/nixos/hardware/power.nix;
       hardening = import ./modules/nixos/security/hardening.nix;
       system-services = import ./modules/nixos/services/system.nix;
       virtualization = import ./modules/nixos/services/virtualization.nix;
       flatpak = import ./modules/nixos/services/flatpak.nix;
-      fonts-config = import ./modules/nixos/system/fonts.nix;
       boot = import ./modules/nixos/system/boot.nix;
       locale = import ./modules/nixos/system/locale.nix;
       networking = import ./modules/nixos/system/networking.nix;
@@ -128,18 +117,6 @@
       };
       modules = [
         ./hosts/nixos/ideapad/configuration.nix
-      ];
-    };
-
-    nixosConfigurations.axsmsrvr = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      specialArgs = {
-        inherit inputs;
-      };
-      modules = [
-        ./hosts/nixos/axsmsrvr/configuration.nix
-        ./hosts/nixos/axsmsrvr/disko-config.nix
-        inputs.disko.nixosModules.disko
       ];
     };
 

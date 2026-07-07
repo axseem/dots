@@ -1,5 +1,8 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  zerostack = pkgs.callPackage ../../../pkgs/zerostack.nix {};
+in {
   environment.systemPackages = with pkgs; [
+    zerostack
     clang
     clang-tools
     lld
@@ -19,6 +22,6 @@
     ty
     python3
     python3Packages.pip
-    pipx
+    (python3Packages.pipx.overridePythonAttrs (old: {doCheck = false;}))
   ];
 }

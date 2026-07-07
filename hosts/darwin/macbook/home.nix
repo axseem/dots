@@ -1,7 +1,6 @@
 {
   username,
   lib,
-  inputs,
   pkgs,
   ...
 }: {
@@ -20,7 +19,7 @@
     stateVersion = "25.11";
 
     packages = [
-      inputs.llama-cpp.packages.${pkgs.stdenv.hostPlatform.system}.default
+      pkgs.llama-cpp
     ];
   };
 

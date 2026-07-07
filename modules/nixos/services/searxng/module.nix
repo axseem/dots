@@ -46,6 +46,36 @@ in {
           request_timeout = 10;
           max_request_timeout = 15;
         };
+        # Enable research-useful engines that are disabled by default.
+        # Mainstream engines (google, brave, duckduckgo, startpage, qwant, etc.)
+        # come in via use_default_settings = true.
+        # hash_plugin is already active by default -> content-hash dedup is on.
+        engines = [
+          {
+            name = "crossref";
+            disabled = false;
+          } # academic metadata
+          {
+            name = "gitlab";
+            disabled = false;
+          } # code hosting
+          {
+            name = "npm";
+            disabled = false;
+          } # JS packages
+          {
+            name = "crates.io";
+            disabled = false;
+          } # Rust packages
+          {
+            name = "mojeek";
+            disabled = false;
+          } # independent web search
+          {
+            name = "nixos wiki";
+            disabled = false;
+          } # NixOS reference
+        ];
       };
     };
 
@@ -62,7 +92,7 @@ in {
 
     environment.systemPackages = [
       (pkgs.buildGoModule {
-        pname = "websearch";
+        pname = "sxng";
         version = "0.1.0";
         src = ./cli;
         vendorHash = null;

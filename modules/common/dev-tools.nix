@@ -1,6 +1,7 @@
 {pkgs, ...}: {
-  environment.systemPackages = [
-    pkgs.zig
-    pkgs.zls
+  environment.systemPackages = with pkgs; [
+    zig
+    zls
+    iamb
   ];
 }

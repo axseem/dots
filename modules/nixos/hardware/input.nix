@@ -1,3 +1,0 @@
-{
-  services.libinput.enable = true;
-}

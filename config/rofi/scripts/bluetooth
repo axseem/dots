@@ -10,9 +10,12 @@ rofi_cmd="rofi -dmenu -theme $THEME $* -p"
 
 # --- D-Bus helpers ---
 
-adapter_prop() { busctl get-property org.bluez /org/bluez/hci0 org.bluez.Adapter1 "$1" 2>/dev/null; }
+# Auto-detect adapter (hci0, hci1, ...)
+BT_ADAPTER=$(busctl tree org.bluez --list 2>/dev/null | grep -m1 -o '/hci[0-9]*' | sed 's|/||')
 
-device_path() { echo "/org/bluez/hci0/dev_$(echo "$1" | tr ':' '_')"; }
+adapter_prop() { busctl get-property org.bluez /org/bluez/$BT_ADAPTER org.bluez.Adapter1 "$1" 2>/dev/null; }
+
+device_path() { echo "/org/bluez/$BT_ADAPTER/dev_$(echo "$1" | tr ':' '_')"; }
 
 device_prop() {
     busctl get-property org.bluez "$(device_path "$1")" org.bluez.Device1 "$2" 2>/dev/null
