@@ -16,7 +16,7 @@
     (final: prev: {
       croc = prev.croc.overrideAttrs (old: {
         src = old.src.override {
-          hash = "sha256-u262LwHUL6+rPE7nzIda7W5dAXaikQ/cKwtUEIbcbH0=";
+          hash = "sha256-+KG1PHUymeoAj92UAn/sitQF6xC1xwl+cdisxy2ZtPs=";
         };
       });
     })

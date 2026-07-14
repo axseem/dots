@@ -1,10 +1,13 @@
 {
+  inputs,
   username,
   lib,
   pkgs,
   ...
 }: {
   imports = [
+    inputs.self.homeManagerModules.pi
+
     ../../../modules/home/common/fish
     ../../../modules/home/common/git.nix
     ../../../modules/home/common/cli.nix

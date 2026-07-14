@@ -6,6 +6,8 @@
   ...
 }: {
   imports = [
+    inputs.self.homeManagerModules.pi
+
     ../../../config/opencode/module.nix
     ../../../modules/home/common/fish
     ../../../modules/home/common/vscodium

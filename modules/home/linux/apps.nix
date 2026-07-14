@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   home.packages = with pkgs; [
     # Browser
     brave
@@ -12,7 +16,7 @@
     foot
 
     # Development / Creative
-    freecad
+    inputs.freecad-pkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.freecad
     kicad
     orca-slicer
     darktable

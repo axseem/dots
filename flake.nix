@@ -3,6 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Temporary FreeCAD pin: gdal-minimal 3.13.1 fails its Zarr test.
+    freecad-pkgs.url = "github:NixOS/nixpkgs/65179426c83bb3f6bc14898b42ea1c6f01d374b0";
     # Pinned to a known-working revision for neovim plugins.
     # Bump when nixos-unstable catches up.
     nvim-stable-pkgs.url = "github:NixOS/nixpkgs/70801e06d9730c4f1704fbd3bbf5b8e11c03a2a7";
@@ -31,6 +33,11 @@
       url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pi = {
+      url = "github:lukasl-dev/pi.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pi-config.url = "git+https://codeberg.org/axseem/pi-config";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -99,6 +106,15 @@
       vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
+      pi = {...}: {
+        imports = [inputs.pi.homeModules.default];
+
+        programs.pi.coding-agent = {
+          enable = true;
+          extensions = ["${inputs.pi-config}/extensions"];
+          settings = builtins.fromJSON (builtins.readFile "${inputs.pi-config}/settings.json");
+        };
+      };
       xdg-common = import ./modules/home/common/xdg.nix;
       node = import ./modules/home/common/node.nix;
       ui = import ./modules/home/linux/ui.nix;
