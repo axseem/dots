@@ -111,8 +111,8 @@
 
         programs.pi.coding-agent = {
           enable = true;
-          extensions = ["${inputs.pi-config}/extensions"];
-          settings = builtins.fromJSON (builtins.readFile "${inputs.pi-config}/settings.json");
+          extensions = [inputs.pi-config.lib.extensions];
+          settings = inputs.pi-config.lib.settings;
         };
       };
       xdg-common = import ./modules/home/common/xdg.nix;
