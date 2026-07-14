@@ -111,7 +111,7 @@
 
         programs.pi.coding-agent = {
           enable = true;
-          extensions = [inputs.pi-config.lib.extensions];
+          extensions = inputs.pi-config.lib.extensions;
           settings = inputs.pi-config.lib.settings;
         };
       };
