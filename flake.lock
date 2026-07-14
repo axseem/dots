@@ -333,11 +333,11 @@
     },
     "pi-config": {
       "locked": {
-        "lastModified": 1784043114,
-        "narHash": "sha256-gkFvyMtuCjCEAPMJND5riyBLRTrQB0Ple7ZCnPcS7mk=",
+        "lastModified": 1784043397,
+        "narHash": "sha256-svnDSQYCTu5GDoF7b/URfYYgWi+HqxlI6i23GQgzGBI=",
         "ref": "refs/heads/main",
-        "rev": "c838b67923c44a4f6b23a00885ff63e10271162d",
-        "revCount": 4,
+        "rev": "81969ba6bdf326b6be26e56d23578bb1b34090c7",
+        "revCount": 5,
         "type": "git",
         "url": "https://codeberg.org/axseem/pi-config"
       },
