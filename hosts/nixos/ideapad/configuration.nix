@@ -44,7 +44,6 @@
     ../../../modules/nixos/services/system.nix
     ../../../modules/nixos/services/ssh-lan.nix
     ../../../modules/nixos/services/virtualization.nix
-    ../../../modules/nixos/services/lazy-socket/module.nix
     ../../../modules/nixos/services/searxng/module.nix
 
     # Security
@@ -84,6 +83,7 @@
   # Set local SearXNG as default search engine in Chromium
   programs.chromium = {
     enable = true;
+    extensions = ["nngceckbapebfimnlniiiahkandclblb"];
     defaultSearchProviderEnabled = true;
     defaultSearchProviderSearchURL = "http://localhost:8888/search?q={searchTerms}";
   };

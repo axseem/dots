@@ -90,6 +90,7 @@
 
     # Security
     age
+    bitwarden-cli
     gnupg
 
     # Misc

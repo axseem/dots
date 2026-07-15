@@ -29,7 +29,7 @@ This configuration exposes several atomic modules that you can import into your 
 - **Desktop**: `hyprland`, `display-manager`
 - **Hardware**: `audio`, `bluetooth`, `graphics`, `power`
 - **System**: `boot`, `locale`, `networking`, `dev-tools`, `audio-production`
-- **Services**: `system-services`, `virtualization`, `flatpak`, `searxng-local` (pulls in `lazy-socket` automatically), `lazy-socket`
+- **Services**: `system-services`, `virtualization`, `searxng-local` (pulls in `lazy-socket` automatically), `lazy-socket`
 - **Security**: `hardening`
 
 ### Darwin Modules (`darwinModules`)
