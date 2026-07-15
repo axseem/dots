@@ -107,13 +107,12 @@
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
       pi = {...}: {
-        imports = [inputs.pi.homeModules.default];
+        imports = [
+          inputs.pi.homeModules.default
+          inputs.pi-config.homeModules.default
+        ];
 
-        programs.pi.coding-agent = {
-          enable = true;
-          extensions = inputs.pi-config.lib.extensions;
-          settings = inputs.pi-config.lib.settings;
-        };
+        programs.pi.coding-agent.enable = true;
       };
       xdg-common = import ./modules/home/common/xdg.nix;
       node = import ./modules/home/common/node.nix;
