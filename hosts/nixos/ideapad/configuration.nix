@@ -6,7 +6,13 @@
   pkgs,
   ...
 }: {
-  # boot.kernelPackages = pkgs.linuxPackages_7_0; # BT debug: tried 7.0 kernel, reverted to default
+  # The MT7925 Bluetooth USB function can become permanently unresponsive
+  # after an autosuspend remote wakeup (kernel error -110). Keep it active;
+  # a full power-off is required once the controller is already stuck.
+  boot.extraModprobeConfig = ''
+    options btusb enable_autosuspend=0
+  '';
+  services.tlp.settings.USB_EXCLUDE_BTUSB = 1;
 
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
