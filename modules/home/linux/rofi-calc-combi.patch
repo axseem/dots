@@ -1,0 +1,26 @@
+--- a/src/calc.c
++++ b/src/calc.c
+@@ -466,0 +467,6 @@
++    // In combi mode, expose a live result as a regular row. Keep the row out
++    // of the list until qalc has produced a valid result.
++    if (pd->config.no_history &&
++        (pd->last_result[0] == '\0' || g_strrstr(pd->last_result, "error:")))
++        return 0;
++
+@@ -683,2 +689,2 @@
+-        if (!pd->config.no_history)
+-            return g_strdup("Add to history");
++        if (pd->config.no_history)
++            return g_strdup(pd->last_result);
+@@ -686 +692 @@
+-            return g_strdup("");
++            return g_strdup("Add to history");
+@@ -750,0 +757,8 @@
++    }
++
++    // Avoid interpreting ordinary app and action names as units. Numeric
++    // input still covers equations, percentages, and unit/currency queries.
++    if (strpbrk(input, "0123456789") == NULL) {
++        g_free(pd->last_result);
++        pd->last_result = g_strdup("");
++        return g_strdup(input);

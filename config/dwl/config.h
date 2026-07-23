@@ -60,7 +60,6 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 
 static const char *termcmd[] = { "foot", NULL };
 static const char *launchercmd[] = { "/bin/sh", "-c", "~/.config/rofi/scripts/launcher.sh", NULL };
-static const char *appmenucmd[] = { "rofi", "-show", "drun", NULL };
 static const char *emojicmd[] = { "rofi", "-show", "emoji", NULL };
 static const char *filescmd[] = { "nautilus", NULL };
 static const char *lockcmd[] = { "swaylock", "-f", "-c", "000000", NULL };
@@ -72,7 +71,6 @@ static const char *lockcmd[] = { "swaylock", "-f", "-c", "000000", NULL };
 static const Key keys[] = {
 	{ MODKEY, XKB_KEY_o,      spawn, SHCMD("grim -g \"$(slurp)\" ~/me/screenshots/$(date +'%s_scrnsht.png')") },
 	{ MODKEY, XKB_KEY_space,  spawn, {.v = launchercmd} },
-	{ MODKEY, XKB_KEY_d,      spawn, {.v = appmenucmd} },
 	{ MODKEY, XKB_KEY_period, spawn, {.v = emojicmd} },
 	{ MODKEY, XKB_KEY_t,      spawn, {.v = termcmd} },
 	{ MODKEY, XKB_KEY_e,      spawn, {.v = filescmd} },

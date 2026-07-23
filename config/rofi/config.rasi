@@ -1,5 +1,31 @@
 configuration {
-    auto-select: true;
+    modes: "drun,calc,emoji";
+    show-icons: true;
+    icon-theme: "Adwaita";
+
+    matching: "fuzzy";
+    sorting-method: "fzf";
+    sort: true;
+    normalize-match: true;
+    tokenize: true;
+
+    auto-select: false;
+    cycle: false;
+    hover-select: false;
+
+    drun-display-format: "{name}";
+    drun-show-actions: true;
+    combi-display-format: "{text}";
+    display-combi: "";
+
+    calc {
+        no-history: true;
+        no-bold: true;
+        terse: true;
+        hint-result: "";
+        hint-welcome: "";
+        calc-command: "printf '%s' '{result}' | wl-copy";
+    }
 }
 
 @theme "axseem"

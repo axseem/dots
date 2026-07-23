@@ -6,7 +6,7 @@
   ...
 }: {
   imports = [
-    inputs.self.homeManagerModules.pi
+    inputs.opencode-config.homeModules.default
 
     ../../../modules/home/common/fish
     ../../../modules/home/common/git.nix

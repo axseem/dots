@@ -80,9 +80,18 @@ in {
   programs.opencode = {
     enable = true;
     settings = {
+      share = "disabled";
+      autoupdate = false;
+      experimental.openTelemetry = false;
+
       permission = {
         # --- Built-in tools ---
-        read = "allow";
+        read = {
+          "*" = "allow";
+          "*.env" = "ask";
+          "*.env.*" = "ask";
+          "*.env.example" = "allow";
+        };
         glob = "allow";
         grep = "allow";
         webfetch = "allow";
@@ -100,7 +109,7 @@ in {
         web_search = "allow";
         extract_pdf = "allow";
       };
-      plugin = ["@mohak34/opencode-notifier@latest"];
+      plugin = ["@mohak34/opencode-notifier@0.2.8"];
       provider = {
         local = {
           npm = "@ai-sdk/openai-compatible";
@@ -132,12 +141,23 @@ in {
     tools = "${tools}";
   };
 
+  # Keep sharing and self-updates disabled even if project config attempts to
+  # override the global settings.
+  home.sessionVariables = {
+    OPENCODE_DISABLE_SHARE = "1";
+    OPENCODE_DISABLE_AUTOUPDATE = "1";
+  };
+
   xdg.configFile = {
     "opencode/tools" = {
       source = "${tools}";
       recursive = true;
     };
     "opencode/AGENTS.md".source = ./AGENTS.md;
+    "opencode/plugins" = {
+      source = ./plugins;
+      recursive = true;
+    };
     "opencode/skills" = {
       source = ./skills;
       recursive = true;

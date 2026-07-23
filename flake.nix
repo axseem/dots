@@ -33,11 +33,11 @@
       url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pi = {
-      url = "github:lukasl-dev/pi.nix";
+    opencode-config = {
+      url = "git+https://codeberg.org/axseem/opencode-config";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
-    pi-config.url = "git+https://codeberg.org/axseem/pi-config";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -106,14 +106,6 @@
       vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
-      pi = {...}: {
-        imports = [
-          inputs.pi.homeModules.default
-          inputs.pi-config.homeModules.default
-        ];
-
-        programs.pi.coding-agent.enable = true;
-      };
       xdg-common = import ./modules/home/common/xdg.nix;
       node = import ./modules/home/common/node.nix;
       ui = import ./modules/home/linux/ui.nix;

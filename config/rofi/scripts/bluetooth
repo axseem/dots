@@ -1,142 +1,133 @@
 #!/usr/bin/env bash
-# Bluetooth rofi menu using D-Bus (busctl) for state queries and device listing.
-# Uses bluetoothctl only for actions (pair/connect/disconnect/trust).
-# Works around bluetoothctl returning empty output in non-interactive/piped mode.
 
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+# A small BlueZ menu. State is read over D-Bus because bluetoothctl can return
+# incomplete output when it is used non-interactively; actions still use the
+# supported bluetoothctl interface.
+set -u
 
-THEME="axseem"
-rofi_cmd="rofi -dmenu -theme $THEME $* -p"
+THEME=axseem
 
-# --- D-Bus helpers ---
-
-# Auto-detect adapter (hci0, hci1, ...)
-BT_ADAPTER=$(busctl tree org.bluez --list 2>/dev/null | grep -m1 -o '/hci[0-9]*' | sed 's|/||')
-
-adapter_prop() { busctl get-property org.bluez /org/bluez/$BT_ADAPTER org.bluez.Adapter1 "$1" 2>/dev/null; }
-
-device_path() { echo "/org/bluez/$BT_ADAPTER/dev_$(echo "$1" | tr ':' '_')"; }
-
-device_prop() {
-    busctl get-property org.bluez "$(device_path "$1")" org.bluez.Device1 "$2" 2>/dev/null
+menu() {
+    local prompt=$1
+    shift
+    rofi -dmenu -theme "$THEME" -p "$prompt" -no-custom -no-auto-select "$@"
 }
 
-# Adapter state
-power_on()        { adapter_prop Powered | grep -q 'b true'; }
-scan_on()         { adapter_prop Discovering | grep -q 'b true'; }
-pairable_on()     { adapter_prop Pairable | grep -q 'b true'; }
-discoverable_on() { adapter_prop Discoverable | grep -q 'b true'; }
+adapter_path() {
+    busctl tree org.bluez --list 2>/dev/null |
+        grep -m1 -E '^/org/bluez/hci[0-9]+$' || true
+}
 
-# Device state
-device_connected() { device_prop "$1" Connected | grep -q 'b true'; }
-device_paired()    { device_prop "$1" Paired | grep -q 'b true'; }
-device_trusted()   { device_prop "$1" Trusted | grep -q 'b true'; }
-device_name()      { device_prop "$1" Name | sed 's/^s "//;s/"$//'; }
-device_alias()     { device_prop "$1" Alias | sed 's/^s "//;s/"$//'; }
+ADAPTER_PATH=$(adapter_path)
 
-# List known devices as "MAC Name" lines
-get_devices() {
-    for dev in $(busctl tree org.bluez --list 2>/dev/null | grep -o '/dev_[^/]*' | sort -u); do
-        local mac=$(echo "$dev" | sed 's|/dev_||;s/_/:/g')
-        local name=$(device_alias "$mac")
-        echo "$mac $name"
+if [[ -z $ADAPTER_PATH ]]; then
+    printf 'No Bluetooth adapter found\n' | menu "Bluetooth" >/dev/null
+    exit
+fi
+
+adapter_prop() {
+    busctl get-property org.bluez "$ADAPTER_PATH" org.bluez.Adapter1 "$1" 2>/dev/null
+}
+
+device_prop() {
+    busctl get-property org.bluez "$1" org.bluez.Device1 "$2" 2>/dev/null
+}
+
+is_true() {
+    grep -q '^b true$'
+}
+
+string_value() {
+    sed -E 's/^s "(.*)"$/\1/'
+}
+
+powered() {
+    adapter_prop Powered | is_true
+}
+
+device_rows() {
+    local path mac name state
+    while IFS= read -r path; do
+        [[ -n $path ]] || continue
+        mac=${path##*/dev_}
+        mac=${mac//_/:}
+        name=$(device_prop "$path" Alias | string_value)
+        [[ -n $name ]] || name=$mac
+
+        state=""
+        if device_prop "$path" Connected | is_true; then
+            state="connected"
+        elif device_prop "$path" Paired | is_true; then
+            state="paired"
+        fi
+        printf '%s\t%s\t%s\n' "$name" "$mac" "$state"
+    done < <(
+        busctl tree org.bluez --list 2>/dev/null |
+            grep -E "^${ADAPTER_PATH}/dev_[0-9A-Fa-f_]+$" |
+            sort -u
+    )
+}
+
+device_path() {
+    printf '%s/dev_%s' "$ADAPTER_PATH" "${1//:/_}"
+}
+
+device_menu() {
+    local mac=$1 path name connected paired trusted choice action
+    path=$(device_path "$mac")
+
+    while true; do
+        name=$(device_prop "$path" Alias | string_value)
+        device_prop "$path" Connected | is_true && connected=true || connected=false
+        device_prop "$path" Paired | is_true && paired=true || paired=false
+        device_prop "$path" Trusted | is_true && trusted=true || trusted=false
+
+        $connected && action="Disconnect" || action="Connect"
+        choice=$(
+            {
+                printf '%s\n' "$action"
+                $paired && printf 'Remove pairing\n' || printf 'Pair\n'
+                $trusted && printf 'Untrust\n' || printf 'Trust\n'
+                printf 'Back\n'
+            } | menu "$name"
+        ) || return
+
+        case $choice in
+            Connect) bluetoothctl connect "$mac" >/dev/null ;;
+            Disconnect) bluetoothctl disconnect "$mac" >/dev/null ;;
+            Pair) bluetoothctl pair "$mac" >/dev/null ;;
+            "Remove pairing") bluetoothctl remove "$mac" >/dev/null; return ;;
+            Trust) bluetoothctl trust "$mac" >/dev/null ;;
+            Untrust) bluetoothctl untrust "$mac" >/dev/null ;;
+            Back) return ;;
+        esac
     done
 }
 
-# --- Actions ---
-
-toggle_power() {
-    if power_on; then bluetoothctl power off
-    else
-        rfkill list bluetooth | grep -q 'blocked: yes' && rfkill unblock bluetooth && sleep 3
-        bluetoothctl power on
+while true; do
+    if ! powered; then
+        choice=$(printf 'Turn Bluetooth on\t@power\t\n' |
+            menu "Bluetooth" -display-columns 1,3 -display-column-separator '\t') || exit
+        if [[ $choice == *$'\t@power\t'* ]]; then
+            command -v rfkill >/dev/null && rfkill unblock bluetooth
+            bluetoothctl power on >/dev/null
+        fi
+        continue
     fi
-    show_menu
-}
 
-toggle_scan() {
-    if scan_on; then
-        kill $(pgrep -f "bluetoothctl --timeout 5 scan on") 2>/dev/null
-        bluetoothctl scan off
-    else
-        bluetoothctl --timeout 5 scan on
-    fi
-    show_menu
-}
+    choice=$(
+        {
+            device_rows
+            printf 'Scan for devices\t@scan\t\n'
+            printf 'Turn Bluetooth off\t@power\t\n'
+        } | menu "Bluetooth" -display-columns 1,3 -display-column-separator '\t'
+    ) || exit
 
-toggle_pairable() {
-    pairable_on && bluetoothctl pairable off || bluetoothctl pairable on
-    show_menu
-}
-
-toggle_discoverable() {
-    discoverable_on && bluetoothctl discoverable off || bluetoothctl discoverable on
-    show_menu
-}
-
-toggle_connection() {
-    device_connected "$1" && bluetoothctl disconnect "$1" || bluetoothctl connect "$1"
-    device_menu "$1"
-}
-
-toggle_paired() {
-    device_paired "$1" && bluetoothctl remove "$1" || bluetoothctl pair "$1"
-    device_menu "$1"
-}
-
-toggle_trust() {
-    device_trusted "$1" && bluetoothctl untrust "$1" || bluetoothctl trust "$1"
-    device_menu "$1"
-}
-
-# --- Menus ---
-
-device_menu() {
-    local mac="$1"
-    local name=$(device_alias "$mac")
-
-    local connected="Connected: $(device_connected "$mac" && echo yes || echo no)"
-    local paired="Paired: $(device_paired "$mac" && echo yes || echo no)"
-    local trusted="Trusted: $(device_trusted "$mac" && echo yes || echo no)"
-
-    local chosen
-    chosen=$(printf "%s\n%s\n%s\n---------\nBack\nExit" "$connected" "$paired" "$trusted" | $rofi_cmd "$name")
-
-    case "$chosen" in
-        "$connected") toggle_connection "$mac" ;;
-        "$paired")    toggle_paired "$mac" ;;
-        "$trusted")   toggle_trust "$mac" ;;
-        "Back")       show_menu ;;
+    IFS=$'\t' read -r _ id _ <<<"$choice"
+    case $id in
+        @scan) bluetoothctl --timeout 8 scan on >/dev/null ;;
+        @power) bluetoothctl power off >/dev/null ;;
+        "") ;;
+        *) device_menu "$id" ;;
     esac
-}
-
-show_menu() {
-    if power_on; then
-        local power="Power: on"
-        local dev_list=$(get_devices | while read -r mac name; do echo "$name"; done)
-        local scan="Scan: $(scan_on && echo on || echo off)"
-        local pairable="Pairable: $(pairable_on && echo on || echo off)"
-        local discoverable="Discoverable: $(discoverable_on && echo on || echo off)"
-
-        local chosen
-        chosen=$(printf "%s\n---------\n%s\n%s\n%s\n%s\nExit" "$dev_list" "$power" "$scan" "$pairable" "$discoverable" | $rofi_cmd "Bluetooth")
-
-        case "$chosen" in
-            "" | "---------") ;;
-            "$power")        toggle_power ;;
-            "$scan")         toggle_scan ;;
-            "$pairable")     toggle_pairable ;;
-            "$discoverable") toggle_discoverable ;;
-            *)
-                local mac=$(get_devices | grep "$chosen" | head -1 | cut -d ' ' -f 1)
-                [[ -n "$mac" ]] && device_menu "$mac"
-                ;;
-        esac
-    else
-        local chosen
-        chosen=$(printf "Power: off\nExit" | $rofi_cmd "Bluetooth")
-        [[ "$chosen" == "Power: off" ]] && toggle_power
-    fi
-}
-
-show_menu
+done

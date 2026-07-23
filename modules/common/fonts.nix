@@ -8,6 +8,7 @@
     cozette
     creep
     jetbrains-mono
+    inter
     nerd-fonts.jetbrains-mono
     noto-fonts
     noto-fonts-cjk-sans
