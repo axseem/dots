@@ -30,4 +30,11 @@
   };
 
   programs.home-manager.enable = true;
+
+  programs.opencode.settings.mcp.mcp_atlassian = {
+    type = "remote";
+    url = "https://mcp.atlassian.com/v1/mcp/authv2";
+    oauth = {};
+    enabled = true;
+  };
 }
