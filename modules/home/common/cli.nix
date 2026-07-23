@@ -78,11 +78,7 @@
     # File Transfer
     rsync
     rclone
-    (
-      if pkgs.stdenv.isDarwin
-      then inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.croc
-      else croc
-    )
+    croc
 
     # PDF
     poppler-utils
