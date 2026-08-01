@@ -1,5 +1,46 @@
 {
   "nodes": {
+    "abstruct": {
+      "inputs": {
+        "blyph": "blyph",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785614662,
+        "narHash": "sha256-bxwtghnzfp/daxxG4awk0XDP88YJKc5f/EaX5aPAvm0=",
+        "ref": "refs/heads/main",
+        "rev": "4e32224c540a4b9fb93852d3d33aff36f3f346d1",
+        "revCount": 7,
+        "type": "git",
+        "url": "https://codeberg.org/axseem/abstruct.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/axseem/abstruct.git"
+      }
+    },
+    "blyph": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785095075,
+        "narHash": "sha256-Mbc7JY4+kyyVrQ/D9XX55x3IR07USlgAoqkf+qvdpgQ=",
+        "ref": "refs/heads/main",
+        "rev": "f777502d89a2e66819ab61ea0767ffd9a45e50f4",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://codeberg.org/axseem/blyph.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/axseem/blyph.git"
+      }
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -59,11 +100,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784725727,
-        "narHash": "sha256-J5+C9wsO0lhDyUalQzfplDbRjyHDYeEH5+9sdyXtwa8=",
+        "lastModified": 1785239295,
+        "narHash": "sha256-aYFoftXjm7Df7CAoR0XoMQjJ9rTZ/l9d1jr9EqD7sHM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "041a999e8c1c5b731913855909e68d30ca69b8e0",
+        "rev": "42bb40f7aaab63a107b64a20c4a4ade6550758d0",
         "type": "github"
       },
       "original": {
@@ -147,11 +188,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1784723954,
-        "narHash": "sha256-1CfD8ZUjCkTgjsneLZ/lxCHhgDfqxxE7/GX0MmsgiqA=",
+        "lastModified": 1785232496,
+        "narHash": "sha256-65EQYIRRpTdpH8lUiB6Mvo5uBkG60aBIzAJuALfx+O0=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "a017f5b72210026af5b3ac5949f08d94380a6fbd",
+        "rev": "2e790b0a6be8ec2b76174ac0931b8ff11919ec98",
         "type": "github"
       },
       "original": {
@@ -176,11 +217,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1784497964,
-        "narHash": "sha256-vlHUuqAcbcH2RKmHbPiuQzbv1pnzzavXnI62RD0bqCU=",
+        "lastModified": 1785090369,
+        "narHash": "sha256-m0pDuRJG7EDo9ri+4Ksu83VsI+PlxNC9lNBfydejce4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "241313f4e8e508cb9b13278c2b0fa25b9ca27163",
+        "rev": "624af665418d3c65d544145b4d34ad696439570e",
         "type": "github"
       },
       "original": {
@@ -239,11 +280,11 @@
         "token-trim": "token-trim"
       },
       "locked": {
-        "lastModified": 1784799083,
-        "narHash": "sha256-Jv8Don8RvEdDq6ySUBXQ4oKFyP/dvrrNIyZetUR90XI=",
+        "lastModified": 1784922358,
+        "narHash": "sha256-yLnjrLDmnqbLgjpd52qD8sH3ffU5ZRF3vhukP+rFfCc=",
         "ref": "refs/heads/main",
-        "rev": "ecff3c1fb7ea55614475808b4bd996f0499e102d",
-        "revCount": 1,
+        "rev": "2f522d591ae97e06f7de18d4086c091ed58dc913",
+        "revCount": 14,
         "type": "git",
         "url": "https://codeberg.org/axseem/opencode-config"
       },
@@ -271,11 +312,11 @@
     "opencode-source_2": {
       "flake": false,
       "locked": {
-        "lastModified": 1784695364,
-        "narHash": "sha256-Z8aX3J5bCtg5fo65qYA9U43aKATvDYtqEph0KsMSrgs=",
+        "lastModified": 1785239458,
+        "narHash": "sha256-rBHhXcTQ73XbZg8eOW6jU6AGZJYARuRz+HXGimE09zk=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "0a601cf334b9a83cc2854108a2b860f25e6e7e8e",
+        "rev": "017a5977d2107092007623e507fc5c6eb337d3b2",
         "type": "github"
       },
       "original": {
@@ -307,6 +348,7 @@
     },
     "root": {
       "inputs": {
+        "abstruct": "abstruct",
         "disko": "disko",
         "freecad-pkgs": "freecad-pkgs",
         "home-manager": "home-manager",
