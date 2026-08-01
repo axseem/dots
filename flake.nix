@@ -33,6 +33,12 @@
       url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    abstruct = {
+      url = "git+https://codeberg.org/axseem/abstruct.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.blyph.url = "git+https://codeberg.org/axseem/blyph.git";
+      inputs.blyph.inputs.nixpkgs.follows = "nixpkgs";
+    };
     opencode-config = {
       url = "git+https://codeberg.org/axseem/opencode-config";
       inputs.nixpkgs.follows = "nixpkgs";
