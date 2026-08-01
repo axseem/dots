@@ -3,6 +3,7 @@
 in {
   environment.systemPackages = with pkgs; [
     zerostack
+    android-tools
     clang
     clang-tools
     lld
