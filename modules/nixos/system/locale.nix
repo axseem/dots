@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   i18n = {
-    supportedLocales = ["all"];
+    supportedLocales = ["en_US.UTF-8" "cs_CZ.UTF-8"];
     defaultLocale = "en_US.UTF-8";
   };
 
