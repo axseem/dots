@@ -110,6 +110,22 @@ in {
           serviceConfig =
             {
               ExecStart = "${config.systemd.package}/lib/systemd/systemd-socket-proxyd ${opts.bindAddress}:${toString opts.internalPort}";
+              # The proxy needs no privileges: it accepts via the socket fd
+              # and connects to the loopback upstream only.
+              DynamicUser = true;
+              NoNewPrivileges = true;
+              ProtectSystem = "strict";
+              ProtectHome = true;
+              PrivateTmp = true;
+              PrivateDevices = true;
+              ProtectKernelTunables = true;
+              ProtectKernelModules = true;
+              ProtectControlGroups = true;
+              RestrictSUIDSGID = true;
+              RestrictNamespaces = true;
+              LockPersonality = true;
+              CapabilityBoundingSet = [""];
+              UMask = "0077";
             }
             // optionalAttrs (opts.idleTimeout > 0) {
               RuntimeMaxSec = opts.idleTimeout;
