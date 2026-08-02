@@ -29,7 +29,15 @@
     };
   };
 
-  services.logind.settings.Login.HandleLidSwitch = "suspend";
+  # Hyprland owns lid handling (see hosts/nixos/ideapad/home.nix): closing
+  # the lid with an external display connected switches to that display and
+  # keeps running; otherwise the lid bind suspends. logind must not preempt
+  # the bind, so its lid action is ignored. Note: with no Hyprland session
+  # (e.g. at the greeter) closing the lid does nothing.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+  };
 
   zramSwap.enable = true;
 }
