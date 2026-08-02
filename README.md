@@ -9,7 +9,7 @@ Personal NixOS and macOS (nix-darwin) configuration. Most of the `config` files 
   - `nixos/`: NixOS hosts (e.g., `ideapad`)
 - `modules/`: Reusable modules
   - `common/`: Shared modules for both NixOS and Darwin (fonts, nix settings)
-  - `darwin/`: macOS-specific modules (homebrew, nix)
+  - `darwin/`: macOS-specific modules (homebrew, system, dev-tools)
   - `nixos/`: NixOS-specific modules (desktop, hardware, security, services, system)
   - `home/`: Home Manager modules
     - `common/`: Cross-platform (cli, fish, git, vscodium)
@@ -25,16 +25,15 @@ This configuration exposes several atomic modules that you can import into your 
 
 - **Common**: `nix`, `fonts`
 - **Desktop**: `hyprland`, `display-manager`
-- **Hardware**: `audio`, `bluetooth`, `graphics`, `input`, `power`
-- **System**: `nix-nixos`, `boot`, `locale`, `networking`
-- **Packages**: `dev-tools`, `audio-production`
-- **Services**: `system-services`, `virtualization`
+- **Hardware**: `audio`, `bluetooth`, `graphics`, `power`
+- **System**: `boot`, `locale`, `networking`, `dev-tools`, `audio-production`
+- **Services**: `system-services`, `virtualization`, `flatpak`, `searxng-local`, `lazy-socket`
 - **Security**: `hardening`
 
 ### Darwin Modules (`darwinModules`)
 
 - **Common**: `nix`, `fonts`
-- **Darwin**: `nix-darwin`, `homebrew`
+- **Darwin**: `homebrew`
 
 ### Home Manager Modules (`homeManagerModules`)
 
@@ -43,9 +42,11 @@ This configuration exposes several atomic modules that you can import into your 
   - `vscodium`: VSCodium configuration
   - `git`: Git configuration
   - `cli`: Command line tools
+  - `node`: Node.js packages and versioned wrappers
+  - `xdg-common`: Cross-platform XDG config file mappings
 - **Linux**:
   - `ui`: GTK/QT theming
-  - `xdg`: XDG config file mappings
+  - `xdg-linux`: Linux XDG config file mappings
   - `cli-linux`: Linux-specific CLI tools
   - `media`: Media players and editors
   - `apps`: GUI applications
