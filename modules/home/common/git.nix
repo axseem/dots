@@ -1,6 +1,6 @@
 {
   pkgs,
-  username,
+  config,
   ...
 }: {
   programs.git = {
@@ -9,7 +9,7 @@
     settings = {
       init.defaultBranch = "main";
       # user.email is host-specific; each host's home.nix sets it.
-      user.name = username;
+      user.name = config.home.username;
     };
   };
 }
