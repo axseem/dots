@@ -10,6 +10,10 @@
     settings = {
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      # MT7925 bluetooth: exclude from autosuspend (kernel -110 wakeup bug) and
+      # keep the device powered on at startup. Key renamed in TLP 1.6.
+      USB_EXCLUDE_BTUSB = 1;
+      USB_DEVICES_ENABLE_ON_STARTUP = "bluetooth";
     };
   };
 
