@@ -120,12 +120,22 @@ in {
               PrivateDevices = true;
               ProtectKernelTunables = true;
               ProtectKernelModules = true;
+              ProtectKernelLogs = true;
               ProtectControlGroups = true;
+              ProtectClock = true;
+              ProtectHostname = true;
+              ProtectProc = "invisible";
               RestrictSUIDSGID = true;
               RestrictNamespaces = true;
+              RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
+              RestrictRealtime = true;
+              SystemCallFilter = ["@system-service" "~@privileged @resources"];
               LockPersonality = true;
               CapabilityBoundingSet = [""];
               UMask = "0077";
+              # Loopback backend only: deny all other network egress.
+              IPAddressDeny = "any";
+              IPAddressAllow = ["127.0.0.1" "::1"];
             }
             // optionalAttrs (opts.idleTimeout > 0) {
               RuntimeMaxSec = opts.idleTimeout;
