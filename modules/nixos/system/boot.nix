@@ -25,7 +25,6 @@ in {
 
     kernelParams = [
       "nmi_watchdog=1"
-      "amd_pstate=active"
       "pcie_aspm=powersave"
     ];
   };
