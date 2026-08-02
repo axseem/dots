@@ -12,7 +12,6 @@
   boot.extraModprobeConfig = ''
     options btusb enable_autosuspend=0
   '';
-  services.tlp.settings.USB_EXCLUDE_BTUSB = 1;
 
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
@@ -39,8 +38,6 @@
 
     # Desktop
     ../../../modules/nixos/desktop/hyprland.nix
-    ../../../modules/nixos/desktop/dwl.nix
-    ../../../modules/nixos/desktop/dwm.nix
     ../../../modules/nixos/desktop/display-manager.nix
 
     # Services
@@ -81,12 +78,6 @@
     useEmbeddedBitmaps = true;
   };
   fonts.fontDir.enable = true;
-
-  # NixOS-style GC schedule (darwin uses nix.gc.interval; see darwin/system.nix)
-  nix.gc = {
-    dates = "weekly";
-    options = "--delete-older-than 14d";
-  };
 
   services.searxng-local.enable = true;
 
