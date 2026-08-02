@@ -21,10 +21,6 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nvim = {
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nvim-stable-pkgs";
@@ -62,7 +58,7 @@
     nix-darwin,
     ...
   } @ inputs: let
-    systems = ["x86_64-linux" "aarch64-darwin" "aarch64-linux"];
+    systems = ["x86_64-linux" "aarch64-darwin"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     devFor = system:
       import ./nix/dev.nix {
@@ -73,11 +69,6 @@
     formatter = forAllSystems (system: (devFor system).formatter);
     checks = forAllSystems (system: (devFor system).checks);
     devShells = forAllSystems (system: (devFor system).devShells);
-
-    packages = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-    });
 
     nixosModules = {
       nix = import ./modules/common/nix.nix;

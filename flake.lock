@@ -41,26 +41,6 @@
         "url": "https://codeberg.org/axseem/blyph.git"
       }
     },
-    "disko": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781152676,
-        "narHash": "sha256-RxWs5ND31KzTG7wvMM+PMfUjyNpmIEr999lqNARaM5o=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "ff8702b4de27f72b4c78573dfb89ec74e36abdf1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -349,7 +329,6 @@
     "root": {
       "inputs": {
         "abstruct": "abstruct",
-        "disko": "disko",
         "freecad-pkgs": "freecad-pkgs",
         "home-manager": "home-manager",
         "iosevka-unambiguous": "iosevka-unambiguous",
