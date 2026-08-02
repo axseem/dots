@@ -8,10 +8,10 @@ in {
 
     # Versioned wrappers (node22, node24, etc.)
     (mkWrapper "node22" pkgs.nodejs_22 "node")
-    (mkWrapper "node24" pkgs.nodejs "node")
+    (mkWrapper "node24" pkgs.nodejs_24 "node")
     (mkWrapper "npm22" pkgs.nodejs_22 "npm")
-    (mkWrapper "npm24" pkgs.nodejs "npm")
+    (mkWrapper "npm24" pkgs.nodejs_24 "npm")
     (mkWrapper "npx22" pkgs.nodejs_22 "npx")
-    (mkWrapper "npx24" pkgs.nodejs "npx")
+    (mkWrapper "npx24" pkgs.nodejs_24 "npx")
   ];
 }
