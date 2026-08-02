@@ -42,8 +42,7 @@ This configuration exposes several atomic modules that you can import into your 
   - `vscodium`: VSCodium configuration
   - `git`: Git configuration
   - `cli`: Command line tools
-  - `node`: Node.js packages and versioned wrappers
-  - `xdg-common`: Cross-platform XDG config file mappings
+  - `node`: Latest Node.js (nixpkgs default)
 - **Linux**:
   - `ui`: GTK/QT theming
   - `xdg-linux`: Linux XDG config file mappings

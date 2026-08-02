@@ -47,10 +47,6 @@
     nix-flatpak = {
       url = "github:gmodena/nix-flatpak";
     };
-    opencode-source = {
-      url = "github:anomalyco/opencode";
-      flake = false; # just the source tree, not a flake
-    };
   };
 
   outputs = {
@@ -103,7 +99,6 @@
       vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = import ./modules/home/common/cli.nix;
-      xdg-common = import ./modules/home/common/xdg.nix;
       node = import ./modules/home/common/node.nix;
       ui = import ./modules/home/linux/ui.nix;
       xdg-linux = import ./modules/home/linux/xdg.nix;

@@ -12,9 +12,10 @@
     ../../../modules/home/common/git.nix
     ../../../modules/home/common/cli.nix
     ../../../modules/home/common/node.nix
-    ../../../modules/home/common/xdg.nix
     ../../../modules/home/common/vscodium
   ];
+
+  xdg.configFile."ghostty".source = ../../../config/ghostty;
 
   home = {
     inherit username;
