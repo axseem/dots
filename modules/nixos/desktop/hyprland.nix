@@ -7,10 +7,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # Screenshot tools
-    grim
-    slurp
-
     # Wayland utilities
     swaynotificationcenter
     wl-clipboard
