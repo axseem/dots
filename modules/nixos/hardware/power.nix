@@ -10,19 +10,17 @@
     settings = {
       CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      START_CHARGE_THRESH_BAT0 = 0;
-      STOP_CHARGE_THRESH_BAT0 = 1;
-      DEVICES_TO_ENABLE_ON_STARTUP = "bluetooth";
     };
   };
 
   systemd.services.ideapad-conservation = {
     description = "Enable IdeaPad battery conservation mode";
     wantedBy = ["multi-user.target"];
-    after = ["sysfs.target"];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.coreutils}/bin/echo 1 > /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode";
+      # systemd does not support redirection in ExecStart; the glob must also
+      # be expanded by the shell.
+      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode'";
     };
   };
 
