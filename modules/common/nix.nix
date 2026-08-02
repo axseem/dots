@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
@@ -15,7 +19,15 @@
 
     optimise.automatic = true;
 
-    gc.automatic = true;
+    # darwin schedules via nix.gc.interval (see darwin/system.nix).
+    gc =
+      {
+        automatic = true;
+      }
+      // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+        dates = "weekly";
+        options = "--delete-older-than 14d";
+      };
   };
 
   nixpkgs.config.allowUnfree = true;
