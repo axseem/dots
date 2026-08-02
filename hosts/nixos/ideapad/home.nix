@@ -52,8 +52,12 @@
 
     # With an external display connected, use it as the only display while
     # the lid is closed. Restore the extended layout when the lid is opened.
+    # Both variants are needed: plain `bind` fires only when unlocked, `bindl`
+    # only while a lock screen is active (switch events are keybind-gated).
     bind = , switch:on:Lid Switch, exec, sh -c 'hyprctl monitors | grep -q "^Monitor HDMI-A-2 " && { hyprctl keyword monitor "HDMI-A-2,2560x1440@100.00Hz,0x0,1"; hyprctl keyword monitor "eDP-1,disable"; }'
     bind = , switch:off:Lid Switch, exec, sh -c 'hyprctl keyword monitor "eDP-1,2880x1800@120.00Hz,0x0,2"; hyprctl keyword monitor "HDMI-A-2,2560x1440@100.00Hz,1440x0,1"'
+    bindl = , switch:on:Lid Switch, exec, sh -c 'hyprctl monitors | grep -q "^Monitor HDMI-A-2 " && { hyprctl keyword monitor "HDMI-A-2,2560x1440@100.00Hz,0x0,1"; hyprctl keyword monitor "eDP-1,disable"; }'
+    bindl = , switch:off:Lid Switch, exec, sh -c 'hyprctl keyword monitor "eDP-1,2880x1800@120.00Hz,0x0,2"; hyprctl keyword monitor "HDMI-A-2,2560x1440@100.00Hz,1440x0,1"'
 
     # Host-specific variables
     $lock = swaylock -f -c 000000
