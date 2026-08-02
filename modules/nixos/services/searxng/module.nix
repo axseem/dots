@@ -91,6 +91,8 @@ in {
     };
 
     environment.systemPackages = [
+      # Manual CLI for the local instance (`sxng query "..."`); the service
+      # itself runs without it.
       (pkgs.buildGoModule {
         pname = "sxng";
         version = "0.1.0";
