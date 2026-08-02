@@ -12,15 +12,46 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # Generate a per-install secret once; searx-init envsubsts it into
+    # settings.yml. Persisted in /var/lib, mode 0700.
+    systemd.services.searx-secret = {
+      wantedBy = ["multi-user.target"];
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        StateDirectory = "searx-secret";
+        StateDirectoryMode = "0700";
+      };
+      script = ''
+        if [ ! -s /var/lib/searx-secret/env ]; then
+          umask 077
+          echo "SEARX_SECRET_KEY=$(${pkgs.openssl}/bin/openssl rand -hex 32)" > /var/lib/searx-secret/env
+        fi
+      '';
+    };
+
+    # searx-init envsubsts settings.yml, so it must wait for the secret.
+    systemd.services."searx-init" = {
+      requires = ["searx-secret.service"];
+      after = ["searx-secret.service"];
+    };
+
     services.searx = {
       enable = true;
       redisCreateLocally = true;
+      environmentFile = "/var/lib/searx-secret/env";
       settings = {
         use_default_settings = true;
         server = {
           bind_address = "127.0.0.1";
           port = 8889;
-          secret_key = "local-only-not-sensitive";
+          # A key is required: searxng exits if the packaged default
+          # ("ultrasecretkey") is left in place, and an empty key breaks
+          # Flask sessions. Ours is substituted from an env file generated
+          # at first boot (see searx-secret.service below) so no secret
+          # lives in this public repo. Loopback-only instance: rate limiting
+          # and bot protection are unnecessary.
+          secret_key = "$SEARX_SECRET_KEY";
           limiter = false;
           image_proxy = false;
           base_url = false;
