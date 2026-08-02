@@ -25,8 +25,10 @@ in {
   config = mkIf cfg.enable {
     hardware.graphics.enable = true;
 
-    boot.kernelParams = ["nvidia.NVreg_PreserveVideoMemoryAllocations=0"];
-
+    # powerManagement.enable below makes nixpkgs append
+    # NVreg_PreserveVideoMemoryAllocations=1 and wire up suspend/resume
+    # support; do not pin the allocation setting explicitly here (an
+    # explicit =0 would contradict it and merge order is fragile).
     services.xserver.videoDrivers = ["amdgpu" "nvidia"];
 
     hardware.nvidia = {
