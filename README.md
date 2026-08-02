@@ -2,6 +2,8 @@
 
 Personal NixOS and macOS (nix-darwin) configuration. Most of the `config` files work on other distros too.
 
+Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); GitHub mirror: [`axseem/dotfiles`](https://github.com/axseem/dotfiles).
+
 ## Structure
 
 - `hosts/`: Host-specific configurations
@@ -61,7 +63,7 @@ You can use this flake as an input in your own configuration to import specific 
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    axseem.url = "github:axseem/dotfiles";
+    axseem.url = "git+https://codeberg.org/axseem/dots";
   };
 
   outputs = { nixpkgs, axseem, ... }: {
@@ -84,7 +86,7 @@ You can use this flake as an input in your own configuration to import specific 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
-    axseem.url = "github:axseem/dotfiles";
+    axseem.url = "git+https://codeberg.org/axseem/dots";
   };
 
   outputs = { nixpkgs, nix-darwin, axseem, ... }: {
@@ -105,7 +107,7 @@ You can use this flake as an input in your own configuration to import specific 
 ### NixOS
 
 ```bash
-git clone https://github.com/axseem/dotfiles.git
+git clone https://codeberg.org/axseem/dots.git
 cd dotfiles
 sudo nixos-rebuild switch --flake .#ideapad
 ```
@@ -113,7 +115,7 @@ sudo nixos-rebuild switch --flake .#ideapad
 ### macOS
 
 ```bash
-git clone https://github.com/axseem/dotfiles.git
+git clone https://codeberg.org/axseem/dots.git
 cd dotfiles
 darwin-rebuild switch --flake .#macbook
 ```
