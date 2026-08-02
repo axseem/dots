@@ -6,8 +6,8 @@ font-size = 12
 background = 000000
 foreground = ffffff
 
-window-padding-x = 12,12
-window-padding-y = 12,12
+window-padding-x = 0,0
+window-padding-y = 0,0
 
 window-decoration = none
 
