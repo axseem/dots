@@ -4,7 +4,12 @@
   ...
 }: {
   environment.shells = [pkgs.fish];
-  users.users.${username}.shell = pkgs.fish;
+  # nix-darwin only applies user attributes for users listed in knownUsers.
+  users.knownUsers = [username];
+  users.users.${username} = {
+    uid = 501; # standard macOS primary-user uid
+    shell = pkgs.fish;
+  };
   programs.fish.enable = true;
 
   nix.gc.interval = {
