@@ -1,6 +1,8 @@
 {pkgs, ...}: {
   i18n = {
-    supportedLocales = ["en_US.UTF-8" "cs_CZ.UTF-8"];
+    # defaultLocale (en_US.UTF-8) is built automatically; extraLocales adds
+    # the Czech locale on top.
+    extraLocales = ["cs_CZ.UTF-8"];
     defaultLocale = "en_US.UTF-8";
   };
 
