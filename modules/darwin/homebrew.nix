@@ -8,18 +8,15 @@
     taps = [
       "nikitabobko/tap"
     ];
-    brews = [
-      "docker"
-      "docker-compose"
-      "gh"
-    ];
+    # nix channel provides gh (home/cli.nix) and VSCodium (home/vscodium);
+    # docker CLI + compose v2 ship with the Docker Desktop cask.
+    brews = [];
     casks = [
       "ghostty"
       "nikitabobko/tap/aerospace"
       "openvpn-connect"
       "docker-desktop"
       "elasticvue"
-      "visual-studio-code"
       "claude-code"
       "brave-browser"
     ];
