@@ -47,8 +47,6 @@ worker() {
                     loginctl terminate-session "$XDG_SESSION_ID"
                 elif [[ -n ${HYPRLAND_INSTANCE_SIGNATURE:-} ]]; then
                     hyprctl dispatch exit
-                else
-                    pkill -TERM -x dwl
                 fi
             fi
             ;;
