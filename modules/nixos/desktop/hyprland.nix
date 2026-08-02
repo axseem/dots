@@ -9,7 +9,6 @@
   environment.systemPackages = with pkgs; [
     # Wayland utilities
     swaynotificationcenter
-    wl-clipboard
     way-displays
     swaylock
     swayidle
