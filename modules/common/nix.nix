@@ -1,8 +1,15 @@
-{...}: {
+{pkgs, ...}: {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      trusted-users = ["root" "@wheel"];
+      # @wheel is the NixOS admin group; macOS admins are in @admin.
+      trusted-users =
+        ["root"]
+        ++ (
+          if pkgs.stdenv.isDarwin
+          then ["@admin"]
+          else ["@wheel"]
+        );
       auto-optimise-store = true;
     };
 
