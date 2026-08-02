@@ -37,6 +37,9 @@
     };
   };
 
+  # Same email as the mac for now; change to a host-specific one if desired.
+  programs.git.settings.user.email = "max@axseem.me";
+
   # Host-specific Hyprland Configuration
   xdg.configFile."hypr/conf.d/host.conf".text = ''
     # Monitor Configuration

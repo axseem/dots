@@ -8,10 +8,8 @@
     package = pkgs.git;
     settings = {
       init.defaultBranch = "main";
-      user = {
-        name = username;
-        email = "max@axseem.me";
-      };
+      # user.email is host-specific; each host's home.nix sets it.
+      user.name = username;
     };
   };
 }

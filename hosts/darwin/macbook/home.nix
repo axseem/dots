@@ -17,6 +17,8 @@
 
   xdg.configFile."ghostty".source = ../../../config/ghostty;
 
+  programs.git.settings.user.email = "max@axseem.me";
+
   home = {
     inherit username;
     homeDirectory = lib.mkForce "/Users/${username}";
