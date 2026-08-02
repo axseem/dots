@@ -1,7 +1,7 @@
 {...}: {
   xdg.configFile = {
     "hypr/hyprland.conf".source = ../../../config/hypr/hyprland.conf;
-    "mako".source = ../../../config/mako;
+    "foot".source = ../../../config/foot;
     "rofi".source = ../../../config/rofi;
     "networkmanager-dmenu".source = ../../../config/networkmanager-dmenu;
     "swaylock".source = ../../../config/swaylock;
