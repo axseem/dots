@@ -81,7 +81,7 @@
 
   services.searxng-local.enable = true;
 
-  # Set local SearXNG as default search engine in Brave (and Chromium)
+  # Set local SearXNG as default search engine in Chromium
   programs.chromium = {
     enable = true;
     defaultSearchProviderEnabled = true;

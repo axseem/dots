@@ -23,7 +23,9 @@
     "kernel.yama.ptrace_scope" = 1;
     "net.ipv4.icmp_echo_ignore_broadcasts" = 1;
     "net.ipv4.conf.all.accept_redirects" = 0;
+    "net.ipv4.conf.default.accept_redirects" = 0;
     "net.ipv6.conf.all.accept_redirects" = 0;
+    "net.ipv6.conf.default.accept_redirects" = 0;
   };
 
   security.sudo.execWheelOnly = true;
