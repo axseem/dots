@@ -3,9 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # Pinned to a known-working revision for neovim plugins.
-    # Bump when nixos-unstable catches up.
-    nvim-stable-pkgs.url = "github:NixOS/nixpkgs/70801e06d9730c4f1704fbd3bbf5b8e11c03a2a7";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -17,11 +14,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nvim = {
       url = "github:axseem/nvim";
-      inputs.nixpkgs.follows = "nvim-stable-pkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     iosevka-unambiguous = {
       url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
