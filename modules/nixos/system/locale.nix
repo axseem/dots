@@ -2,7 +2,9 @@
   i18n = {
     # defaultLocale (en_US.UTF-8) is built automatically; extraLocales adds
     # the Czech locale on top.
-    extraLocales = ["cs_CZ.UTF-8"];
+    # Entries must use glibc's LOCALE/CHARSET format (see localedata/SUPPORTED);
+    # bare "cs_CZ.UTF-8" fails the glibc-locales support check.
+    extraLocales = ["cs_CZ.UTF-8/UTF-8"];
     defaultLocale = "en_US.UTF-8";
   };
 
