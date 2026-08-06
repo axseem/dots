@@ -19,7 +19,6 @@ in {
 
     # System / Desktop Integration
     (rofi.override {plugins = [rofi-emoji rofi-calc-combi];})
-    networkmanager_dmenu
     cliphist
     pavucontrol
     gcr
