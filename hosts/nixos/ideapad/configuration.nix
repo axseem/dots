@@ -42,6 +42,7 @@
 
     # Services
     ../../../modules/nixos/services/system.nix
+    ../../../modules/nixos/services/ssh-lan.nix
     ../../../modules/nixos/services/virtualization.nix
     ../../../modules/nixos/services/flatpak.nix
     ../../../modules/nixos/services/lazy-socket/module.nix
