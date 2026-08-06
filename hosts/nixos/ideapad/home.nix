@@ -9,6 +9,7 @@
     inputs.opencode-config.homeModules.default
 
     ../../../modules/home/common/fish
+    ../../../modules/home/common/tmux.nix
     ../../../modules/home/common/vscodium
     ../../../modules/home/common/git.nix
     ../../../modules/home/common/cli.nix

@@ -98,6 +98,7 @@
 
     homeManagerModules = {
       fish = import ./modules/home/common/fish;
+      tmux = import ./modules/home/common/tmux.nix;
       vscodium = import ./modules/home/common/vscodium;
       git = import ./modules/home/common/git.nix;
       cli = {pkgs, ...}: import ./modules/home/common/cli.nix {inherit inputs pkgs;};
