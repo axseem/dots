@@ -1,8 +1,4 @@
-{
-  inputs,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     # Browser
     brave
@@ -12,11 +8,12 @@
     signal-desktop
 
     # Productivity
+    bitwarden-desktop
     kdePackages.okular
     foot
 
     # Development / Creative
-    inputs.freecad-pkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}.freecad
+    pkgs.freecad
     kicad
     orca-slicer
     darktable

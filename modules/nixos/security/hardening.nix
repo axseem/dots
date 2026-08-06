@@ -15,8 +15,8 @@
   services.fail2ban.enable = true;
 
   # Cheap kernel hardening. No rp_filter tweaks: strict filtering breaks
-  # multi-homed/VPN routing (proton0). No userns restriction: flatpak and
-  # rootless podman need unprivileged namespaces.
+  # multi-homed/VPN routing (proton0). No userns restriction: rootless
+  # podman needs unprivileged namespaces.
   boot.kernel.sysctl = {
     "kernel.dmesg_restrict" = 1;
     "kernel.kptr_restrict" = 1;

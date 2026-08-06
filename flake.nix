@@ -3,8 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # Temporary FreeCAD pin: gdal-minimal 3.13.1 fails its Zarr test.
-    freecad-pkgs.url = "github:NixOS/nixpkgs/65179426c83bb3f6bc14898b42ea1c6f01d374b0";
     # Pinned to a known-working revision for neovim plugins.
     # Bump when nixos-unstable catches up.
     nvim-stable-pkgs.url = "github:NixOS/nixpkgs/70801e06d9730c4f1704fbd3bbf5b8e11c03a2a7";
@@ -44,9 +42,6 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak = {
-      url = "github:gmodena/nix-flatpak";
-    };
   };
 
   outputs = {
@@ -82,7 +77,6 @@
       hardening = import ./modules/nixos/security/hardening.nix;
       system-services = import ./modules/nixos/services/system.nix;
       virtualization = import ./modules/nixos/services/virtualization.nix;
-      flatpak = {pkgs, ...}: import ./modules/nixos/services/flatpak.nix {inherit inputs pkgs;};
       boot = {pkgs, ...}: import ./modules/nixos/system/boot.nix {inherit inputs pkgs;};
       locale = import ./modules/nixos/system/locale.nix;
       networking = import ./modules/nixos/system/networking.nix;
