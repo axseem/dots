@@ -1,4 +1,8 @@
 {pkgs, ...}: let
+  rofi-combi-calc = pkgs.rofi-unwrapped.overrideAttrs (old: {
+    patches = (old.patches or []) ++ [./rofi-combi-calc.patch];
+  });
+
   # rofi-calc normally renders its live result in a message widget. Rofi's
   # combi mode does not forward mode messages, so expose the result as a row.
   rofi-calc-combi = pkgs.rofi-calc.overrideAttrs (old: {
@@ -18,7 +22,10 @@ in {
     wl-clipboard
 
     # System / Desktop Integration
-    (rofi.override {plugins = [rofi-emoji rofi-calc-combi];})
+    (rofi.override {
+      rofi-unwrapped = rofi-combi-calc;
+      plugins = [rofi-emoji rofi-calc-combi];
+    })
     cliphist
     pavucontrol
     gcr
