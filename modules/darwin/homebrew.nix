@@ -17,8 +17,10 @@
       "openvpn-connect"
       "docker-desktop"
       "elasticvue"
-      "claude-code"
       "brave-browser"
+      "figma"
+      "freecad"
+      "kicad"
     ];
   };
 }

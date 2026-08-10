@@ -24,7 +24,13 @@
     homeDirectory = lib.mkForce "/Users/${username}";
     stateVersion = "25.11";
 
+    sessionPath = [
+      "/opt/homebrew/bin"
+      "/opt/homebrew/sbin"
+    ];
+
     packages = [
+      pkgs.claude-code
       pkgs.llama-cpp
     ];
   };
@@ -35,6 +41,13 @@
     type = "remote";
     url = "https://mcp.atlassian.com/v1/mcp/authv2";
     oauth = {};
+    enabled = true;
+  };
+
+  programs.opencode.settings.mcp.mcp_figma = {
+    type = "remote";
+    url = "http://127.0.0.1:3845/mcp";
+    oauth = false;
     enabled = true;
   };
 }
