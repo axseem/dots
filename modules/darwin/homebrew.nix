@@ -18,6 +18,7 @@
       "docker-desktop"
       "elasticvue"
       "brave-browser"
+      "blender"
       "figma"
       "freecad"
       "kicad"
