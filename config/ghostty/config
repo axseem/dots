@@ -3,6 +3,11 @@ theme = axterm
 font-family = Abstruct
 font-size = 12
 
+keybind = super+==increase_font_size:6
+keybind = super++=increase_font_size:6
+keybind = super+-=decrease_font_size:6
+keybind = super+0=reset_font_size
+
 window-padding-x = 0,0
 window-padding-y = 0,0
 
