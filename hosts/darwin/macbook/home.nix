@@ -19,6 +19,10 @@
 
   programs.git.settings.user.email = "max@axseem.me";
 
+  # Rebuilding an index for every installed man page is slow and only powers
+  # apropos/whatis searches and man-page name completion.
+  programs.man.generateCaches = false;
+
   home = {
     inherit username;
     homeDirectory = lib.mkForce "/Users/${username}";
