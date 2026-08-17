@@ -7,8 +7,8 @@
 
     extraHosts = ''
       # Addiction Blocklist
-      127.0.0.1 www.youtube.com
-      127.0.0.1 www.reddit.com
+      #127.0.0.1 www.youtube.com
+      #127.0.0.1 www.reddit.com
       127.0.0.1 news.ycombinator.com
       127.0.0.1 www.chess.com
       127.0.0.1 www.lichess.org

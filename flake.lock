@@ -8,11 +8,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785614662,
-        "narHash": "sha256-bxwtghnzfp/daxxG4awk0XDP88YJKc5f/EaX5aPAvm0=",
+        "lastModified": 1786042495,
+        "narHash": "sha256-eAub8fZFFBifN20Oep8e0PXGNXpYzwCOn4hN0hlk+kI=",
         "ref": "refs/heads/main",
-        "rev": "4e32224c540a4b9fb93852d3d33aff36f3f346d1",
-        "revCount": 7,
+        "rev": "b07a1f509f62f64a5126961a446c9b169aa719d1",
+        "revCount": 10,
         "type": "git",
         "url": "https://codeberg.org/axseem/abstruct.git"
       },
@@ -64,11 +64,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785531816,
-        "narHash": "sha256-vkMnV0JIyw+g/NmcfoajlGaAO+9a0ezia+FZohQJrik=",
+        "lastModified": 1786356609,
+        "narHash": "sha256-ou8fYz5w9yhXC8YbvvExybFIa19MyW5G/8dEPqa90hM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bf9ce9fec78f95f374e8dd3b503863a3ec128ebe",
+        "rev": "c30c7955cec30d664a9baced6bc0112e263d4647",
         "type": "github"
       },
       "original": {
@@ -155,11 +155,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1785828668,
-        "narHash": "sha256-8fsyqeO+mJqvIzeO4xIpgJe/f7MTbbVTEC6RT6WSXNs=",
+        "lastModified": 1786247143,
+        "narHash": "sha256-8S3Kcxs7D4UtxJxSJZz0m14CGhuW0MxfrIwJxeGWGnQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "e72e4f299401a3689d4b3d5fc6496b11db7064eb",
+        "rev": "279b4a8275f032c566576b3f181fa0f27197f588",
         "type": "github"
       },
       "original": {
@@ -202,11 +202,11 @@
         "token-trim": "token-trim"
       },
       "locked": {
-        "lastModified": 1784922358,
-        "narHash": "sha256-yLnjrLDmnqbLgjpd52qD8sH3ffU5ZRF3vhukP+rFfCc=",
+        "lastModified": 1786831274,
+        "narHash": "sha256-iC8swHw3SvgycapJx68mvK3v1dyeLtUhykG8hti4TAw=",
         "ref": "refs/heads/main",
-        "rev": "2f522d591ae97e06f7de18d4086c091ed58dc913",
-        "revCount": 14,
+        "rev": "c6dd96ac7545c99d0d73c30f54b8363130e90cdc",
+        "revCount": 47,
         "type": "git",
         "url": "https://codeberg.org/axseem/opencode-config"
       },

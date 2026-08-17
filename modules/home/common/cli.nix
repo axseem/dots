@@ -3,6 +3,12 @@
   inputs,
   ...
 }: {
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    GIT_EDITOR = "nvim";
+  };
+
   home.packages = with pkgs; [
     # Archives
     p7zip
@@ -26,6 +32,14 @@
     delta
     miller
     jless
+
+    # Binary Inspection & Analysis
+    fq
+    rizin
+    vim.xxd
+
+    # WebAssembly
+    wasm-tools
 
     # System Monitoring
     btop

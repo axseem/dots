@@ -24,7 +24,5 @@
 
     aseprite
     qbittorrent
-    bitsnpicas
-    steam
   ];
 }

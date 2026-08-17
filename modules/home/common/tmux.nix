@@ -6,6 +6,9 @@
     historyLimit = 100000;
     extraConfig = ''
       set -g prefix C-b
+      set -g allow-passthrough on
+      set -g extended-keys always
+      set -g extended-keys-format csi-u
       set -g status off
       set -g status-style "bg=black,fg=default"
       set -g window-status-style "bg=black,fg=default"

@@ -1,4 +1,8 @@
-{...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   xdg.configFile = {
     "hypr/hyprland.conf".source = ../../../config/hypr/hyprland.conf;
     "foot".source = ../../../config/foot;
@@ -13,4 +17,29 @@
       Session\InterfaceName=proton0
     '';
   };
+
+  # xdg-open's generic Hyprland path does not honor Terminal=true. Launch
+  # Neovim in Foot explicitly so browsers and file managers get a window.
+  xdg.desktopEntries.neovim-terminal = {
+    name = "Neovim";
+    genericName = "Text Editor";
+    comment = "Edit text files";
+    exec = "${pkgs.foot}/bin/foot nvim %F";
+    icon = "nvim";
+    terminal = false;
+    categories = ["Utility" "TextEditor" "Development"];
+    mimeType = ["text/plain" "text/markdown"];
+  };
+
+  # MIME defaults do not support wildcards, so register Neovim for every
+  # standard text MIME type individually while preserving unrelated defaults.
+  home.activation.neovimTextMimeTypes = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    while IFS= read -r mimeType; do
+      case "$mimeType" in
+        text/*)
+          $DRY_RUN_CMD ${pkgs.xdg-utils}/bin/xdg-mime default neovim-terminal.desktop "$mimeType"
+          ;;
+      esac
+    done < ${pkgs.shared-mime-info}/share/mime/types
+  '';
 }
