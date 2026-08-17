@@ -1,10 +1,7 @@
-theme = Carbonfox
+theme = axterm
 
 font-family = Abstruct
 font-size = 12
-
-background = 000000
-foreground = ffffff
 
 window-padding-x = 0,0
 window-padding-y = 0,0

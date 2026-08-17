@@ -1,0 +1,19 @@
+background = #000000
+foreground = #ffffff
+
+palette = 0=#444444
+palette = 1=#cc7777
+palette = 2=#77bbaa
+palette = 3=#ddbb88
+palette = 4=#7788cc
+palette = 5=#7766bb
+palette = 6=#77aacc
+palette = 7=#aaaaaa
+palette = 8=#777788
+palette = 9=#ffbbcc
+palette = 10=#99ffbb
+palette = 11=#ffdd99
+palette = 12=#bbddff
+palette = 13=#ccaaff
+palette = 14=#ccffff
+palette = 15=#dddddd
