@@ -9,6 +9,11 @@
     GIT_EDITOR = "nvim";
   };
 
+  programs.direnv = {
+    enable = true;
+    config.global.hide_env_diff = true;
+  };
+
   home.packages = with pkgs; [
     # Archives
     p7zip
@@ -62,7 +67,6 @@
     git-lfs
 
     # Dev Utilities
-    direnv
     entr
     watchexec
     hyperfine
