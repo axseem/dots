@@ -8,7 +8,6 @@
     # Common
     ../../../modules/common/nix.nix
     ../../../modules/common/fonts.nix
-    ../../../modules/common/dev-tools.nix
 
     # Darwin
     ../../../modules/darwin/homebrew.nix
