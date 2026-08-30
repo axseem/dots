@@ -4,7 +4,6 @@
   ...
 }: {
   fonts.packages = with pkgs; [
-    inputs.iosevka-unambiguous.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.abstruct.packages.${pkgs.stdenv.hostPlatform.system}.abstruct-all
     cozette
     creep

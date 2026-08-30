@@ -23,10 +23,6 @@
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    iosevka-unambiguous = {
-      url = "git+https://codeberg.org/axseem/iosevka-unambiguous";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     abstruct = {
       url = "git+https://codeberg.org/axseem/abstruct.git";
       inputs.nixpkgs.follows = "nixpkgs";
