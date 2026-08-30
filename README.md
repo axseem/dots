@@ -19,6 +19,11 @@ Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); Gi
 - `config/`: Dotfiles symlinked via Home Manager (fish, ghostty, hypr, rofi, etc.)
 - `nix/`: Devshell configuration
 
+## Development
+
+Enter the repository environment explicitly with `nix develop`. The repository
+does not use `.envrc` because direnv evaluates that file with Bash.
+
 ## Modules
 
 This configuration exposes several atomic modules that you can import into your own flake.
