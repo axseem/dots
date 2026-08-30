@@ -4,7 +4,7 @@
   ...
 }: {
   xdg.configFile = {
-    "hypr/hyprland.conf".source = ../../../config/hypr/hyprland.conf;
+    "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
     "foot".source = ../../../config/foot;
     "rofi".source = ../../../config/rofi;
     "swaylock".source = ../../../config/swaylock;

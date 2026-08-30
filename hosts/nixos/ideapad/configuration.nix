@@ -20,7 +20,6 @@
     # Common
     ../../../modules/common/nix.nix
     ../../../modules/common/fonts.nix
-    ../../../modules/common/dev-tools.nix
 
     # Hardware
     ../../../modules/nixos/hardware/graphics.nix

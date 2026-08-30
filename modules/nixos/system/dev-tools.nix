@@ -7,6 +7,9 @@
     cmake
     gcc
     go
+    zig
+    zls
+    lua
     gotools
     delve
     air
@@ -21,5 +24,6 @@
     python3
     python3Packages.pip
     python3Packages.pipx
+    iamb
   ];
 }
