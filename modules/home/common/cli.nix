@@ -2,7 +2,21 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  lua = import ../../../nix/lua.nix {inherit pkgs;};
+  lsnixSource = pkgs.writeTextFile {
+    name = "lsnix-source";
+    destination = "/libexec/lsnix.lua";
+    executable = true;
+    text = builtins.readFile ../../../config/scripts/lsnix.lua;
+  };
+  lsnix = pkgs.linkFarm "lsnix" [
+    {
+      name = "bin/lsnix";
+      path = "${lsnixSource}/libexec/lsnix.lua";
+    }
+  ];
+in {
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
@@ -15,6 +29,7 @@
   };
 
   home.packages = with pkgs; [
+    lua.runtime
     # Archives
     p7zip
     unzip
@@ -67,6 +82,7 @@
     git-lfs
 
     # Dev Utilities
+    lsnix
     entr
     watchexec
     hyperfine
