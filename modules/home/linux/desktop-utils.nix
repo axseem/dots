@@ -27,6 +27,7 @@ in {
       plugins = [rofi-emoji rofi-calc-combi];
     })
     cliphist
+    networkmanager_dmenu
     pavucontrol
     gcr
   ];
