@@ -1,0 +1,60 @@
+--- a/src/calc.c
++++ b/src/calc.c
+@@ -568,29 +568,24 @@
+     return result;
+ }
+ 
+-static void execsh(Mode *sw, char *cmd, char *entry) {
++static void exec_cmd(Mode *sw, char *cmd, char *entry) {
+     // If no command was provided, simply print the entry
+     if (cmd == NULL) {
+         printf("%s\n", entry);
+         return;
+     }
+ 
+-    // Otherwise, we will execute -calc-command
++    // Treat -calc-command as one executable and pass the result literally.
++    // This deliberately excludes the upstream /bin/sh -c interface.
+     char **parts = split_equation(sw, entry);
+-    char *user_cmd = helper_string_replace_if_exists(
+-        cmd, EQUATION_LHS_KEY, parts[0], EQUATION_RHS_KEY, parts[1], NULL);
++    char *argv[] = {cmd, "--", parts[1], NULL};
++    GError *error = NULL;
++    if (!g_spawn_async(NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL,
++                       &error)) {
++        g_warning("Failed to execute calc command: %s", error->message);
++        g_clear_error(&error);
++    }
+     g_free(parts);
+-
+-    // don't escape these utf-8 runes which appear in qalc output, the escape
+-    // sequences are not recognized by shell (#108)
+-    static const char *unescaped_chars = "·−×√²³⊻↊↋¬°";
+-    gchar *escaped_cmd = g_strescape(user_cmd, unescaped_chars);
+-    gchar *complete_cmd = g_strdup_printf("/bin/sh -c \"%s\"", escaped_cmd);
+-    g_free(user_cmd);
+-    g_free(escaped_cmd);
+-
+-    helper_execute_command(NULL, complete_cmd, FALSE, NULL);
+-    g_free(complete_cmd);
+ }
+ 
+ static ModeMode calc_mode_result(Mode *sw, int menu_entry,
+@@ -621,7 +616,7 @@
+                 pd->history,
+                 get_real_history_index(pd->history, selected_line));
+ 
+-        execsh(sw, pd->cmd, entry);
++        exec_cmd(sw, pd->cmd, entry);
+         retv = MODE_EXIT;
+     } else if (menu_entry & MENU_CUSTOM_INPUT) {
+         if (!is_error_string(pd->last_result) && strlen(pd->last_result) > 0) {
+@@ -634,7 +629,7 @@
+                 }
+             }
+ 
+-            execsh(sw, pd->cmd, pd->last_result);
++            exec_cmd(sw, pd->cmd, pd->last_result);
+             retv = MODE_EXIT;
+         } else {
+             retv = RELOAD_DIALOG;

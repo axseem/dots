@@ -1,0 +1,15 @@
+diff --git a/main.c b/main.c
+index c3bdd66..f97b17d 100644
+--- a/main.c
++++ b/main.c
+@@ -153,8 +153,8 @@ static void cmd_exec(char *param) {
+ 			signal(SIGTERM, SIG_DFL);
+ 			signal(SIGUSR1, SIG_DFL);
+ 
+-			char *const cmd[] = { "sh", "-c", param, NULL, };
+-			execvp(cmd[0], cmd);
++			char *const cmd[] = { param, NULL, };
++			execv(cmd[0], cmd);
+ 			swayidle_log_errno(LOG_ERROR, "execve failed!");
+ 			exit(1);
+ 		} else if (pid < 0) {

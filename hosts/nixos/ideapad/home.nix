@@ -34,7 +34,6 @@
 
     sessionVariables = {
       SCREENSHOT_DIR = "${config.home.homeDirectory}/me/screenshots";
-      LOCK_CMD = "swaylock -f -c 000000";
     };
   };
 

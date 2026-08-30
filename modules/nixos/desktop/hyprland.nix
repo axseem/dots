@@ -8,10 +8,8 @@
 
   environment.systemPackages = with pkgs; [
     # Wayland utilities
-    swaynotificationcenter
     way-displays
     swaylock
-    swayidle
   ];
 
   security.pam.services.swaylock = {};

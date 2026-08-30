@@ -1,22 +1,12 @@
 local terminal = "foot"
 local fileManager = "nautilus"
-local menu = os.getenv("HOME") .. "/.config/rofi/scripts/launcher.sh"
+local menu = "rofi -show combi"
 local emoji = "rofi -show emoji"
+local actions = os.getenv("HOME") .. "/.config/rofi/scripts/actions.lua"
 local mainMod = "SUPER"
 
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
-local lock = os.getenv("LOCK_CMD") or "swaylock -f"
-
-hl.on("hyprland.start", function()
-    hl.exec_cmd("swaync")
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    hl.exec_cmd(string.format(
-        "swayidle -w timeout 180 '%s' timeout 240 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep '%s'",
-        lock,
-        lock
-    ))
-end)
+local lock = "swaylock -f"
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
@@ -41,7 +31,7 @@ hl.config({
     },
 })
 
-hl.bind(mainMod .. " + O", hl.dsp.exec_cmd("grim -g \"$(slurp)\" ~/me/screenshots/$(date +'%s_scrnsht.png')"))
+hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(actions .. " --worker screenshot-area"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd(emoji))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))

@@ -1,5 +1,6 @@
 configuration {
-    modes: "drun,calc,emoji";
+    modes: "combi,drun,calc,actions";
+    combi-modes: "drun,actions,calc";
     show-icons: true;
     icon-theme: "Adwaita";
 
@@ -24,7 +25,9 @@ configuration {
         terse: true;
         hint-result: "";
         hint-welcome: "";
-        calc-command: "printf '%s' '{result}' | wl-copy";
+        // Locally patched rofi-calc executes this directly and passes the
+        // result as one argument after `--`; upstream uses /bin/sh -c.
+        calc-command: "wl-copy";
     }
 }
 
