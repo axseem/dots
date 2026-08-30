@@ -18,14 +18,17 @@
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "w- /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode - - - - 1"
+  ];
+
   systemd.services.ideapad-conservation = {
     description = "Enable IdeaPad battery conservation mode";
     wantedBy = ["multi-user.target"];
     serviceConfig = {
       Type = "oneshot";
-      # systemd does not support redirection in ExecStart; the glob must also
-      # be expanded by the shell.
-      ExecStart = "${pkgs.bash}/bin/bash -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode'";
+      # Run after boot-time tmpfiles in case ideapad_acpi appeared later.
+      ExecStart = "${pkgs.systemd}/bin/systemd-tmpfiles --create --prefix=/sys/bus/platform/drivers/ideapad_acpi";
     };
   };
 
