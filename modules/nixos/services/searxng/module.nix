@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.services.searxng-local;
+  lua = import ../../../../nix/lua.nix {inherit pkgs;};
 in {
   imports = [../lazy-socket/module.nix];
 
@@ -23,13 +24,9 @@ in {
         RemainAfterExit = true;
         StateDirectory = "searx-secret";
         StateDirectoryMode = "0700";
+        UMask = "0077";
+        ExecStart = "${lua.interpreter} ${./secret.lua} /var/lib/searx-secret/env";
       };
-      script = ''
-        if [ ! -s /var/lib/searx-secret/env ]; then
-          umask 077
-          echo "SEARX_SECRET_KEY=$(${pkgs.openssl}/bin/openssl rand -hex 32)" > /var/lib/searx-secret/env
-        fi
-      '';
     };
 
     # searx-init envsubsts settings.yml, so it must wait for the secret.
