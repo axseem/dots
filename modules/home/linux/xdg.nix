@@ -1,8 +1,6 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: let
+  lua = import ../../../nix/lua.nix {inherit pkgs;};
+in {
   xdg.configFile = {
     "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
     "foot".source = ../../../config/foot;
@@ -31,15 +29,21 @@
     mimeType = ["text/plain" "text/markdown"];
   };
 
-  # MIME defaults do not support wildcards, so register Neovim for every
-  # standard text MIME type individually while preserving unrelated defaults.
-  home.activation.neovimTextMimeTypes = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    while IFS= read -r mimeType; do
-      case "$mimeType" in
-        text/*)
-          $DRY_RUN_CMD ${pkgs.xdg-utils}/bin/xdg-mime default neovim-terminal.desktop "$mimeType"
-          ;;
-      esac
-    done < ${pkgs.shared-mime-info}/share/mime/types
-  '';
+  # MIME defaults do not support wildcards. A oneshot updates every standard
+  # text type while preserving unrelated defaults in mimeapps.list.
+  systemd.user.services.neovim-text-mime-types = {
+    Unit = {
+      Description = "Set Neovim as the default text MIME handler";
+      X-Restart-Triggers = [
+        "${pkgs.shared-mime-info}/share/mime/types"
+        "${./text-mime-types.lua}"
+      ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${lua.interpreter} ${./text-mime-types.lua} ${pkgs.shared-mime-info}/share/mime/types neovim-terminal.desktop ${pkgs.xdg-utils}/bin/xdg-mime";
+      RemainAfterExit = true;
+    };
+    Install.WantedBy = ["default.target"];
+  };
 }
