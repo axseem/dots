@@ -82,8 +82,8 @@ in {
 
     systemd = foldAttrs (acc: x: acc // x) {} (mapAttrsToList (name: opts: let
         proxyService = "lazy-socket-${name}";
-        # 2 retries per second × startupWaitSeconds = total poll count
-        pollCount = opts.startupWaitSeconds * 2;
+        # One retry per second; retry-max-time remains the hard deadline.
+        pollCount = opts.startupWaitSeconds;
       in {
         sockets."${proxyService}" = {
           wantedBy = ["sockets.target"];
@@ -95,20 +95,10 @@ in {
           requires = ["${opts.service}.service"];
           after = ["${opts.service}.service"];
 
-          # Block the proxy until the upstream is actually accepting
-          # connections. Hard cap on iterations to avoid infinite waits
-          # if the service fails to start.
-          preStart = ''
-            for i in $(seq 1 ${toString pollCount}); do
-              ${pkgs.curl}/bin/curl -sf \
-                http://${opts.bindAddress}:${toString opts.internalPort}${opts.healthCheckPath} \
-                -o /dev/null 2>/dev/null && break
-              sleep 0.5
-            done
-          '';
-
           serviceConfig =
             {
+              # Block until the upstream accepts requests, with a hard cap.
+              ExecStartPre = "${pkgs.curl}/bin/curl --fail --silent --show-error --output /dev/null --retry ${toString pollCount} --retry-all-errors --retry-delay 1 --retry-max-time ${toString opts.startupWaitSeconds} http://${opts.bindAddress}:${toString opts.internalPort}${opts.healthCheckPath}";
               ExecStart = "${config.systemd.package}/lib/systemd/systemd-socket-proxyd ${opts.bindAddress}:${toString opts.internalPort}";
               # The proxy needs no privileges: it accepts via the socket fd
               # and connects to the loopback upstream only.
