@@ -40,7 +40,6 @@ in {
       lsnixScript = ../config/scripts/lsnix.lua;
       mimeScript = ../modules/home/linux/text-mime-types.lua;
       secretScript = ../modules/nixos/services/searxng/secret.lua;
-      firewallScript = ../config/scripts/ssh-lan-firewall.lua;
       swayidleScript = ../config/scripts/swayidle-command.lua;
     };
     rofi-automation = builtins.derivation {

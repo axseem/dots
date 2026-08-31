@@ -1,14 +1,11 @@
 {
   lib,
-  pkgs,
   username,
   ...
 }: let
-  lua = import ../../../nix/lua.nix {inherit pkgs;};
   lanInterface = "wlp99s0";
   lanSubnet = "10.0.0.0/24";
   sshPort = 22;
-  firewallCommand = mode: "${lua.interpreter} ${../../../config/scripts/ssh-lan-firewall.lua} ${mode} ${pkgs.iptables}/bin/iptables ${lanInterface} ${lanSubnet} ${toString sshPort}";
 in {
   # TODO(ssh-lan): Gate this service/rule on the trusted home NetworkManager
   # profile. Interface plus subnet do not distinguish home Wi-Fi from another
@@ -52,23 +49,15 @@ in {
   ];
 
   # Do not use allowedTCPPorts here: that would expose SSH to every IPv4 and
-  # IPv6 source. This oneshot applies the same source-restricted rule after the
-  # NixOS firewall and removes it before the firewall stops.
-  systemd.services = {
-    firewall.serviceConfig.ExecReload = lib.mkAfter [(firewallCommand "apply")];
-    ssh-lan-firewall = {
-      description = "Restrict SSH to the trusted LAN subnet";
-      wantedBy = ["multi-user.target"];
-      requires = ["firewall.service"];
-      after = ["firewall.service"];
-      before = ["sshd.service"];
-      partOf = ["firewall.service"];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        ExecStart = firewallCommand "apply";
-        ExecStop = firewallCommand "remove";
-      };
+  # IPv6 source. The nftables firewall owns this source-restricted rule and
+  # applies it atomically with the rest of its generated ruleset.
+  networking = {
+    nftables.enable = true;
+    firewall = {
+      backend = "nftables";
+      extraInputRules = ''
+        iifname "${lanInterface}" ip saddr ${lanSubnet} tcp dport ${toString sshPort} accept comment "Allow SSH from trusted LAN"
+      '';
     };
   };
 }

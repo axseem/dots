@@ -64,7 +64,6 @@ for _, variable in ipairs({
     "actionsScript",
     "bluetoothScript",
     "formatterScript",
-    "firewallScript",
     "lsnixScript",
     "mimeScript",
     "secretScript",
@@ -135,55 +134,6 @@ assert(#secret == 82)
 assert(bit.band(assert(stat.stat(secret_path)).st_mode, tonumber("777", 8)) == tonumber("600", 8))
 assert(process.run({ command("luaCommand"), assert(os.getenv("secretScript")), secret_path }) == 0)
 assert(read_file(secret_path) == secret)
-
-local firewall_state = root .. "/firewall-state"
-local firewall_log = root .. "/firewall-log"
-local iptables = root .. "/iptables.lua"
-write_file(firewall_log, "")
-write_file(iptables, [[#!/usr/bin/env lua
-local operation
-for _, value in ipairs(arg) do
-    if value == "-C" or value == "-I" or value == "-D" then operation = value end
-end
-local state = assert(os.getenv("firewallState"))
-if operation == "-C" then
-    local file = io.open(state, "rb")
-    if file then file:close(); os.exit(0) end
-    os.exit(1)
-end
-local log = assert(io.open(assert(os.getenv("firewallLog")), "ab"))
-assert(log:write(operation, "\n", table.concat(arg, "\n"), "\n"))
-assert(log:close())
-if operation == "-I" then
-    local file = assert(io.open(state, "wb")); assert(file:write("active")); assert(file:close())
-elseif operation == "-D" then
-    assert(os.remove(state))
-end
-]])
-assert(stat.chmod(iptables, tonumber("700", 8)))
-assert(stdlib.setenv("firewallState", firewall_state, true))
-assert(stdlib.setenv("firewallLog", firewall_log, true))
-local firewall_command = {
-    command("luaCommand"),
-    assert(os.getenv("firewallScript")),
-    "apply",
-    iptables,
-    "wlan0",
-    "10.0.0.0/24",
-    "22",
-}
-assert(process.run(firewall_command) == 0)
-assert(process.run(firewall_command) == 0)
-firewall_command[3] = "remove"
-assert(process.run(firewall_command) == 0)
-assert(process.run(firewall_command) == 0)
-local firewall_actions = read_file(firewall_log)
-assert(firewall_actions:find("^-I\n"))
-assert(firewall_actions:find("\n-D\n%-w\n%-D\n"))
-local _, action_count = firewall_actions:gsub("\n%-w\n", "")
-assert(action_count == 2)
-assert(firewall_actions:find("-I\nnixos-fw\n1\n", 1, true))
-assert(firewall_actions:find("wlan0\n-s\n10.0.0.0/24\n", 1, true))
 
 local output = assert(io.open(assert(os.getenv("out")), "wb"))
 assert(output:write("ok\n"))
