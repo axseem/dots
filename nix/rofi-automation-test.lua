@@ -51,6 +51,9 @@ local function mock_command(name, argv)
     elseif name == "rofi" then
         if argv[1] == "-show" then
             append_log(name, argv)
+            if argv[2] == "calc" then
+                io.stdout:write("42\n")
+            end
         else
             write_file(menu_input, io.stdin:read("*a"))
             if os.getenv("MOCK_MENU") == "clipboard" then
@@ -147,6 +150,7 @@ for _, expected in ipairs({
     "Bluetooth settings",
     "Audio settings",
     "Clipboard history",
+    "Calculator",
     "Browse files",
     "Emoji picker",
     "Screenshot area",
@@ -186,6 +190,12 @@ assert(stdlib.setenv("MOCK_MENU", "clipboard", true))
 result = process.capture({ lua, actions, "--worker", "clipboard" })
 assert(result.code == 0)
 assert(read_file(clipboard_output) == "decoded\0clipboard")
+
+-- Upstream rofi-calc prints an accepted result; the worker copies it without
+-- configuring rofi-calc with a shell command.
+result = process.capture({ lua, actions, "--worker", "calculator" })
+assert(result.code == 0)
+assert(read_file(clipboard_output) == "42")
 
 -- Real busctl get-property output is an unlabeled typed value per invocation.
 result = process.capture({ lua, bluetooth })

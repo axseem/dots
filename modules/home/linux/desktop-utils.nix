@@ -4,20 +4,6 @@
   ...
 }: let
   lua = import ../../../nix/lua.nix {inherit pkgs;};
-  rofi-combi-calc = pkgs.rofi-unwrapped.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [./rofi-combi-calc.patch];
-  });
-
-  # rofi-calc normally renders its live result in a message widget. Rofi's
-  # combi mode does not forward mode messages, so expose the result as a row.
-  rofi-calc-combi = pkgs.rofi-calc.overrideAttrs (old: {
-    patches =
-      (old.patches or [])
-      ++ [
-        ./rofi-calc-combi.patch
-        ./rofi-calc-direct-command.patch
-      ];
-  });
   swayidle = pkgs.swayidle.overrideAttrs (old: {
     patches = (old.patches or []) ++ [./swayidle-direct-command.patch];
   });
@@ -105,10 +91,7 @@ in {
     wl-clipboard
 
     # System / Desktop Integration
-    (rofi.override {
-      rofi-unwrapped = rofi-combi-calc;
-      plugins = [rofi-emoji rofi-calc-combi];
-    })
+    (rofi.override {plugins = [rofi-emoji rofi-calc];})
     cliphist
     networkmanager_dmenu
     pavucontrol

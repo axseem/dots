@@ -119,6 +119,19 @@ local function clipboard()
 end
 
 
+local function calculator()
+    local result = process.capture({ "rofi", "-show", "calc" })
+    if result.code ~= 0 then
+        return result.code
+    end
+    local value = result.out:gsub("[\r\n]+$", "")
+    if value == "" then
+        return 0
+    end
+    return process.feed({ "wl-copy" }, value)
+end
+
+
 local function worker(action)
     process.run({ "sleep", "0.15" }, { stderr = "discard" })
 
@@ -134,6 +147,8 @@ local function worker(action)
         return process.run({ "rofi", "-show", "emoji" })
     elseif action == "clipboard" then
         return clipboard()
+    elseif action == "calculator" then
+        return calculator()
     elseif action == "screenshot-area" then
         return screenshot(true)
     elseif action == "screenshot-full" then
@@ -178,6 +193,7 @@ local function print_rows()
     row("Bluetooth settings", "bluetooth-symbolic", "bluetooth", "devices connect headphones")
     row("Audio settings", "audio-volume-high-symbolic", "audio", "sound volume microphone")
     row("Clipboard history", "edit-paste-symbolic", "clipboard", "copy paste cliphist")
+    row("Calculator", "accessories-calculator", "calculator", "math arithmetic qalc")
     row("Browse files", "folder-symbolic", "files", "file manager nautilus folders")
     row("Emoji picker", "face-smile-symbolic", "emoji", "symbols characters")
     row("Screenshot area", "camera-photo-symbolic", "screenshot-area", "capture selection snip")
@@ -199,6 +215,7 @@ local direct_actions = {
     ["Bluetooth settings"] = "bluetooth",
     ["Audio settings"] = "audio",
     ["Clipboard history"] = "clipboard",
+    ["Calculator"] = "calculator",
     ["Browse files"] = "files",
     ["Emoji picker"] = "emoji",
     ["Screenshot area"] = "screenshot-area",
