@@ -4,9 +4,6 @@
   ...
 }: let
   lua = import ../../../nix/lua.nix {inherit pkgs;};
-  swayidle = pkgs.swayidle.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [./swayidle-direct-command.patch];
-  });
   idleCommand = pkgs.writeTextFile {
     name = "swayidle-command";
     destination = "/libexec/swayidle-command.lua";
@@ -32,7 +29,7 @@ in {
     swaync.enable = true;
     swayidle = {
       enable = true;
-      package = swayidle;
+      package = pkgs.swayidle;
       events.before-sleep = "${idleCommands}/bin/swayidle-lock";
       timeouts = [
         {
