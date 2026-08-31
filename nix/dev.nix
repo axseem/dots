@@ -9,15 +9,22 @@
       alejandra.enable = true;
     };
   };
-  formatter =
-    pkgs.runCommand "alejandra" {
-      nativeBuildInputs = [pkgs.makeBinaryWrapper];
-    } ''
-      mkdir -p "$out/bin"
-      makeBinaryWrapper ${lua.interpreter} "$out/bin/alejandra" \
-        --add-flags ${./formatter.lua} \
-        --set ALEJANDRA ${pkgs.alejandra}/bin/alejandra
-    '';
+  formatterSource = pkgs.writeTextFile {
+    name = "alejandra-source";
+    destination = "/libexec/formatter.lua";
+    executable = true;
+    text =
+      builtins.replaceStrings
+      ["#!/usr/bin/env lua" "@alejandra@"]
+      ["#!${lua.interpreter}" "${pkgs.alejandra}/bin/alejandra"]
+      (builtins.readFile ./formatter.lua);
+  };
+  formatter = pkgs.linkFarm "alejandra" [
+    {
+      name = "bin/alejandra";
+      path = "${formatterSource}/libexec/formatter.lua";
+    }
+  ];
 in {
   inherit formatter;
 
