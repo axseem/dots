@@ -10,7 +10,7 @@
       trusted-users =
         ["root"]
         ++ (
-          if pkgs.stdenv.isDarwin
+          if pkgs.stdenv.hostPlatform.isDarwin
           then ["@admin"]
           else ["@wheel"]
         );
@@ -24,7 +24,7 @@
       {
         automatic = true;
       }
-      // lib.optionalAttrs (!pkgs.stdenv.isDarwin) {
+      // lib.optionalAttrs (!pkgs.stdenv.hostPlatform.isDarwin) {
         dates = "weekly";
         options = "--delete-older-than 14d";
       };

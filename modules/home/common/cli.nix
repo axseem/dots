@@ -120,7 +120,6 @@ in {
     parallel
     glow
     github-copilot-cli
-    gemini-cli
     codex
     bun
 
