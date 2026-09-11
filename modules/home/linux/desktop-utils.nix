@@ -60,7 +60,6 @@ in {
     nautilus
 
     # Utilities
-    qalculate-gtk
     libqalculate
     brightnessctl
     playerctl
