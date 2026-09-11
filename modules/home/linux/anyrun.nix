@@ -54,6 +54,16 @@
           prefix: "",
         )
       '';
+
+      # Symbols only match after the prefix; without one an empty query
+      # returns the first few entries (SPACE, EXCLAMATION MARK, ...).
+      "symbols.ron".text = ''
+        Config(
+          prefix: ".",
+          symbols: {},
+          max_entries: 8,
+        )
+      '';
     };
 
     extraCss = ''
@@ -78,17 +88,19 @@
       text {
         min-height: 0;
         margin: 0;
-        padding: 12px 16px;
+        padding: 8px 12px;
         border: 0;
         border-bottom: 1px solid @accent;
         border-radius: 0;
         background-color: @bg-color;
         color: @fg-color;
         caret-color: @fg-color;
+        font-family: "Inter";
+        font-size: 11pt;
       }
 
       .matches {
-        padding: 4px;
+        padding: 2px;
         border-radius: 0;
         background-color: @bg-color;
       }
@@ -103,25 +115,30 @@
 
       .match {
         min-height: 0;
-        padding: 6px 10px;
         border: 0;
         border-radius: 0;
         background: transparent;
-        color: @fg-color;
+      }
+
+      row.match {
+        padding: 3px 8px;
+      }
+
+      box.match {
+        padding: 0;
       }
 
       label.match.title {
+        font-size: 11pt;
         color: @fg-color;
       }
 
       label.match.description {
-        font-size: 10px;
+        font-size: 9pt;
         color: @muted-color;
       }
 
       .match:selected {
-        border: 0;
-        border-left: 0;
         background-color: @fg-color;
       }
 
