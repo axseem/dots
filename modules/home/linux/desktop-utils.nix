@@ -4,6 +4,18 @@
   ...
 }: let
   idleCommands = pkgs.axseem.swayidle-commands;
+  cliphistWatcher = kind: {
+    Unit = {
+      Description = "Watch ${kind} clipboard history";
+      PartOf = ["graphical-session.target"];
+      After = ["graphical-session.target"];
+    };
+    Service = {
+      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type ${kind} --watch ${pkgs.cliphist}/bin/cliphist store";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = ["graphical-session.target"];
+  };
 in {
   services = {
     swaync.enable = true;
@@ -28,30 +40,8 @@ in {
     swayidle.Service.Environment = lib.mkForce [
       "PATH=${lib.makeBinPath [pkgs.axseem.lua.runtime pkgs.swaylock pkgs.hyprland]}"
     ];
-    cliphist-text = {
-      Unit = {
-        Description = "Watch text clipboard history";
-        PartOf = ["graphical-session.target"];
-        After = ["graphical-session.target"];
-      };
-      Service = {
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store";
-        Restart = "on-failure";
-      };
-      Install.WantedBy = ["graphical-session.target"];
-    };
-    cliphist-image = {
-      Unit = {
-        Description = "Watch image clipboard history";
-        PartOf = ["graphical-session.target"];
-        After = ["graphical-session.target"];
-      };
-      Service = {
-        ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
-        Restart = "on-failure";
-      };
-      Install.WantedBy = ["graphical-session.target"];
-    };
+    cliphist-text = cliphistWatcher "text";
+    cliphist-image = cliphistWatcher "image";
   };
 
   home.packages = with pkgs; [
