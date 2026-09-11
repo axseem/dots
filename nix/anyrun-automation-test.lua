@@ -37,41 +37,38 @@ local function run(argv)
     return process.run(argv, {stderr = "discard"})
 end
 
+-- Run argv against a fresh log and the given queued selections.
+local function pick(argv, selection)
+    reset()
+    write_file(selections, selection or "")
+    return run(argv)
+end
+
 -- Worker actions run their commands.
-reset()
-assert(run({actions, "--worker", "lock"}) == 0)
+assert(pick({actions, "--worker", "lock"}) == 0)
 assert(read_file(command_log):find("swaylock\n%-f\n"))
 
 -- Screenshots are written and copied.
-reset()
-assert(run({actions, "--worker", "screenshot-full"}) == 0)
+assert(pick({actions, "--worker", "screenshot-full"}) == 0)
 assert(read_file(clipboard_output) == "\137PNG\0fixture")
 assert(stat.stat(root .. "/2026-08-30_12-00-00.png"))
 
 -- Clipboard history decodes the selected entry.
-reset()
-write_file(selections, "1\tfixture\n")
-assert(run({clipboard}) == 0)
+assert(pick({clipboard}, "1\tfixture\n") == 0)
 assert(read_file(clipboard_output) == "decoded\0clipboard")
 
 -- Emoji picker copies the glyph of the selected row.
-reset()
 local emoji_data = read_file(assert(os.getenv("emojiData")))
 local first_line = emoji_data:match("^([^\n]*)")
-write_file(selections, first_line .. "\n")
-assert(run({emoji}) == 0)
+assert(pick({emoji}, first_line .. "\n") == 0)
 assert(read_file(clipboard_output) == first_line:match("^(%S+)"))
 
 -- Wi-Fi: open network connects directly.
-reset()
-write_file(selections, "OpenWifi (open)\n")
-assert(run({wifi}) == 0)
+assert(pick({wifi}, "OpenWifi (open)\n") == 0)
 assert(read_file(command_log):find("nmcli\ndevice\nwifi\nconnect\nOpenWifi\n", 1, true))
 
 -- Wi-Fi: secured network opens the interactive nmcli in a terminal.
-reset()
-write_file(selections, "HomeWifi (WPA2)\n")
-assert(run({wifi}) == 0)
+assert(pick({wifi}, "HomeWifi (WPA2)\n") == 0)
 local foot_logged = false
 for _ = 1, 40 do
     if read_file(command_log):find("foot\n%-e\n.-%-%-ask\ndevice\nwifi\nconnect\nHomeWifi\n") then
@@ -83,14 +80,11 @@ end
 assert(foot_logged, "foot did not open for a secured network")
 
 -- Wi-Fi: saved connection is brought up by name.
-reset()
-write_file(selections, "SavedNet (saved)\n")
-assert(run({wifi}) == 0)
+assert(pick({wifi}, "SavedNet (saved)\n") == 0)
 assert(read_file(command_log):find("nmcli\nconnection\nup\nid\nSavedNet\n", 1, true))
 
 -- Wi-Fi menu offers the radio toggle and the interactive fallback.
-reset()
-assert(run({wifi}) == 0)
+assert(pick({wifi}) == 0)
 local menu = read_file(menu_input)
 assert(menu:find("Turn Wi-Fi off", 1, true))
 assert(menu:find("Open network settings", 1, true))
