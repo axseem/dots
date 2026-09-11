@@ -18,6 +18,7 @@ with lib; let
   # socket on the same bind address — that would silently route traffic
   # to the wrong backend.
   hasConflict = set: length set != length (lists.unique set);
+  crossConflict = builtins.filter (socket: builtins.elem socket internalSockets) publicSockets;
 in {
   options.services.lazy-socket = mkOption {
     type = types.attrsOf (types.submodule {
@@ -77,6 +78,10 @@ in {
       {
         assertion = !(hasConflict internalSockets);
         message = "lazy-socket: internalPort+bindAddress must be unique across services. Got: ${concatStringsSep ", " internalSockets}";
+      }
+      {
+        assertion = crossConflict == [];
+        message = "lazy-socket: publicPort+bindAddress must not collide with an internalPort+bindAddress. Got: ${concatStringsSep ", " crossConflict}";
       }
     ];
 
