@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 
+-- Query the local SearXNG instance. The first request may wait up to 60s
+-- while the lazy socket starts the service.
 local process = require("axseem.process")
 
 local curl = "@curl@"
@@ -53,27 +55,20 @@ local function number_argument(flag)
     return value
 end
 
-local function resolve_time(input)
-    local valid = {
-        day = "day",
-        d = "day",
-        ["1d"] = "day",
-        week = "week",
-        w = "week",
-        ["1w"] = "week",
-        month = "month",
-        m = "month",
-        ["1m"] = "month",
-        year = "year",
-        y = "year",
-        ["1y"] = "year",
-    }
-    local value = valid[input:lower()]
-    if value == nil then
-        fatal(("Error: invalid -t value %q (expected: d/day, w/week, m/month, y/year)"):format(input))
-    end
-    return value
-end
+local time_ranges = {
+    d = "day",
+    day = "day",
+    ["1d"] = "day",
+    w = "week",
+    week = "week",
+    ["1w"] = "week",
+    m = "month",
+    month = "month",
+    ["1m"] = "month",
+    y = "year",
+    year = "year",
+    ["1y"] = "year",
+}
 
 while index <= #arg do
     local flag = arg[index]
@@ -82,7 +77,11 @@ while index <= #arg do
     elseif flag == "-c" then
         options.categories = argument(flag)
     elseif flag == "-t" then
-        options.time_range = resolve_time(argument(flag))
+        local value = argument(flag):lower()
+        options.time_range = time_ranges[value]
+        if options.time_range == nil then
+            fatal(("Error: invalid -t value %q (expected: d/day, w/week, m/month, y/year)"):format(value))
+        end
     elseif flag == "-l" then
         options.language = argument(flag)
     elseif flag == "-e" then
@@ -109,30 +108,8 @@ if #query == 0 then
     os.exit(1)
 end
 
-local function urlencode(value)
-    return (value:gsub("([^%w%-%_%.%~])", function(char)
-        return string.format("%%%02X", char:byte())
-    end))
-end
-
-local params = {
-    {"q", table.concat(query, " ")},
-    {"format", "json"},
-    {"pageno", tostring(options.page)},
-    {"categories", options.categories or ""},
-    {"time_range", options.time_range or ""},
-    {"language", options.language or ""},
-    {"engines", options.engines or ""},
-}
-local encoded = {}
-for _, param in ipairs(params) do
-    if param[2] ~= "" then
-        encoded[#encoded + 1] = urlencode(param[1]) .. "=" .. urlencode(param[2])
-    end
-end
-
--- Retry every second until the lazy Socket starts SearXNG, capped at 60s.
-local response = process.capture({
+-- `curl --get --data-urlencode` builds and encodes the query string.
+local request = {
     curl,
     "--fail",
     "--silent",
@@ -143,8 +120,26 @@ local response = process.capture({
     "--retry-connrefused",
     "--retry-all-errors",
     "--max-time", "5",
-    base_url .. "?" .. table.concat(encoded, "&"),
-})
+    "--get",
+    base_url,
+}
+local parameters = {
+    {"q", table.concat(query, " ")},
+    {"format", "json"},
+    {"pageno", tostring(options.page)},
+    {"categories", options.categories},
+    {"time_range", options.time_range},
+    {"language", options.language},
+    {"engines", options.engines},
+}
+for _, parameter in ipairs(parameters) do
+    if parameter[2] and parameter[2] ~= "" then
+        request[#request + 1] = "--data-urlencode"
+        request[#request + 1] = parameter[1] .. "=" .. parameter[2]
+    end
+end
+
+local response = process.capture(request)
 if response.code ~= 0 or response.out == "" then
     fatal("Error: SearXNG not responding")
 end
