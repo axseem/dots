@@ -107,7 +107,7 @@ end
 
 local function worker(action)
     if action == "wifi" then
-        return process.exec({networkmanager_dmenu, "-no-auto-select"})
+        return process.exec({networkmanager_dmenu})
     elseif action == "bluetooth" then
         return process.exec({bluetooth})
     elseif action == "audio" then

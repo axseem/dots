@@ -65,7 +65,7 @@ assert(menu:find("Screenshot full screen", 1, true))
 -- Worker actions invoke their tools.
 reset()
 assert(run({actions, "--worker", "wifi"}) == 0)
-assert(read_file(command_log):find("networkmanager_dmenu\n%-no%-auto%-select\n"))
+assert(read_file(command_log):find("networkmanager_dmenu\n$"))
 
 -- Calculator evaluates and copies the result.
 reset()
@@ -138,7 +138,7 @@ for _ = 1, 40 do
     process.run({sleep_command, "0.1"})
 end
 assert(dispatched, "launcher did not dispatch the action")
-assert(read_file(command_log):find("networkmanager_dmenu\n%-no%-auto%-select\n"))
+assert(read_file(command_log):find("networkmanager_dmenu\n$"))
 
 local output = assert(io.open(assert(os.getenv("out")), "wb"))
 assert(output:write("ok\n"))
