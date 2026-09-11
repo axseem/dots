@@ -9,15 +9,24 @@
       alejandra.enable = true;
     };
   };
-  formatterSource = pkgs.writeTextFile {
-    name = "alejandra-source";
-    destination = "/libexec/formatter.lua";
-    executable = true;
-    text =
-      builtins.replaceStrings
-      ["#!/usr/bin/env lua" "@alejandra@"]
-      ["#!${lua.interpreter}" "${pkgs.alejandra}/bin/alejandra"]
-      (builtins.readFile ./formatter.lua);
+  # Repo Lua files use `#!/usr/bin/env lua`; patch the shebang to the runtime
+  # interpreter so they run without lua on PATH.
+  luaExecutable = source:
+    pkgs.replaceVarsWith {
+      src = source;
+      replacements = {};
+      dir = "libexec";
+      isExecutable = true;
+      nativeBuildInputs = [lua.runtime];
+      postBuild = "patchShebangs $out/libexec/${baseNameOf source}";
+    };
+  formatterSource = pkgs.replaceVarsWith {
+    src = ./formatter.lua;
+    replacements.alejandra = "${pkgs.alejandra}/bin/alejandra";
+    dir = "libexec";
+    isExecutable = true;
+    nativeBuildInputs = [lua.runtime];
+    postBuild = "patchShebangs $out/libexec/formatter.lua";
   };
   formatter = pkgs.linkFarm "alejandra" [
     {
@@ -44,6 +53,8 @@ in {
       actionsScript = ../config/rofi/scripts/actions.lua;
       bluetoothScript = ../config/rofi/scripts/bluetooth.lua;
       formatterScript = ./formatter.lua;
+      formatterMock = "${luaExecutable ./test-mocks/alejandra.lua}/libexec/alejandra.lua";
+      mimeMock = "${luaExecutable ./test-mocks/xdg-mime.lua}/libexec/xdg-mime.lua";
       lsnixScript = ../config/scripts/lsnix.lua;
       mimeScript = ../modules/home/linux/text-mime-types.lua;
       secretScript = ../modules/nixos/services/searxng/secret.lua;
@@ -57,6 +68,7 @@ in {
       lnCommand = "${pkgs.coreutils}/bin/ln";
       luaCommand = lua.interpreter;
       runtimeBin = "${lua.runtime}/bin";
+      rofiMock = "${luaExecutable ./test-mocks/rofi.lua}/libexec/rofi.lua";
       rofiScripts = ../config/rofi/scripts;
     };
   };

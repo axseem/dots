@@ -104,15 +104,7 @@ assert(stat.mkdir(root, tonumber("700", 8)))
 assert(stat.mkdir(mocks, tonumber("700", 8)))
 write_file(command_log, "")
 
-local mock_source = [[#!/usr/bin/env lua
-local process = require("axseem.process")
-local argv = { assert(os.getenv("luaCommand")), assert(os.getenv("testFile")), "mock", arg[0]:match("([^/]+)$") }
-for index = 1, #arg do argv[#argv + 1] = arg[index] end
-process.exec(argv)
-]]
-local mock_path = mocks .. "/mock.lua"
-write_file(mock_path, mock_source)
-assert(stat.chmod(mock_path, tonumber("700", 8)))
+local mock_path = assert(os.getenv("rofiMock"))
 
 for _, name in ipairs({
     "bluetoothctl",

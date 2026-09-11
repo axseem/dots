@@ -92,11 +92,7 @@ local root = assert(os.getenv("TMPDIR")) .. "/managed-automation"
 assert(stat.mkdir(root, tonumber("700", 8)))
 local formatter_log = root .. "/formatter-log"
 local alejandra = root .. "/alejandra.lua"
-write_file(alejandra, [[#!/usr/bin/env lua
-local file = assert(io.open(assert(os.getenv("formatterLog")), "wb"))
-for index = 1, #arg do assert(file:write(arg[index], "\n")) end
-assert(file:close())
-]])
+write_file(alejandra, read_file(command("formatterMock")))
 assert(stat.chmod(alejandra, tonumber("700", 8)))
 assert(stdlib.setenv("formatterLog", formatter_log, true))
 assert(stdlib.setenv("ALEJANDRA", alejandra, true))
@@ -109,11 +105,7 @@ local mime_log = root .. "/mime-log"
 local xdg_mime = root .. "/xdg-mime.lua"
 write_file(mime_types, "text/plain\nimage/png\ntext/markdown\n")
 write_file(mime_log, "")
-write_file(xdg_mime, [[#!/usr/bin/env lua
-local file = assert(io.open(assert(os.getenv("mimeLog")), "ab"))
-for index = 1, #arg do assert(file:write(arg[index], "\n")) end
-assert(file:close())
-]])
+write_file(xdg_mime, read_file(command("mimeMock")))
 assert(stat.chmod(xdg_mime, tonumber("700", 8)))
 assert(stdlib.setenv("mimeLog", mime_log, true))
 assert(stdlib.setenv("PATH", assert(os.getenv("runtimeBin")), true))
