@@ -77,32 +77,19 @@ in {
         # Mainstream engines (google, brave, duckduckgo, startpage, qwant, etc.)
         # come in via use_default_settings = true.
         # hash_plugin is already active by default -> content-hash dedup is on.
-        engines = [
-          {
-            name = "crossref";
+        engines =
+          map (name: {
+            inherit name;
             disabled = false;
-          } # academic metadata
-          {
-            name = "gitlab";
-            disabled = false;
-          } # code hosting
-          {
-            name = "npm";
-            disabled = false;
-          } # JS packages
-          {
-            name = "crates.io";
-            disabled = false;
-          } # Rust packages
-          {
-            name = "mojeek";
-            disabled = false;
-          } # independent web search
-          {
-            name = "nixos wiki";
-            disabled = false;
-          } # NixOS reference
-        ];
+          })
+          [
+            "crossref" # academic metadata
+            "gitlab" # code hosting
+            "npm" # JS packages
+            "crates.io" # Rust packages
+            "mojeek" # independent web search
+            "nixos wiki" # NixOS reference
+          ];
       };
     };
 
