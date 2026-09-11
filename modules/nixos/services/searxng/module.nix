@@ -6,7 +6,6 @@
 }:
 with lib; let
   cfg = config.services.searxng-local;
-  lua = import ../../../../nix/lua.nix {inherit pkgs;};
 in {
   options.services.searxng-local = {
     enable = mkEnableOption "Local SearXNG search engine with lazy socket activation";
@@ -23,7 +22,7 @@ in {
         StateDirectory = "searx-secret";
         StateDirectoryMode = "0700";
         UMask = "0077";
-        ExecStart = "${lua.interpreter} ${./secret.lua} /var/lib/searx-secret/env";
+        ExecStart = "${pkgs.axseem.lua.interpreter} ${./secret.lua} /var/lib/searx-secret/env";
       };
     };
 

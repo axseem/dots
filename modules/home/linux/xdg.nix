@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  lua = import ../../../nix/lua.nix {inherit pkgs;};
-in {
+{pkgs, ...}: {
   xdg.configFile = {
     "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
     "hypr/scripts/graphical-session.lua".source = ../../../config/hypr/scripts/graphical-session.lua;
@@ -67,7 +65,7 @@ in {
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${lua.interpreter} ${./text-mime-types.lua} ${pkgs.shared-mime-info}/share/mime/types neovim-terminal.desktop ${pkgs.xdg-utils}/bin/xdg-mime";
+      ExecStart = "${pkgs.axseem.lua.interpreter} ${./text-mime-types.lua} ${pkgs.shared-mime-info}/share/mime/types neovim-terminal.desktop ${pkgs.xdg-utils}/bin/xdg-mime";
       RemainAfterExit = true;
     };
     Install.WantedBy = ["default.target"];

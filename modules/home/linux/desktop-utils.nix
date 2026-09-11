@@ -3,33 +3,12 @@
   pkgs,
   ...
 }: let
-  lua = import ../../../nix/lua.nix {inherit pkgs;};
-  idleCommand = pkgs.writeTextFile {
-    name = "swayidle-command";
-    destination = "/libexec/swayidle-command.lua";
-    executable = true;
-    text = builtins.readFile ../../../config/scripts/swayidle-command.lua;
-  };
-  idleCommands = pkgs.linkFarm "swayidle-commands" [
-    {
-      name = "bin/swayidle-lock";
-      path = "${idleCommand}/libexec/swayidle-command.lua";
-    }
-    {
-      name = "bin/swayidle-displays-off";
-      path = "${idleCommand}/libexec/swayidle-command.lua";
-    }
-    {
-      name = "bin/swayidle-displays-on";
-      path = "${idleCommand}/libexec/swayidle-command.lua";
-    }
-  ];
+  idleCommands = pkgs.axseem.swayidle-commands;
 in {
   services = {
     swaync.enable = true;
     swayidle = {
       enable = true;
-      package = pkgs.swayidle;
       events.before-sleep = "${idleCommands}/bin/swayidle-lock";
       timeouts = [
         {
@@ -47,7 +26,7 @@ in {
 
   systemd.user.services = {
     swayidle.Service.Environment = lib.mkForce [
-      "PATH=${lib.makeBinPath [lua.runtime pkgs.swaylock pkgs.hyprland]}"
+      "PATH=${lib.makeBinPath [pkgs.axseem.lua.runtime pkgs.swaylock pkgs.hyprland]}"
     ];
     cliphist-text = {
       Unit = {

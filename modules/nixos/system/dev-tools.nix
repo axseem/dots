@@ -1,6 +1,4 @@
-{pkgs, ...}: let
-  lua = import ../../../nix/lua.nix {inherit pkgs;};
-in {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [
     android-tools
     clang
@@ -11,7 +9,6 @@ in {
     go
     zig
     zls
-    lua.runtime
     gotools
     delve
     air

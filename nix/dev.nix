@@ -2,7 +2,7 @@
   pkgs,
   inputs,
 }: let
-  lua = import ./lua.nix {inherit pkgs;};
+  lua = import ./lua {inherit pkgs;};
   pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.stdenv.hostPlatform.system}.run {
     src = ../.;
     hooks = {
@@ -55,10 +55,10 @@ in {
       formatterScript = ./formatter.lua;
       formatterMock = "${luaExecutable ./test-mocks/alejandra.lua}/libexec/alejandra.lua";
       mimeMock = "${luaExecutable ./test-mocks/xdg-mime.lua}/libexec/xdg-mime.lua";
-      lsnixScript = ../config/scripts/lsnix.lua;
+      lsnixScript = ../modules/home/common/lsnix.lua;
       mimeScript = ../modules/home/linux/text-mime-types.lua;
       secretScript = ../modules/nixos/services/searxng/secret.lua;
-      swayidleScript = ../config/scripts/swayidle-command.lua;
+      swayidleScript = ../modules/home/linux/swayidle-command.lua;
     };
     rofi-automation = builtins.derivation {
       name = "rofi-automation-test";
