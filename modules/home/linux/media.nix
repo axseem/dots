@@ -3,11 +3,9 @@
     # Viewers
     vlc
     mpv
-    eog
-    gthumb
+    imv
     cheese
     audacious
-    loupe
 
     # Editors/Creation
     gimp

@@ -1,0 +1,6 @@
+# Built-in binds stay active; add vim-style navigation. See imv(5).
+[binds]
+n = next
+<Shift+N> = prev
+<Ctrl+d> = pan 0 -500
+<Ctrl+u> = pan 0 500
