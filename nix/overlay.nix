@@ -9,7 +9,7 @@ final: _: let
     '';
 in {
   axseem =
-    import ./apps.nix {
+    import ./menu-apps.nix {
       inherit lua emojiData;
       anyrun = "${final.anyrun}/bin/anyrun";
       anyrunPlugin = "${final.anyrun}/lib/libstdin.so";

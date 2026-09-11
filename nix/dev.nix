@@ -37,7 +37,7 @@
     ];
   };
   testEmojiData = final.runCommand "test-emoji-data" {} "cp ${./test-mocks/emoji-data} $out";
-  testApps = import ./apps.nix {
+  testApps = import ./menu-apps.nix {
     inherit lua;
     anyrun = "${commandMock}/bin/anyrun";
     anyrunPlugin = "mock-plugin";
