@@ -9,7 +9,7 @@ Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); Gi
 - `hosts/`: Host-specific configurations
   - `darwin/`: macOS hosts (e.g., `macbook`)
   - `nixos/`: NixOS hosts (e.g., `ideapad`)
-- `modules/`: Reusable modules
+- `modules/`: Modules composed into the hosts; each host imports whole directories through `nix/import-tree.nix`
   - `common/`: Shared modules for both NixOS and Darwin (fonts, nix settings)
   - `darwin/`: macOS-specific modules (homebrew, system, dev-tools)
   - `nixos/`: NixOS-specific modules (desktop, hardware, security, services, system)
@@ -17,96 +17,15 @@ Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); Gi
     - `common/`: Cross-platform (cli, fish, git, tmux, vscodium)
     - `linux/`: Linux-specific (apps, media, ui, xdg)
 - `config/`: Dotfiles symlinked via Home Manager (fish, ghostty, hypr, rofi, etc.)
-- `nix/`: Devshell configuration
+- `nix/`: Devshell configuration and the module import helper
 
 ## Development
 
 Enter the repository environment explicitly with `nix develop`. The repository
 does not use `.envrc` because direnv evaluates that file with Bash.
 
-## Modules
-
-This configuration exposes several atomic modules that you can import into your own flake.
-
-### NixOS Modules (`nixosModules`)
-
-- **Common**: `nix`, `fonts`
-- **Desktop**: `hyprland`, `display-manager`
-- **Hardware**: `audio`, `bluetooth`, `graphics`, `power`
-- **System**: `boot`, `locale`, `networking`, `dev-tools`, `audio-production`
-- **Services**: `system-services`, `virtualization`, `searxng-local` (pulls in `lazy-socket` automatically), `lazy-socket`
-- **Security**: `hardening`
-
-### Darwin Modules (`darwinModules`)
-
-- **Common**: `nix`, `fonts`
-- **Darwin**: `homebrew`
-
-### Home Manager Modules (`homeManagerModules`)
-
-- **Common** (cross-platform):
-  - `fish`: Fish shell configuration
-  - `tmux`: Persistent terminal workspace with automatic Fish attachment
-  - `vscodium`: VSCodium configuration
-  - `git`: Git configuration
-  - `cli`: Command line tools
-  - `node`: Latest Node.js (nixpkgs default)
-- **Linux**:
-  - `ui`: GTK/QT theming
-  - `xdg-linux`: Linux XDG config file mappings
-  - `cli-linux`: Linux-specific CLI tools
-  - `media`: Media players and editors
-  - `apps`: GUI applications
-  - `desktop-utils`: Desktop utilities (file managers, rofi, etc.)
-
-## Usage
-
-You can use this flake as an input in your own configuration to import specific modules.
-
-### NixOS
-
-```nix
-{
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    axseem.url = "git+https://codeberg.org/axseem/dots";
-  };
-
-  outputs = { nixpkgs, axseem, ... }: {
-    nixosConfigurations.my-machine = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        axseem.nixosModules.hyprland
-        axseem.nixosModules.audio
-        ./configuration.nix
-      ];
-    };
-  };
-}
-```
-
-### macOS (nix-darwin)
-
-```nix
-{
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    axseem.url = "git+https://codeberg.org/axseem/dots";
-  };
-
-  outputs = { nixpkgs, nix-darwin, axseem, ... }: {
-    darwinConfigurations.my-mac = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        axseem.darwinModules.homebrew
-        axseem.darwinModules.fonts
-        ./configuration.nix
-      ];
-    };
-  };
-}
-```
+The flake publishes only the host configurations and dev tooling; the modules
+are internal and are not a reusable module API.
 
 ## Installation
 

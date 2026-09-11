@@ -57,50 +57,6 @@
     checks = forAllSystems (system: (devFor system).checks);
     devShells = forAllSystems (system: (devFor system).devShells);
 
-    nixosModules = {
-      nix = import ./modules/common/nix.nix;
-      # Modules that use `inputs` are wrapped so the flake's own inputs are
-      # captured in the closure; consumers need no undocumented specialArgs.
-      fonts = {pkgs, ...}: import ./modules/common/fonts.nix {inherit inputs pkgs;};
-      hyprland = import ./modules/nixos/desktop/hyprland.nix;
-      display-manager = import ./modules/nixos/desktop/display-manager.nix;
-      audio = import ./modules/nixos/hardware/audio.nix;
-      bluetooth = import ./modules/nixos/hardware/bluetooth.nix;
-      searxng-local = import ./modules/nixos/services/searxng/module.nix;
-      lazy-socket = import ./modules/nixos/services/lazy-socket/module.nix;
-      graphics = import ./modules/nixos/hardware/graphics.nix;
-      power = import ./modules/nixos/hardware/power.nix;
-      hardening = import ./modules/nixos/security/hardening.nix;
-      system-services = import ./modules/nixos/services/system.nix;
-      virtualization = import ./modules/nixos/services/virtualization.nix;
-      boot = {pkgs, ...}: import ./modules/nixos/system/boot.nix {inherit inputs pkgs;};
-      locale = import ./modules/nixos/system/locale.nix;
-      networking = import ./modules/nixos/system/networking.nix;
-      dev-tools = import ./modules/nixos/system/dev-tools.nix;
-      audio-production = import ./modules/nixos/system/audio-production.nix;
-    };
-
-    darwinModules = {
-      nix = import ./modules/common/nix.nix;
-      fonts = {pkgs, ...}: import ./modules/common/fonts.nix {inherit inputs pkgs;};
-      homebrew = import ./modules/darwin/homebrew.nix;
-    };
-
-    homeManagerModules = {
-      fish = import ./modules/home/common/fish;
-      tmux = import ./modules/home/common/tmux.nix;
-      vscodium = import ./modules/home/common/vscodium;
-      git = import ./modules/home/common/git.nix;
-      cli = {pkgs, ...}: import ./modules/home/common/cli.nix {inherit inputs pkgs;};
-      node = import ./modules/home/common/node.nix;
-      ui = import ./modules/home/linux/ui.nix;
-      xdg-linux = import ./modules/home/linux/xdg.nix;
-      cli-linux = import ./modules/home/linux/cli-linux.nix;
-      media = import ./modules/home/linux/media.nix;
-      apps = {pkgs, ...}: import ./modules/home/linux/apps.nix {inherit inputs pkgs;};
-      desktop-utils = import ./modules/home/linux/desktop-utils.nix;
-    };
-
     nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = {
