@@ -1,6 +1,5 @@
 result
 .direnv
-flake.lock.backup
 
 # Nebula secrets
 secrets/
