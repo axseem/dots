@@ -67,12 +67,17 @@
         background: transparent;
       }
 
+      box.main,
+      text,
+      .matches {
+        border-radius: 0;
+        background-color: @bg-color;
+      }
+
       box.main {
         padding: 0;
         margin: 0;
         border: 1px solid @accent;
-        border-radius: 0;
-        background-color: @bg-color;
         box-shadow: none;
       }
 
@@ -82,8 +87,6 @@
         padding: 8px 12px;
         border: 0;
         border-bottom: 1px solid @accent;
-        border-radius: 0;
-        background-color: @bg-color;
         color: @fg-color;
         caret-color: @fg-color;
         font-family: "Inter";
@@ -92,8 +95,6 @@
 
       .matches {
         padding: 2px;
-        border-radius: 0;
-        background-color: @bg-color;
       }
 
       box.plugin,
@@ -108,15 +109,12 @@
         min-height: 0;
         border: 0;
         border-radius: 0;
+        padding: 0;
         background: transparent;
       }
 
       row.match {
         padding: 3px 8px;
-      }
-
-      box.match {
-        padding: 0;
       }
 
       label.match.title {
