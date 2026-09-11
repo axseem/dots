@@ -1,8 +1,4 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [
-    gsettings-desktop-schemas
-  ];
-
   gtk = {
     enable = true;
     theme = {
@@ -17,8 +13,6 @@
       name = "Sans";
       size = 11;
     };
-    gtk3.extraConfig.Settings = "gtk-application-prefer-dark-theme=1";
-    gtk4.extraConfig.Settings = "gtk-application-prefer-dark-theme=1";
   };
 
   dconf = {
