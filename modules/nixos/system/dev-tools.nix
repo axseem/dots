@@ -18,14 +18,11 @@ in {
     cargo
     rustc
     rust-analyzer
-    postgresql
     pnpm
     uv
     ruff
     ty
     python3
-    python3Packages.pip
-    python3Packages.pipx
     iamb
   ];
 }
