@@ -29,6 +29,6 @@ in {
     cliphist
     networkmanager_dmenu
     pavucontrol
-    gcr
+    gcr_4
   ];
 }
