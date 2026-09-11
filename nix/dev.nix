@@ -19,34 +19,27 @@
     name = "xdg-mime-mock";
     source = ./test-mocks/xdg-mime.lua;
   };
-  anyrunMock = lua.mkApp {
-    name = "anyrun-mock";
-    source = ./test-mocks/anyrun.lua;
-    commands = ["anyrun"];
-  };
   commandMock = lua.mkApp {
     name = "command-mock";
     source = ./test-mocks/command.lua;
     commands = [
+      "anyrun"
       "busctl"
       "bluetoothctl"
-      "rfkill"
       "mkdir"
       "sleep"
-      "slurp"
       "grim"
       "date"
       "wl-copy"
       "cliphist"
       "nmcli"
       "swaylock"
-      "loginctl"
     ];
   };
   testEmojiData = final.runCommand "test-emoji-data" {} "cp ${./test-mocks/emoji-data} $out";
   testApps = import ./apps.nix {
     inherit lua;
-    anyrun = "${anyrunMock}/bin/anyrun";
+    anyrun = "${commandMock}/bin/anyrun";
     anyrunPlugin = "mock-plugin";
     wlCopy = "${commandMock}/bin/wl-copy";
     cliphist = "${commandMock}/bin/cliphist";

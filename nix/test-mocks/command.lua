@@ -1,7 +1,8 @@
 #!/usr/bin/env lua
 
--- Mock for the external commands the menu scripts call. Invoked through
--- PATH symlinks named after the command, so arg[0] selects the behaviour.
+-- Mock for the external commands the menu scripts call, plus the anyrun
+-- picker. Invoked through PATH symlinks named after the command, so arg[0]
+-- selects the behaviour.
 local function basename(path)
     return (path:gsub(".*/", ""))
 end
@@ -24,20 +25,60 @@ local function has(argv, wanted)
     return false
 end
 
+-- Picker mock: consumes the menu on stdin, records it when MENU_INPUT is
+-- set, then prints the next queued selection (or MOCK_INPUT/MOCK_SELECTION).
+local function anyrun()
+    local menu = io.stdin:read("*a")
+    if os.getenv("MENU_INPUT") then
+        local file = assert(io.open(os.getenv("MENU_INPUT"), "wb"))
+        assert(file:write(menu))
+        assert(file:close())
+    end
+
+    local queue = os.getenv("MOCK_SELECTIONS")
+    if queue then
+        local file = io.open(queue, "rb")
+        if file then
+            local contents = file:read("*a")
+            file:close()
+            local first, rest = contents:match("^([^\n]*)\n?(.*)$")
+            local remaining = assert(io.open(queue, "wb"))
+            assert(remaining:write(rest or ""))
+            assert(remaining:close())
+            if first and first ~= "" then
+                io.stdout:write(first .. "\n")
+                os.exit(0)
+            end
+        end
+    end
+
+    local input = os.getenv("MOCK_INPUT")
+    if input and input ~= "" then
+        io.stdout:write(input .. "\n")
+        os.exit(0)
+    end
+
+    local selection = os.getenv("MOCK_SELECTION")
+    if selection and selection ~= "" then
+        io.stdout:write(selection .. "\n")
+        os.exit(0)
+    end
+
+    os.exit(1)
+end
+
 local name = basename(arg[0])
 local argv = {}
 for index = 1, #arg do
     argv[#argv + 1] = arg[index]
 end
 
-if name == "systemd-run" or name == "swaylock" or name == "loginctl" then
-    append_log(name, argv)
-elseif name == "bluetoothctl" or name == "rfkill" then
+if name == "anyrun" then
+    anyrun()
+elseif name == "bluetoothctl" or name == "swaylock" then
     append_log(name, argv)
 elseif name == "mkdir" or name == "sleep" then
     -- no-op in tests
-elseif name == "slurp" then
-    io.stdout:write("10,20 300x400\n")
 elseif name == "date" then
     io.stdout:write("2026-08-30_12-00-00\n")
 elseif name == "grim" then
@@ -65,8 +106,6 @@ elseif name == "nmcli" then
     else
         append_log(name, argv)
     end
-elseif name == "qalc" then
-    io.stdout:write(os.getenv("MOCK_RESULT") or "16", "\n")
 elseif name == "busctl" then
     if argv[2] == "tree" then
         if os.getenv("MOCK_SCENARIO") == "no-adapter" then
