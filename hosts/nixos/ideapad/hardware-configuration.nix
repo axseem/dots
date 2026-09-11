@@ -60,12 +60,6 @@
     options = ["subvol=@containers"];
   };
 
-  fileSystems."/var/lib/libvirt/images" = {
-    device = "/dev/disk/by-uuid/26e0f1cd-0d9b-4c8c-8c2a-e654cc3c5de2";
-    fsType = "btrfs";
-    options = ["subvol=@vms"];
-  };
-
   swapDevices = [];
 
   networking.useDHCP = lib.mkDefault true;
