@@ -1,4 +1,4 @@
-{...}: {
+_: {
   services = {
     devmon.enable = true;
     gvfs.enable = true;

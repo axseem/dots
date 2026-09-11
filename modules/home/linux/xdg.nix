@@ -1,55 +1,57 @@
 {pkgs, ...}: {
-  xdg.configFile = {
-    "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
-    "hypr/scripts/graphical-session.lua".source = ../../../config/hypr/scripts/graphical-session.lua;
-    "foot".source = ../../../config/foot;
-    "imv".source = ../../../config/imv;
-    "swaylock".source = ../../../config/swaylock;
-    # qBittorrent rewrites its config on exit and a future WebUI enablement
-    # would persist a password hash into it; manage only the stable keys here
-    # and keep the live file untracked (see .gitignore).
-    "qBittorrent/qBittorrent.conf".text = ''
-      [BitTorrent]
-      Session\Interface=proton0
-      Session\InterfaceName=proton0
-    '';
-  };
+  xdg = {
+    configFile = {
+      "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
+      "hypr/scripts/graphical-session.lua".source = ../../../config/hypr/scripts/graphical-session.lua;
+      "foot".source = ../../../config/foot;
+      "imv".source = ../../../config/imv;
+      "swaylock".source = ../../../config/swaylock;
+      # qBittorrent rewrites its config on exit and a future WebUI enablement
+      # would persist a password hash into it; manage only the stable keys here
+      # and keep the live file untracked (see .gitignore).
+      "qBittorrent/qBittorrent.conf".text = ''
+        [BitTorrent]
+        Session\Interface=proton0
+        Session\InterfaceName=proton0
+      '';
+    };
 
-  # imv is the only image viewer; make it the default handler. MIME defaults
-  # have no wildcard, so list the formats imv's backends support.
-  xdg.mimeApps.defaultApplications = let
-    types = [
-      "image/png"
-      "image/jpeg"
-      "image/gif"
-      "image/webp"
-      "image/bmp"
-      "image/tiff"
-      "image/svg+xml"
-      "image/avif"
-      "image/heif"
-      "image/jxl"
-      "image/qoi"
-      "image/x-farbfeld"
-    ];
-  in
-    builtins.listToAttrs (map (type: {
-        name = type;
-        value = "imv.desktop";
-      })
-      types);
+    # imv is the only image viewer; make it the default handler. MIME defaults
+    # have no wildcard, so list the formats imv's backends support.
+    mimeApps.defaultApplications = let
+      types = [
+        "image/png"
+        "image/jpeg"
+        "image/gif"
+        "image/webp"
+        "image/bmp"
+        "image/tiff"
+        "image/svg+xml"
+        "image/avif"
+        "image/heif"
+        "image/jxl"
+        "image/qoi"
+        "image/x-farbfeld"
+      ];
+    in
+      builtins.listToAttrs (map (type: {
+          name = type;
+          value = "imv.desktop";
+        })
+        types);
 
-  # xdg-open's generic Hyprland path does not honor Terminal=true. Launch
-  # Neovim in Foot explicitly so browsers and file managers get a window.
-  xdg.desktopEntries.neovim-terminal = {
-    name = "Neovim";
-    genericName = "Text Editor";
-    comment = "Edit text files";
-    exec = "${pkgs.foot}/bin/foot nvim %F";
-    icon = "nvim";
-    terminal = false;
-    categories = ["Utility" "TextEditor" "Development"];
-    mimeType = ["text/plain" "text/markdown"];
+    # xdg-open's generic Hyprland path does not honor Terminal=true. Launch
+    # Neovim in Foot explicitly so browsers and file managers get a window.
+    desktopEntries.neovim-terminal = {
+      name = "Neovim";
+      genericName = "Text Editor";
+      comment = "Edit text files";
+      exec = "${pkgs.foot}/bin/foot nvim %F";
+      icon = "nvim";
+      terminal = false;
+      categories = ["Utility" "TextEditor" "Development"];
+      mimeType = ["text/plain" "text/markdown"];
+    };
   };
 
   # MIME defaults do not support wildcards. A oneshot updates every standard

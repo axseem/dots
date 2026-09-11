@@ -25,9 +25,11 @@
     };
     abstruct = {
       url = "git+https://codeberg.org/axseem/abstruct.git";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.blyph.url = "git+https://codeberg.org/axseem/blyph.git";
-      inputs.blyph.inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        blyph.url = "git+https://codeberg.org/axseem/blyph.git";
+        blyph.inputs.nixpkgs.follows = "nixpkgs";
+      };
     };
     opencode-config = {
       url = "git+https://codeberg.org/axseem/opencode-config";
