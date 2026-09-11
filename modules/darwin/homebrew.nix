@@ -8,8 +8,8 @@ _: {
     taps = [
       "nikitabobko/tap"
     ];
-    # nix channel provides gh (home/cli.nix) and VSCodium (home/vscodium);
-    # docker CLI + compose v2 ship with the Docker Desktop cask.
+    # nix channel provides gh (home/cli.nix); docker CLI + compose v2 ship
+    # with the Docker Desktop cask.
     brews = [];
     casks = [
       "ghostty"
