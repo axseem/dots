@@ -1,5 +1,4 @@
 {
-  inputs,
   username,
   lib,
   pkgs,
@@ -8,14 +7,10 @@
   importTree = import ../../../nix/import-tree.nix;
 in {
   imports = [
-    inputs.opencode-config.homeModules.default
-
     (importTree ../../../modules/home/common)
   ];
 
   xdg.configFile."ghostty".source = ../../../config/ghostty;
-
-  programs.git.settings.user.email = "max@axseem.me";
 
   # Rebuilding an index for every installed man page is slow and only powers
   # apropos/whatis searches and man-page name completion.

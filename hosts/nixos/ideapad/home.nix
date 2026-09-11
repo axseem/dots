@@ -1,6 +1,5 @@
 {
   pkgs,
-  inputs,
   username,
   config,
   ...
@@ -8,8 +7,6 @@
   importTree = import ../../../nix/import-tree.nix;
 in {
   imports = [
-    inputs.opencode-config.homeModules.default
-
     (importTree ../../../modules/home/common)
     (importTree ../../../modules/home/linux)
   ];
@@ -27,9 +24,6 @@ in {
       SCREENSHOT_DIR = "${config.home.homeDirectory}/me/screenshots";
     };
   };
-
-  # Same email as the mac for now; change to a host-specific one if desired.
-  programs.git.settings.user.email = "max@axseem.me";
 
   # Host-specific Hyprland Configuration
   xdg.configFile."hypr/conf/host.lua".source = ../../../config/hypr/conf/host.lua;
