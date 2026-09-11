@@ -1,11 +1,10 @@
 #!/usr/bin/env lua
 
 local process = require("axseem.process")
+
 local alejandra = "@alejandra@"
-if alejandra:sub(1, 1) == "@" then
-    alejandra = assert(os.getenv("ALEJANDRA"), "ALEJANDRA is not set")
-end
-local argv = { alejandra, "--quiet" }
+assert(alejandra:sub(1, 1) ~= "@", "alejandra path was not substituted")
+local argv = {alejandra, "--quiet"}
 if #arg == 0 then
     argv[#argv + 1] = "."
 else

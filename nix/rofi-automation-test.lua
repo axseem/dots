@@ -2,24 +2,15 @@ local process = require("axseem.process")
 local stat = require("posix.sys.stat")
 local stdlib = require("posix.stdlib")
 
+local helpers = dofile(assert(os.getenv("testHelpers")))
+local write_file = helpers.write_file
+local read_file = helpers.read_file
+
 local root = assert(os.getenv("TMPDIR")) .. "/rofi-automation"
 local mocks = root .. "/bin"
 local command_log = root .. "/command-log"
 local menu_input = root .. "/menu-input"
 local clipboard_output = root .. "/clipboard-output"
-
-local function write_file(path, value)
-    local file = assert(io.open(path, "wb"))
-    assert(file:write(value))
-    assert(file:close())
-end
-
-local function read_file(path)
-    local file = assert(io.open(path, "rb"))
-    local value = assert(file:read("*a"))
-    file:close()
-    return value
-end
 
 local function append_log(name, argv)
     local file = assert(io.open(command_log, "ab"))

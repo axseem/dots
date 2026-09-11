@@ -1,4 +1,4 @@
-final: prev: let
+final: _: let
   lua = import ./lua {pkgs = final;};
 in {
   axseem = {

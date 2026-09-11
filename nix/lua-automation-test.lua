@@ -3,31 +3,18 @@ local bit = require("bit")
 local stat = require("posix.sys.stat")
 local stdlib = require("posix.stdlib")
 
+local helpers = dofile(assert(os.getenv("testHelpers")))
+local write_file = helpers.write_file
+local read_file = helpers.read_file
+local command = helpers.command
+
 local sink_path = assert(os.getenv("TMPDIR")) .. "/lua-automation-sink"
-
-local function write_file(path, value)
-    local file = assert(io.open(path, "wb"))
-    assert(file:write(value))
-    assert(file:close())
-end
-
-local function read_file(path)
-    local file = assert(io.open(path, "rb"))
-    local value = assert(file:read("*a"))
-    file:close()
-    return value
-end
 
 if arg[1] == "sink" then
     write_file(sink_path, io.stdin:read("*a"))
     os.exit(0)
 elseif arg[1] == "exec" then
     process.exec({ assert(os.getenv("printfCommand")), "%s", "replaced" })
-end
-
-local function command(name)
-    local value = assert(os.getenv(name), "missing test command: " .. name)
-    return value
 end
 
 assert(process.run({ command("trueCommand") }) == 0)
@@ -92,22 +79,15 @@ assert(stdlib.setenv("PATH", original_path, true))
 local root = assert(os.getenv("TMPDIR")) .. "/managed-automation"
 assert(stat.mkdir(root, tonumber("700", 8)))
 local formatter_log = root .. "/formatter-log"
-local alejandra = root .. "/alejandra.lua"
-write_file(alejandra, read_file(command("formatterMock")))
-assert(stat.chmod(alejandra, tonumber("700", 8)))
 assert(stdlib.setenv("formatterLog", formatter_log, true))
-assert(stdlib.setenv("ALEJANDRA", alejandra, true))
 assert(stdlib.setenv("PATH", assert(os.getenv("runtimeBin")), true))
-assert(process.run({ command("luaCommand"), assert(os.getenv("formatterScript")) }) == 0)
+assert(process.run({ assert(os.getenv("formatterScript")) }) == 0)
 assert(read_file(formatter_log) == "--quiet\n.\n")
 
 local mime_types = root .. "/mime-types"
 local mime_log = root .. "/mime-log"
-local xdg_mime = root .. "/xdg-mime.lua"
 write_file(mime_types, "text/plain\nimage/png\ntext/markdown\n")
 write_file(mime_log, "")
-write_file(xdg_mime, read_file(command("mimeMock")))
-assert(stat.chmod(xdg_mime, tonumber("700", 8)))
 assert(stdlib.setenv("mimeLog", mime_log, true))
 assert(stdlib.setenv("PATH", assert(os.getenv("runtimeBin")), true))
 assert(process.run({
@@ -115,7 +95,7 @@ assert(process.run({
     assert(os.getenv("mimeScript")),
     mime_types,
     "nvim.desktop",
-    xdg_mime,
+    assert(os.getenv("mimeMock")),
 }) == 0)
 assert(read_file(mime_log) == "default\nnvim.desktop\ntext/plain\ndefault\nnvim.desktop\ntext/markdown\n")
 
