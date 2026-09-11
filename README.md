@@ -33,7 +33,7 @@ are internal and are not a reusable module API.
 
 ```bash
 git clone https://codeberg.org/axseem/dots.git
-cd dotfiles
+cd dots
 sudo nixos-rebuild switch --flake .#ideapad
 ```
 
@@ -41,6 +41,6 @@ sudo nixos-rebuild switch --flake .#ideapad
 
 ```bash
 git clone https://codeberg.org/axseem/dots.git
-cd dotfiles
+cd dots
 darwin-rebuild switch --flake .#macbook
 ```
