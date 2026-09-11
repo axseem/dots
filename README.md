@@ -11,18 +11,23 @@ Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); Gi
   - `nixos/`: NixOS hosts (e.g., `ideapad`)
 - `modules/`: Modules composed into the hosts; each host imports whole directories through `nix/import-tree.nix`
   - `common/`: Shared modules for both NixOS and Darwin (fonts, nix settings)
-  - `darwin/`: macOS-specific modules (homebrew, system, dev-tools)
+  - `darwin/`: macOS-specific modules (homebrew, system)
   - `nixos/`: NixOS-specific modules (desktop, hardware, security, services, system)
   - `home/`: Home Manager modules
-    - `common/`: Cross-platform (cli, fish, git, tmux, vscodium)
-    - `linux/`: Linux-specific (apps, media, ui, xdg)
-- `config/`: Dotfiles symlinked via Home Manager (fish, ghostty, hypr, rofi, etc.)
-- `nix/`: Devshell configuration and the module import helper
+    - `common/`: Cross-platform (cli, fish, git, opencode, tmux, vscodium)
+    - `linux/`: Linux-specific (apps, desktop-utils, media, ui, xdg)
+- `config/`: Dotfiles symlinked via Home Manager (fish, foot, ghostty, hypr, imv, rofi, swaylock, vscodium)
+- `nix/`: Dev tooling and shared Nix code (`dev.nix`, `import-tree.nix`, `overlay.nix`, Lua runtime)
 
 ## Development
 
 Enter the repository environment explicitly with `nix develop`. The repository
 does not use `.envrc` because direnv evaluates that file with Bash.
+
+```bash
+nix fmt              # format Nix files (alejandra)
+nix flake check      # run the pre-commit and Lua automation checks
+```
 
 The flake publishes only the host configurations and dev tooling; the modules
 are internal and are not a reusable module API.
