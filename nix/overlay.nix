@@ -16,6 +16,7 @@ in {
       wlCopy = "${final.wl-clipboard}/bin/wl-copy";
       cliphist = "${final.cliphist}/bin/cliphist";
       nmcli = "${final.networkmanager}/bin/nmcli";
+      foot = "${final.foot}/bin/foot";
     }
     // {
       inherit lua;

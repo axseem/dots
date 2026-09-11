@@ -8,6 +8,7 @@ local picker = require("axseem.picker")
 local anyrun = "@anyrun@"
 local anyrun_plugin = "@anyrun_plugin@"
 local nmcli = "@nmcli@"
+local foot = "@foot@"
 
 local function capture(argv)
     return process.capture(argv, nil, {stderr = "discard"})
@@ -80,7 +81,7 @@ end
 local function connect(entry)
     if entry.kind == "network" then
         if entry.security ~= "" and entry.security ~= "--" then
-            process.detach({"foot", "-e", nmcli, "--ask", "device", "wifi", "connect", entry.ssid})
+            process.detach({foot, "-e", nmcli, "--ask", "device", "wifi", "connect", entry.ssid})
         else
             capture({nmcli, "device", "wifi", "connect", entry.ssid})
         end
@@ -89,7 +90,7 @@ local function connect(entry)
     elseif entry.kind == "radio" then
         capture({nmcli, "radio", "wifi", entry.enabled and "off" or "on"})
     elseif entry.kind == "nmtui" then
-        process.detach({"foot", "-e", "nmtui"})
+        process.detach({foot, "-e", "nmtui"})
     end
 end
 
@@ -110,7 +111,8 @@ for _, name in ipairs(saved_connections()) do
         add(name .. " (saved)", {kind = "saved", ssid = name})
     end
 end
-add(radio_enabled() and "Turn Wi-Fi off" or "Turn Wi-Fi on", {kind = "radio", enabled = radio_enabled()})
+local radio = radio_enabled()
+add(radio and "Turn Wi-Fi off" or "Turn Wi-Fi on", {kind = "radio", enabled = radio})
 add("Open network settings", {kind = "nmtui"})
 
 local selection = picker.pick(anyrun, anyrun_plugin, {lines = table.concat(entries, "\n") .. "\n"})

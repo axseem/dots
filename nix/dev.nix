@@ -27,6 +27,7 @@
       "busctl"
       "bluetoothctl"
       "mkdir"
+      "foot"
       "grim"
       "date"
       "wl-copy"
@@ -43,6 +44,7 @@
     wlCopy = "${commandMock}/bin/wl-copy";
     cliphist = "${commandMock}/bin/cliphist";
     nmcli = "${commandMock}/bin/nmcli";
+    foot = "${commandMock}/bin/foot";
     emojiData = testEmojiData;
   };
   # `nix fmt`; the automation test builds the same script against the mock.

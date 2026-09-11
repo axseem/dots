@@ -5,6 +5,7 @@
   wlCopy,
   cliphist,
   nmcli,
+  foot,
   emojiData,
 }: let
   actions = lua.mkApp {
@@ -47,7 +48,7 @@
     source = ../modules/home/linux/wifi.lua;
     commands = ["wifi"];
     replacements = {
-      inherit anyrun nmcli;
+      inherit anyrun nmcli foot;
       anyrun_plugin = anyrunPlugin;
     };
   };

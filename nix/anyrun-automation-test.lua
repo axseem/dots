@@ -76,6 +76,20 @@ write_file(selections, "OpenWifi (open)\n")
 assert(run({wifi}) == 0)
 assert(read_file(command_log):find("nmcli\ndevice\nwifi\nconnect\nOpenWifi\n", 1, true))
 
+-- Wi-Fi: secured network opens the interactive nmcli in a terminal.
+reset()
+write_file(selections, "HomeWifi (WPA2)\n")
+assert(run({wifi}) == 0)
+local foot_logged = false
+for _ = 1, 40 do
+    if read_file(command_log):find("foot\n%-e\n.-%-%-ask\ndevice\nwifi\nconnect\nHomeWifi\n") then
+        foot_logged = true
+        break
+    end
+    process.run({assert(os.getenv("sleepCommand")), "0.05"})
+end
+assert(foot_logged, "foot did not open for a secured network")
+
 -- Wi-Fi: saved connection is brought up by name.
 reset()
 write_file(selections, "SavedNet (saved)\n")

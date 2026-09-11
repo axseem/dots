@@ -75,7 +75,7 @@ end
 
 if name == "anyrun" then
     anyrun()
-elseif name == "bluetoothctl" or name == "swaylock" then
+elseif name == "bluetoothctl" or name == "swaylock" or name == "foot" then
     append_log(name, argv)
 elseif name == "mkdir" then
     -- no-op in tests
