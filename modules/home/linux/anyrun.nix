@@ -8,10 +8,10 @@
       hideIcons = false;
       ignoreExclusiveZones = false;
       layer = "overlay";
-      hidePluginInfo = false;
+      hidePluginInfo = true;
       closeOnClick = true;
-      showResultsImmediately = true;
-      maxEntries = 12;
+      showResultsImmediately = false;
+      maxEntries = 8;
       plugins = [
         "${pkgs.anyrun}/lib/libapplications.so"
         "${pkgs.anyrun}/lib/librink.so"
@@ -60,62 +60,74 @@
       @define-color accent #222222;
       @define-color bg-color #000000;
       @define-color fg-color #ffffff;
-      @define-color desc-color #777777;
+      @define-color muted-color #777777;
 
       window {
         background: transparent;
       }
 
       box.main {
-        padding: 5px;
+        padding: 0;
         margin: 0;
-        border-radius: 0;
         border: 1px solid @accent;
+        border-radius: 0;
         background-color: @bg-color;
         box-shadow: none;
       }
 
       text {
-        min-height: 30px;
-        padding: 5px;
+        min-height: 0;
+        margin: 0;
+        padding: 12px 16px;
+        border: 0;
+        border-bottom: 1px solid @accent;
         border-radius: 0;
+        background-color: @bg-color;
         color: @fg-color;
+        caret-color: @fg-color;
       }
 
       .matches {
-        background-color: rgba(0, 0, 0, 0);
+        padding: 4px;
         border-radius: 0;
+        background-color: @bg-color;
       }
 
-      box.plugin:first-child {
-        margin-top: 5px;
-      }
-
+      box.plugin,
       list.plugin {
-        background-color: rgba(0, 0, 0, 0);
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        background-color: transparent;
       }
 
-      label.match {
+      .match {
+        min-height: 0;
+        padding: 6px 10px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: @fg-color;
+      }
+
+      label.match.title {
         color: @fg-color;
       }
 
       label.match.description {
         font-size: 10px;
-        color: @desc-color;
-      }
-
-      label.plugin.info {
-        font-size: 14px;
-        color: @fg-color;
-      }
-
-      .match {
-        background: transparent;
+        color: @muted-color;
       }
 
       .match:selected {
-        border-left: 4px solid @accent;
-        background: transparent;
+        border: 0;
+        border-left: 0;
+        background-color: @fg-color;
+      }
+
+      .match:selected label.title,
+      .match:selected label.description {
+        color: @bg-color;
       }
     '';
   };
