@@ -13,7 +13,7 @@
     foot
 
     # Development / Creative
-    pkgs.freecad
+    freecad
     kicad
     orca-slicer
     darktable
