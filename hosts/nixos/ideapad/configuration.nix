@@ -15,6 +15,9 @@ in {
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
     ./hardware-configuration.nix
+    ./boot.nix
+    ./power.nix
+    ./ssh-lan.nix
 
     (importTree ../../../modules/common)
     (importTree ../../../modules/nixos)
