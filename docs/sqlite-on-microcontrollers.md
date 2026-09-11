@@ -117,11 +117,3 @@ separate storage design (typically an SD/eMMC/flash translation layer or a
 purpose-built append/log store), a tested custom VFS, sufficient RAM, and a
 power-fail/endurance design. For ordinary RP2040 external XIP flash, use SQLite
 read-only or choose a simpler embedded storage format for writes.
-
-## Verification
-
-- The task change is confined to this target file; the repository also contains
-  a pre-existing untracked `docs/offline-lexical-reference.md`.
-- Claims about minimum RAM, code size, and endurance are intentionally stated as
-  non-fixed or device-dependent where the cited primary sources provide no
-  numeric universal limit.
