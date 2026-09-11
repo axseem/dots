@@ -69,7 +69,13 @@ in {
     wl-clipboard
 
     # System / Desktop Integration
-    (rofi.override {plugins = [rofi-emoji rofi-calc];})
+    fuzzel
+    axseem.launcher
+    axseem.actions
+    axseem.bluetooth
+    axseem.emoji
+    axseem.clipboard
+    axseem.calc
     cliphist
     networkmanager_dmenu
     pavucontrol

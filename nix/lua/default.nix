@@ -9,7 +9,9 @@
   runtime = pkgs.luajit.withPackages (_: [
     packages.luaposix
     (module "process" ./axseem/process.lua)
-    (module "rofi" ./axseem/rofi.lua)
+    (module "picker" ./axseem/picker.lua)
+    (module "desktop" ./axseem/desktop.lua)
+    (module "actions" ./axseem/actions.lua)
   ]);
 in {
   inherit runtime;

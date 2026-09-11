@@ -4,8 +4,13 @@
     "hypr/scripts/graphical-session.lua".source = ../../../config/hypr/scripts/graphical-session.lua;
     "foot".source = ../../../config/foot;
     "imv".source = ../../../config/imv;
-    "rofi".source = ../../../config/rofi;
+    "fuzzel".source = ../../../config/fuzzel;
     "swaylock".source = ../../../config/swaylock;
+    # networkmanager_dmenu drives fuzzel for the Wi-Fi settings action.
+    "networkmanager-dmenu/config.ini".text = ''
+      [dmenu]
+      dmenu_command = fuzzel
+    '';
     # qBittorrent rewrites its config on exit and a future WebUI enablement
     # would persist a password hash into it; manage only the stable keys here
     # and keep the live file untracked (see .gitignore).

@@ -13,6 +13,9 @@ local sink_path = assert(os.getenv("TMPDIR")) .. "/lua-automation-sink"
 if arg[1] == "sink" then
     write_file(sink_path, io.stdin:read("*a"))
     os.exit(0)
+elseif arg[1] == "sink-detached" then
+    write_file(assert(arg[2]), "detached\n")
+    os.exit(0)
 elseif arg[1] == "exec" then
     process.exec({ assert(os.getenv("printfCommand")), "%s", "replaced" })
 end
@@ -50,6 +53,10 @@ assert(result.out == "replaced")
 for _, variable in ipairs({
     "actionsScript",
     "bluetoothScript",
+    "calcScript",
+    "clipboardScript",
+    "emojiScript",
+    "launcherScript",
     "formatterScript",
     "lsnixScript",
     "mimeScript",
@@ -75,6 +82,19 @@ result = process.capture({ command("luaCommand"), assert(os.getenv("lsnixScript"
 assert(result.code == 0)
 assert(result.out == "alpha-1\nbeta-2\n")
 assert(stdlib.setenv("PATH", original_path, true))
+
+local detached_path = assert(os.getenv("TMPDIR")) .. "/lua-automation-detached"
+assert(process.detach({command("luaCommand"), arg[0], "sink-detached", detached_path}) > 0)
+local detached = false
+for _ = 1, 40 do
+    if stat.stat(detached_path) then
+        detached = true
+        break
+    end
+    process.run({command("sleepCommand"), "0.1"})
+end
+assert(detached, "detached process did not run")
+assert(read_file(detached_path) == "detached\n")
 
 local root = assert(os.getenv("TMPDIR")) .. "/managed-automation"
 assert(stat.mkdir(root, tonumber("700", 8)))

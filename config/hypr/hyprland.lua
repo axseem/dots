@@ -1,8 +1,8 @@
 local terminal = "foot"
 local fileManager = "nautilus"
-local menu = "rofi -show combi"
-local emoji = "rofi -show emoji"
-local actions = os.getenv("HOME") .. "/.config/rofi/scripts/actions.lua"
+local menu = "launcher"
+local emoji = "emoji"
+local actions = "actions"
 local mainMod = "SUPER"
 
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = "auto" })
@@ -41,6 +41,7 @@ hl.config({
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(actions .. " --worker screenshot-area"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + period", hl.dsp.exec_cmd(emoji))
+hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("calc"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exit())

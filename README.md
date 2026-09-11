@@ -15,8 +15,8 @@ Primary remote is Codeberg ([axseem/dots](https://codeberg.org/axseem/dots)); Gi
   - `nixos/`: NixOS-specific modules (desktop, hardware, security, services, system)
   - `home/`: Home Manager modules
     - `common/`: Cross-platform (cli, fish, git, opencode, tmux, vscodium)
-    - `linux/`: Linux-specific (apps, desktop-utils, media, ui, xdg)
-- `config/`: Dotfiles symlinked via Home Manager (fish, foot, ghostty, hypr, imv, rofi, swaylock, vscodium)
+    - `linux/`: Linux-specific (apps, desktop-utils, media, ui, xdg, fuzzel menu scripts)
+- `config/`: Dotfiles symlinked via Home Manager (fish, foot, fuzzel, ghostty, hypr, imv, swaylock, vscodium)
 - `nix/`: Dev tooling and shared Nix code (`dev.nix`, `import-tree.nix`, `overlay.nix`, Lua runtime)
 
 ## Development

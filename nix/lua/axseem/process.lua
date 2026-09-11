@@ -133,4 +133,29 @@ function process.exec(argv)
     error("failed to execute " .. argv[1] .. ": " .. tostring(message))
 end
 
+-- Fork and exec argv in a new session so the caller can exit immediately;
+-- the child is reparented and keeps the caller's environment.
+function process.detach(argv)
+    argv = checked_argv(argv)
+
+    local pid, message = unistd.fork()
+    assert(pid, message)
+
+    if pid == 0 then
+        -- luaposix does not always expose setsid; it is not required for the
+        -- child to outlive the caller.
+        if unistd.setsid then
+            unistd.setsid()
+        end
+        local _, exec_message = exec(argv)
+        unistd.write(
+            unistd.STDERR_FILENO,
+            "failed to execute " .. argv[1] .. ": " .. tostring(exec_message) .. "\n"
+        )
+        unistd._exit(127)
+    end
+
+    return pid
+end
+
 return process
