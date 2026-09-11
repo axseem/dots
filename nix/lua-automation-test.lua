@@ -68,6 +68,7 @@ for _, variable in ipairs({
     "mimeScript",
     "secretScript",
     "swayidleScript",
+    "sxngScript",
 }) do
     assert(loadfile(assert(os.getenv(variable), variable .. " is not set")))
 end

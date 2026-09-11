@@ -59,6 +59,7 @@ in {
       mimeScript = ../modules/home/linux/text-mime-types.lua;
       secretScript = ../modules/nixos/services/searxng/secret.lua;
       swayidleScript = ../modules/home/linux/swayidle-command.lua;
+      sxngScript = ../modules/nixos/services/searxng/sxng.lua;
     };
     rofi-automation = builtins.derivation {
       name = "rofi-automation-test";

@@ -17,5 +17,14 @@ in {
         "swayidle-displays-on"
       ];
     };
+    sxng = lua.mkApp {
+      name = "sxng";
+      source = ../modules/nixos/services/searxng/sxng.lua;
+      commands = ["sxng"];
+      replacements = {
+        curl = "${final.curl}/bin/curl";
+        jq = "${final.jq}/bin/jq";
+      };
+    };
   };
 }

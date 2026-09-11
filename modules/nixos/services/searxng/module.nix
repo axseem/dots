@@ -117,17 +117,8 @@ in {
       healthCheckPath = "/";
     };
 
-    environment.systemPackages = [
-      # Manual CLI for the local instance (`sxng "..."`); the service
-      # itself runs without it.
-      (pkgs.buildGoModule {
-        pname = "sxng";
-        version = "0.1.0";
-        src = ./cli;
-        # stdlib-only: nothing to fetch, build stays hermetic. If an external
-        # dependency is added, run `go mod vendor` and set vendorHash here.
-        vendorHash = null;
-      })
-    ];
+    # Manual CLI for the local instance (`sxng "..."`); the service itself
+    # runs without it.
+    environment.systemPackages = [pkgs.axseem.sxng];
   };
 }
