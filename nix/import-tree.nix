@@ -6,11 +6,13 @@ dir: let
   scan = current:
     if builtins.pathExists (current + "/default.nix")
     then [current]
-    else
+    else let
+      entries = builtins.readDir current;
+    in
       builtins.concatMap
       (name: let
         path = current + "/${name}";
-        type = (builtins.readDir current).${name};
+        type = entries.${name};
       in
         if builtins.substring 0 1 name == "."
         then []
@@ -19,7 +21,7 @@ dir: let
         else if type == "regular" && builtins.match ".+\\.nix" name != null
         then [path]
         else [])
-      (builtins.attrNames (builtins.readDir current));
+      (builtins.attrNames entries);
 in {
   imports = scan dir;
 }
