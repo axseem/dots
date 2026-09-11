@@ -5,6 +5,8 @@
       x.fraction = 0.5;
       y.fraction = 0.3;
       width.fraction = 0.4;
+      # anyrun hardcodes 32 px match rows and icons and has no placeholder
+      # option for the entry field; both limits come from upstream, not config.
       hideIcons = false;
       ignoreExclusiveZones = false;
       layer = "overlay";

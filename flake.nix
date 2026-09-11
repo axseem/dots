@@ -54,31 +54,22 @@
         pkgs = nixpkgs.legacyPackages.${system};
         inherit inputs;
       };
+    # nixosSystem and darwinSystem share the same arguments for this repo.
+    mkHost = builder: system: username: module:
+      builder {
+        inherit system;
+        specialArgs = {inherit inputs username;};
+        modules = [module];
+      };
   in {
     formatter = forAllSystems (system: (devFor system).formatter);
     checks = forAllSystems (system: (devFor system).checks);
     devShells = forAllSystems (system: (devFor system).devShells);
 
-    nixosConfigurations.ideapad = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit inputs;
-        username = "axseem";
-      };
-      modules = [
-        ./hosts/nixos/ideapad/configuration.nix
-      ];
-    };
+    nixosConfigurations.ideapad =
+      mkHost nixpkgs.lib.nixosSystem "x86_64-linux" "axseem" ./hosts/nixos/ideapad/configuration.nix;
 
-    darwinConfigurations.macbook = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      specialArgs = {
-        inherit inputs;
-        username = "max";
-      };
-      modules = [
-        ./hosts/darwin/macbook/default.nix
-      ];
-    };
+    darwinConfigurations.macbook =
+      mkHost nix-darwin.lib.darwinSystem "aarch64-darwin" "max" ./hosts/darwin/macbook/default.nix;
   };
 }
