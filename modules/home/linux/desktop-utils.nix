@@ -83,6 +83,8 @@ in {
     # Utilities
     qalculate-gtk
     libqalculate
+    brightnessctl
+    playerctl
     grim
     slurp
     wl-clipboard

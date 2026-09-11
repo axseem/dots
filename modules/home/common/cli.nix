@@ -121,6 +121,7 @@ in {
     glow
     github-copilot-cli
     codex
+    nodejs
     bun
 
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
