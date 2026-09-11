@@ -54,6 +54,7 @@ for _, variable in ipairs({
     "actionsScript",
     "bluetoothScript",
     "clipboardScript",
+    "emojiScript",
     "wifiScript",
     "formatterScript",
     "lsnixScript",

@@ -43,6 +43,7 @@
       "loginctl"
     ];
   };
+  testEmojiData = final.runCommand "test-emoji-data" {} "cp ${./test-mocks/emoji-data} $out";
   testApps = import ./apps.nix {
     inherit lua;
     anyrun = "${anyrunMock}/bin/anyrun";
@@ -50,6 +51,7 @@
     wlCopy = "${commandMock}/bin/wl-copy";
     cliphist = "${commandMock}/bin/cliphist";
     nmcli = "${commandMock}/bin/nmcli";
+    emojiData = testEmojiData;
   };
   # `nix fmt`; the automation test builds the same script against the mock.
   formatter = lua.mkApp {
@@ -80,6 +82,7 @@ in {
       actionsScript = ../modules/home/linux/actions.lua;
       bluetoothScript = ../modules/home/linux/bluetooth.lua;
       clipboardScript = ../modules/home/linux/clipboard.lua;
+      emojiScript = ../modules/home/linux/emoji.lua;
       wifiScript = ../modules/home/linux/wifi.lua;
       formatterScript = "${formatterTest}/libexec/formatter.lua";
       mimeMock = "${mimeMock}/libexec/xdg-mime.lua";
@@ -98,7 +101,9 @@ in {
       actionsApp = "${testApps.actions}/bin/actions";
       bluetoothApp = "${testApps.bluetooth}/bin/bluetooth";
       clipboardApp = "${testApps.clipboard}/bin/clipboard";
+      emojiApp = "${testApps.emoji}/bin/emoji";
       wifiApp = "${testApps.wifi}/bin/wifi";
+      emojiData = testEmojiData;
     } "${lua.interpreter} ${./anyrun-automation-test.lua}";
   };
 

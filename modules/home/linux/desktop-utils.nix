@@ -72,6 +72,7 @@ in {
     axseem.actions
     axseem.bluetooth
     axseem.clipboard
+    axseem.emoji
     axseem.wifi
     cliphist
     pavucontrol

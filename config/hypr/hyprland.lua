@@ -1,6 +1,7 @@
 local terminal = "foot"
 local fileManager = "nautilus"
 local menu = "anyrun"
+local emoji = "emoji"
 local actions = "actions"
 local mainMod = "SUPER"
 
@@ -40,6 +41,7 @@ hl.config({
 
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(actions .. " --worker screenshot-area"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + period", hl.dsp.exec_cmd(emoji))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exit())

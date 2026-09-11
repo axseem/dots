@@ -15,7 +15,6 @@
       plugins = [
         "${pkgs.anyrun}/lib/libapplications.so"
         "${pkgs.anyrun}/lib/librink.so"
-        "${pkgs.anyrun}/lib/libsymbols.so"
         "${pkgs.anyrun}/lib/libactions.so"
       ];
     };
@@ -28,6 +27,7 @@
             (title: "Wi-Fi settings", command: "wifi", description: "Network connections", icon: "network-wireless-symbolic"),
             (title: "Bluetooth settings", command: "bluetooth", description: "Adapters and devices", icon: "bluetooth-symbolic"),
             (title: "Clipboard history", command: "clipboard", description: "Recent clipboard entries", icon: "edit-paste-symbolic"),
+            (title: "Emoji picker", command: "emoji", description: "Search and copy an emoji", icon: "face-smile-symbolic"),
             (title: "Audio settings", command: "pavucontrol", description: "Volume and devices", icon: "audio-volume-high-symbolic"),
             (title: "Browse files", command: "nautilus", description: "File manager", icon: "folder-symbolic"),
             (title: "Screenshot area", command: "actions --worker screenshot-area", description: "Capture a selection", icon: "camera-photo-symbolic"),
@@ -52,16 +52,6 @@
       "rink.ron".text = ''
         Config(
           prefix: "",
-        )
-      '';
-
-      # Symbols only match after the prefix; without one an empty query
-      # returns the first few entries (SPACE, EXCLAMATION MARK, ...).
-      "symbols.ron".text = ''
-        Config(
-          prefix: ".",
-          symbols: {},
-          max_entries: 8,
         )
       '';
     };

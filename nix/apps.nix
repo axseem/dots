@@ -5,6 +5,7 @@
   wlCopy,
   cliphist,
   nmcli,
+  emojiData,
 }: let
   actions = lua.mkApp {
     name = "axseem-actions";
@@ -30,6 +31,17 @@
       wl_copy = wlCopy;
     };
   };
+  emoji = lua.mkApp {
+    name = "axseem-emoji";
+    source = ../modules/home/linux/emoji.lua;
+    commands = ["emoji"];
+    replacements = {
+      inherit anyrun;
+      anyrun_plugin = anyrunPlugin;
+      wl_copy = wlCopy;
+      emoji_data = emojiData;
+    };
+  };
   wifi = lua.mkApp {
     name = "axseem-wifi";
     source = ../modules/home/linux/wifi.lua;
@@ -40,5 +52,5 @@
     };
   };
 in {
-  inherit actions bluetooth clipboard wifi;
+  inherit actions bluetooth clipboard emoji wifi;
 }

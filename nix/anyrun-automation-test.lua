@@ -24,6 +24,7 @@ assert(stdlib.setenv("SCREENSHOT_DIR", root, true))
 local actions = assert(os.getenv("actionsApp"))
 local bluetooth = assert(os.getenv("bluetoothApp"))
 local clipboard = assert(os.getenv("clipboardApp"))
+local emoji = assert(os.getenv("emojiApp"))
 local wifi = assert(os.getenv("wifiApp"))
 
 local function reset()
@@ -60,6 +61,14 @@ reset()
 write_file(selections, "1\tfixture\n")
 assert(run({clipboard}) == 0)
 assert(read_file(clipboard_output) == "decoded\0clipboard")
+
+-- Emoji picker copies the glyph of the selected row.
+reset()
+local emoji_data = read_file(assert(os.getenv("emojiData")))
+local first_line = emoji_data:match("^([^\n]*)")
+write_file(selections, first_line .. "\n")
+assert(run({emoji}) == 0)
+assert(read_file(clipboard_output) == first_line:match("^(%S+)"))
 
 -- Wi-Fi: open network connects directly.
 reset()

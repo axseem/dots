@@ -1,9 +1,16 @@
 final: _: let
   lua = import ./lua {pkgs = final;};
+  emojiData =
+    final.runCommand "axseem-emoji-data" {
+      nativeBuildInputs = [final.jq];
+    } ''
+      jq -r 'to_entries[] | .value[] | "\(.emoji)\t\(.description)"' \
+        ${final.emoji-runner}/share/emojirunner/emojis.json > $out
+    '';
 in {
   axseem =
     import ./apps.nix {
-      inherit lua;
+      inherit lua emojiData;
       anyrun = "${final.anyrun}/bin/anyrun";
       anyrunPlugin = "${final.anyrun}/lib/libstdin.so";
       wlCopy = "${final.wl-clipboard}/bin/wl-copy";
