@@ -58,6 +58,14 @@ in {
     defaultSearchProviderSearchURL = "http://localhost:8888/search?q={searchTerms}";
   };
 
+  # programs.chromium mirrors its policy to Brave's policy directory too;
+  # disable those outputs so Brave stays unmanaged.
+  environment.etc = {
+    "brave/policies/managed/default.json".enable = false;
+    "brave/policies/managed/extra.json".enable = false;
+    "brave/policies/recommended/extra.json".enable = false;
+  };
+
   system.stateVersion = "25.05";
 
   networking.hostName = "ideapad";
