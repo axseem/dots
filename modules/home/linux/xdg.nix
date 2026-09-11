@@ -3,6 +3,7 @@
 in {
   xdg.configFile = {
     "hypr/hyprland.lua".source = ../../../config/hypr/hyprland.lua;
+    "hypr/scripts/graphical-session.lua".source = ../../../config/hypr/scripts/graphical-session.lua;
     "foot".source = ../../../config/foot;
     "rofi".source = ../../../config/rofi;
     "swaylock".source = ../../../config/swaylock;

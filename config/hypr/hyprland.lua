@@ -11,6 +11,13 @@ local lock = "swaylock -f"
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
+-- Hyprland 0.56 imports WAYLAND_DISPLAY into the user manager but does not
+-- activate graphical-session.target; swaync, swayidle and cliphist are bound
+-- to that target. The script imports the environment, then starts the target.
+hl.on("hyprland.start", function()
+    hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/graphical-session.lua")
+end)
+
 hl.config({
     general = {
         gaps_in = 0, gaps_out = 0, border_size = 0,
