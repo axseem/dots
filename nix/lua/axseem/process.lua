@@ -42,11 +42,7 @@ end
 -- execp takes the program path and the arguments after argv[0]; on failure it
 -- returns the error message instead of replacing the process.
 local function exec(argv)
-    local args = {}
-    for index = 2, #argv do
-        args[#args + 1] = argv[index]
-    end
-    return unistd.execp(argv[1], args)
+    return unistd.execp(argv[1], {unpack(argv, 2)})
 end
 
 local function execute(argv, input, capture_stdout, options)
@@ -113,8 +109,7 @@ local function execute(argv, input, capture_stdout, options)
 end
 
 function process.run(argv, options)
-    local code = execute(argv, nil, false, options)
-    return code
+    return execute(argv, nil, false, options)
 end
 
 function process.capture(argv, input, options)
@@ -123,8 +118,7 @@ function process.capture(argv, input, options)
 end
 
 function process.feed(argv, input, options)
-    local code = execute(argv, input, false, options)
-    return code
+    return execute(argv, input, false, options)
 end
 
 function process.exec(argv)
