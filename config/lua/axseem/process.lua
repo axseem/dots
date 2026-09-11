@@ -1,4 +1,3 @@
-local posix = require("posix")
 local stdio = require("posix.stdio")
 local unistd = require("posix.unistd")
 local wait = require("posix.sys.wait")
@@ -40,6 +39,16 @@ local function exit_code(reason, status)
     error("unexpected child status: " .. tostring(reason))
 end
 
+-- execp takes the program path and the arguments after argv[0]; on failure it
+-- returns the error message instead of replacing the process.
+local function exec(argv)
+    local args = {}
+    for index = 2, #argv do
+        args[#args + 1] = argv[index]
+    end
+    return unistd.execp(argv[1], args)
+end
+
 local function execute(argv, input, capture_stdout, options)
     argv = checked_argv(argv)
     options = options or {}
@@ -73,7 +82,7 @@ local function execute(argv, input, capture_stdout, options)
             redirect(null_file, unistd.STDERR_FILENO)
         end
 
-        local _, exec_message = posix.execx(argv)
+        local _, exec_message = exec(argv)
         unistd.write(
             unistd.STDERR_FILENO,
             "failed to execute " .. argv[1] .. ": " .. tostring(exec_message) .. "\n"
@@ -120,7 +129,7 @@ end
 
 function process.exec(argv)
     argv = checked_argv(argv)
-    local _, message = posix.execx(argv)
+    local _, message = exec(argv)
     error("failed to execute " .. argv[1] .. ": " .. tostring(message))
 end
 
