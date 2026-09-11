@@ -20,7 +20,18 @@ function picker.pick(anyrun, plugin, options)
         tostring(options.max_entries or 12),
     }
 
-    local result = process.capture(argv, options.lines or "", {stderr = "discard"})
+    -- A menu opened by an actions-plugin command can race the closing of the
+    -- previous window; the daemon answers "already visible" (exit 1) until
+    -- that show is gone.
+    local result
+    for _ = 1, 5 do
+        result = process.capture(argv, options.lines or "", {stderr = "discard"})
+        if result.code ~= 1 then
+            break
+        end
+        process.run({"sleep", "0.1"}, {stderr = "discard"})
+    end
+
     if result.code ~= 0 then
         return nil, result.code
     end

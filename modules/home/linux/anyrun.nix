@@ -62,17 +62,60 @@
       @define-color fg-color #ffffff;
       @define-color desc-color #777777;
 
+      window {
+        background: transparent;
+      }
+
       box.main {
-        border: 1px solid @accent;
-        border-radius: 0;
-        box-shadow: none;
+        padding: 5px;
         margin: 0;
+        border-radius: 0;
+        border: 1px solid @accent;
+        background-color: @bg-color;
+        box-shadow: none;
       }
 
       text {
-        font-family: "Inter";
-        font-size: 11pt;
+        min-height: 30px;
+        padding: 5px;
         border-radius: 0;
+        color: @fg-color;
+      }
+
+      .matches {
+        background-color: rgba(0, 0, 0, 0);
+        border-radius: 0;
+      }
+
+      box.plugin:first-child {
+        margin-top: 5px;
+      }
+
+      list.plugin {
+        background-color: rgba(0, 0, 0, 0);
+      }
+
+      label.match {
+        color: @fg-color;
+      }
+
+      label.match.description {
+        font-size: 10px;
+        color: @desc-color;
+      }
+
+      label.plugin.info {
+        font-size: 14px;
+        color: @fg-color;
+      }
+
+      .match {
+        background: transparent;
+      }
+
+      .match:selected {
+        border-left: 4px solid @accent;
+        background: transparent;
       }
     '';
   };
