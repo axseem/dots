@@ -1,12 +1,13 @@
 #!/usr/bin/env lua
 
 local process = require("axseem.process")
+local rofi = require("axseem.rofi")
 
 local adapter_path
 
-local function trim(value)
-    return (value:gsub("^%s+", ""):gsub("%s+$", ""))
-end
+local trim = rofi.trim
+local header = rofi.header
+local row = rofi.row
 
 local function lines(value)
     local result = {}
@@ -61,30 +62,6 @@ end
 local function device_path(address)
     assert(address:match("^[%x][%x]:[%x][%x]:[%x][%x]:[%x][%x]:[%x][%x]:[%x][%x]$"), "invalid Bluetooth address")
     return adapter_path .. "/dev_" .. address:gsub(":", "_")
-end
-
-local function header(prompt, data)
-    io.stdout:write("\0no-custom\x1ftrue\n")
-    if prompt then
-        io.stdout:write("\0prompt\x1f" .. prompt .. "\n")
-    end
-    if data then
-        io.stdout:write("\0data\x1f" .. data .. "\n")
-    end
-end
-
-local function row(label, icon, info, metadata)
-    io.stdout:write(label)
-    if icon then
-        io.stdout:write("\0icon\x1f" .. icon)
-    end
-    if info then
-        io.stdout:write("\x1finfo\x1f" .. info)
-    end
-    if metadata then
-        io.stdout:write("\x1fmeta\x1f" .. metadata)
-    end
-    io.stdout:write("\n")
 end
 
 local function bluetoothctl(...)

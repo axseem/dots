@@ -1,10 +1,9 @@
 #!/usr/bin/env lua
 
 local process = require("axseem.process")
+local rofi = require("axseem.rofi")
 
-local function trim(value)
-    return (value:gsub("^%s+", ""):gsub("%s+$", ""))
-end
+local trim = rofi.trim
 
 local function write_file(path, contents)
     local file = assert(io.open(path, "wb"))
@@ -180,29 +179,35 @@ local function worker(action)
 end
 
 
-local function row(label, icon, action, terms)
-    io.stdout:write(
-        label .. "\0icon\x1f" .. icon .. "\x1finfo\x1f" .. action .. "\x1fmeta\x1f" .. terms .. "\n"
-    )
+-- Single source of truth for the action list; the selection labels map back
+-- to these same actions.
+local actions = {
+    {label = "Wi-Fi settings", icon = "network-wireless-symbolic", action = "wifi", terms = "network internet wireless"},
+    {label = "Bluetooth settings", icon = "bluetooth-symbolic", action = "bluetooth", terms = "devices connect headphones"},
+    {label = "Audio settings", icon = "audio-volume-high-symbolic", action = "audio", terms = "sound volume microphone"},
+    {label = "Clipboard history", icon = "edit-paste-symbolic", action = "clipboard", terms = "copy paste cliphist"},
+    {label = "Calculator", icon = "accessories-calculator", action = "calculator", terms = "math arithmetic qalc"},
+    {label = "Browse files", icon = "folder-symbolic", action = "files", terms = "file manager nautilus folders"},
+    {label = "Emoji picker", icon = "face-smile-symbolic", action = "emoji", terms = "symbols characters"},
+    {label = "Screenshot area", icon = "camera-photo-symbolic", action = "screenshot-area", terms = "capture selection snip"},
+    {label = "Screenshot full screen", icon = "camera-photo-symbolic", action = "screenshot-full", terms = "capture monitor display"},
+    {label = "Lock screen", icon = "system-lock-screen-symbolic", action = "lock", terms = "secure swaylock"},
+    {label = "Suspend", icon = "media-playback-pause-symbolic", action = "suspend", terms = "sleep power"},
+    {label = "Log out", icon = "system-log-out-symbolic", action = "logout", terms = "exit session"},
+    {label = "Restart", icon = "system-reboot-symbolic", action = "reboot", terms = "reboot power"},
+    {label = "Power off", icon = "system-shutdown-symbolic", action = "poweroff", terms = "shutdown turn off"},
+}
+
+local direct_actions = {}
+for _, entry in ipairs(actions) do
+    direct_actions[entry.label] = entry.action
 end
 
-
 local function print_rows()
-    io.stdout:write("\0no-custom\x1ftrue\n")
-    row("Wi-Fi settings", "network-wireless-symbolic", "wifi", "network internet wireless")
-    row("Bluetooth settings", "bluetooth-symbolic", "bluetooth", "devices connect headphones")
-    row("Audio settings", "audio-volume-high-symbolic", "audio", "sound volume microphone")
-    row("Clipboard history", "edit-paste-symbolic", "clipboard", "copy paste cliphist")
-    row("Calculator", "accessories-calculator", "calculator", "math arithmetic qalc")
-    row("Browse files", "folder-symbolic", "files", "file manager nautilus folders")
-    row("Emoji picker", "face-smile-symbolic", "emoji", "symbols characters")
-    row("Screenshot area", "camera-photo-symbolic", "screenshot-area", "capture selection snip")
-    row("Screenshot full screen", "camera-photo-symbolic", "screenshot-full", "capture monitor display")
-    row("Lock screen", "system-lock-screen-symbolic", "lock", "secure swaylock")
-    row("Suspend", "media-playback-pause-symbolic", "suspend", "sleep power")
-    row("Log out", "system-log-out-symbolic", "logout", "exit session")
-    row("Restart", "system-reboot-symbolic", "reboot", "reboot power")
-    row("Power off", "system-shutdown-symbolic", "poweroff", "shutdown turn off")
+    rofi.header()
+    for _, entry in ipairs(actions) do
+        rofi.row(entry.label, entry.icon, entry.action, entry.terms)
+    end
 end
 
 
@@ -210,22 +215,6 @@ if arg[1] == "--worker" then
     os.exit(worker(arg[2]))
 end
 
-local direct_actions = {
-    ["Wi-Fi settings"] = "wifi",
-    ["Bluetooth settings"] = "bluetooth",
-    ["Audio settings"] = "audio",
-    ["Clipboard history"] = "clipboard",
-    ["Calculator"] = "calculator",
-    ["Browse files"] = "files",
-    ["Emoji picker"] = "emoji",
-    ["Screenshot area"] = "screenshot-area",
-    ["Screenshot full screen"] = "screenshot-full",
-    ["Lock screen"] = "lock",
-    ["Suspend"] = "suspend",
-    ["Log out"] = "logout",
-    ["Restart"] = "reboot",
-    ["Power off"] = "poweroff",
-}
 local action = os.getenv("ROFI_INFO") or direct_actions[arg[1]]
 if action then
     os.exit(run_detached(action))
