@@ -69,7 +69,6 @@ in {
 
     # System / Desktop Integration
     axseem.actions
-    axseem.bluetooth
     axseem.clipboard
     axseem.emoji
     axseem.wifi

@@ -75,7 +75,7 @@ end
 
 if name == "anyrun" then
     anyrun()
-elseif name == "bluetoothctl" or name == "swaylock" or name == "foot" then
+elseif name == "swaylock" or name == "foot" then
     append_log(name, argv)
 elseif name == "mkdir" then
     -- no-op in tests
@@ -105,27 +105,6 @@ elseif name == "nmcli" then
         io.stdout:write("SavedNet:802-11-wireless\nWired:802-3-ethernet\n")
     else
         append_log(name, argv)
-    end
-elseif name == "busctl" then
-    if argv[2] == "tree" then
-        if os.getenv("MOCK_SCENARIO") == "no-adapter" then
-            io.stdout:write("/org/bluez\n")
-        else
-            io.stdout:write("/org/bluez\n/org/bluez/hci0\n/org/bluez/hci0/dev_AA_BB_CC_DD_EE_FF\n")
-        end
-    elseif argv[2] == "get-property" then
-        local property = argv[6]
-        if property == "Alias" then
-            io.stdout:write('s "Headphones"\n')
-        elseif property == "Powered" or property == "Paired" or property == "Trusted" then
-            io.stdout:write("b true\n")
-        elseif property == "Connected" then
-            io.stdout:write("b false\n")
-        else
-            error("unexpected BlueZ property: " .. tostring(property))
-        end
-    else
-        error("unexpected busctl operation: " .. tostring(argv[2]))
     end
 else
     error("unexpected mock command: " .. name)

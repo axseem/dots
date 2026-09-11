@@ -13,15 +13,6 @@
     source = ../modules/home/linux/actions.lua;
     commands = ["actions"];
   };
-  bluetooth = lua.mkApp {
-    name = "axseem-bluetooth";
-    source = ../modules/home/linux/bluetooth.lua;
-    commands = ["bluetooth"];
-    replacements = {
-      inherit anyrun;
-      anyrun_plugin = anyrunPlugin;
-    };
-  };
   clipboard = lua.mkApp {
     name = "axseem-clipboard";
     source = ../modules/home/linux/clipboard.lua;
@@ -53,5 +44,5 @@
     };
   };
 in {
-  inherit actions bluetooth clipboard emoji wifi;
+  inherit actions clipboard emoji wifi;
 }

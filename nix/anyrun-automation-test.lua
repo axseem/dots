@@ -22,7 +22,6 @@ assert(stdlib.setenv("HOME", root, true))
 assert(stdlib.setenv("SCREENSHOT_DIR", root, true))
 
 local actions = assert(os.getenv("actionsApp"))
-local bluetooth = assert(os.getenv("bluetoothApp"))
 local clipboard = assert(os.getenv("clipboardApp"))
 local emoji = assert(os.getenv("emojiApp"))
 local wifi = assert(os.getenv("wifiApp"))
@@ -48,13 +47,6 @@ reset()
 assert(run({actions, "--worker", "screenshot-full"}) == 0)
 assert(read_file(clipboard_output) == "\137PNG\0fixture")
 assert(stat.stat(root .. "/2026-08-30_12-00-00.png"))
-
--- Bluetooth: pick a device, then Connect.
-reset()
-write_file(selections, "Headphones (paired)\nConnect\n")
-assert(run({bluetooth}) == 0)
-assert(read_file(command_log):find("bluetoothctl\nconnect\nAA:BB:CC:DD:EE:FF\n", 1, true))
-assert(read_file(menu_input):find("Scan for devices", 1, true))
 
 -- Clipboard history decodes the selected entry.
 reset()

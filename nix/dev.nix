@@ -29,8 +29,6 @@
     source = ./test-mocks/command.lua;
     commands = [
       "anyrun"
-      "busctl"
-      "bluetoothctl"
       "mkdir"
       "foot"
       "grim"
@@ -79,7 +77,6 @@ in {
       runtimeBin = "${lua.runtime}/bin";
       testHelpers = ./test-helpers.lua;
       actionsScript = ../modules/home/linux/actions.lua;
-      bluetoothScript = ../modules/home/linux/bluetooth.lua;
       clipboardScript = ../modules/home/linux/clipboard.lua;
       emojiScript = ../modules/home/linux/emoji.lua;
       wifiScript = ../modules/home/linux/wifi.lua;
@@ -98,7 +95,6 @@ in {
       testHelpers = ./test-helpers.lua;
       commandBin = "${commandMock}/bin";
       actionsApp = "${testApps.actions}/bin/actions";
-      bluetoothApp = "${testApps.bluetooth}/bin/bluetooth";
       clipboardApp = "${testApps.clipboard}/bin/clipboard";
       emojiApp = "${testApps.emoji}/bin/emoji";
       wifiApp = "${testApps.wifi}/bin/wifi";

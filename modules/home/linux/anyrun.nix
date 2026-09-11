@@ -27,7 +27,6 @@
           enable_power_actions: false,
           custom_actions: [
             (title: "Wi-Fi settings", command: "setsid -f wifi", description: "Network connections", icon: "network-wireless-symbolic"),
-            (title: "Bluetooth settings", command: "setsid -f bluetooth", description: "Adapters and devices", icon: "bluetooth-symbolic"),
             (title: "Clipboard history", command: "setsid -f clipboard", description: "Recent clipboard entries", icon: "edit-paste-symbolic"),
             (title: "Emoji picker", command: "setsid -f emoji", description: "Search and copy an emoji", icon: "face-smile-symbolic"),
             (title: "Audio settings", command: "setsid -f pavucontrol", description: "Volume and devices", icon: "audio-volume-high-symbolic"),
