@@ -27,7 +27,6 @@
       "busctl"
       "bluetoothctl"
       "mkdir"
-      "sleep"
       "grim"
       "date"
       "wl-copy"

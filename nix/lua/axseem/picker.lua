@@ -1,6 +1,7 @@
 -- Thin wrapper around anyrun's stdin plugin, which acts as a dmenu
 -- replacement: entries on stdin, selection on stdout.
 local process = require("axseem.process")
+local time = require("posix.time")
 
 local picker = {}
 
@@ -29,7 +30,7 @@ function picker.pick(anyrun, plugin, options)
         if result.code ~= 1 then
             break
         end
-        process.run({"sleep", "0.1"}, {stderr = "discard"})
+        time.nanosleep({tv_sec = 0, tv_nsec = 100000000})
     end
 
     if result.code ~= 0 then

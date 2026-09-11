@@ -77,7 +77,7 @@ if name == "anyrun" then
     anyrun()
 elseif name == "bluetoothctl" or name == "swaylock" then
     append_log(name, argv)
-elseif name == "mkdir" or name == "sleep" then
+elseif name == "mkdir" then
     -- no-op in tests
 elseif name == "date" then
     io.stdout:write("2026-08-30_12-00-00\n")
