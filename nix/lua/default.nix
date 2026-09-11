@@ -10,8 +10,6 @@
     packages.luaposix
     (module "process" ./axseem/process.lua)
     (module "picker" ./axseem/picker.lua)
-    (module "desktop" ./axseem/desktop.lua)
-    (module "actions" ./axseem/actions.lua)
   ]);
 in {
   inherit runtime;

@@ -53,10 +53,8 @@ assert(result.out == "replaced")
 for _, variable in ipairs({
     "actionsScript",
     "bluetoothScript",
-    "calcScript",
     "clipboardScript",
-    "emojiScript",
-    "launcherScript",
+    "wifiScript",
     "formatterScript",
     "lsnixScript",
     "mimeScript",

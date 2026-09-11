@@ -3,7 +3,8 @@
 local process = require("axseem.process")
 local picker = require("axseem.picker")
 
-local fuzzel = "@fuzzel@"
+local anyrun = "@anyrun@"
+local anyrun_plugin = "@anyrun_plugin@"
 local cliphist = "@cliphist@"
 local wl_copy = "@wl_copy@"
 
@@ -12,7 +13,15 @@ if history.code ~= 0 or history.out == "" then
     os.exit(history.code)
 end
 
-local selection = picker.pick(fuzzel, {prompt = "Clipboard", lines = history.out})
+local lines = {}
+for line in history.out:gmatch("[^\n]+") do
+    lines[#lines + 1] = line
+end
+
+local selection = picker.pick(anyrun, anyrun_plugin, {
+    lines = table.concat(lines, "\n") .. "\n",
+    max_entries = 15,
+})
 if not selection then
     os.exit(0)
 end

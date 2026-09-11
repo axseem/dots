@@ -15,13 +15,22 @@ local function append_log(name, argv)
     assert(file:close())
 end
 
+local function has(argv, wanted)
+    for _, value in ipairs(argv) do
+        if value == wanted then
+            return true
+        end
+    end
+    return false
+end
+
 local name = basename(arg[0])
 local argv = {}
 for index = 1, #arg do
     argv[#argv + 1] = arg[index]
 end
 
-if name == "systemd-run" or name == "networkmanager_dmenu" then
+if name == "systemd-run" or name == "swaylock" or name == "loginctl" then
     append_log(name, argv)
 elseif name == "bluetoothctl" or name == "rfkill" then
     append_log(name, argv)
@@ -45,6 +54,16 @@ elseif name == "cliphist" then
         io.stdout:write("decoded\0clipboard")
     else
         error("unexpected cliphist command: " .. tostring(argv[1]))
+    end
+elseif name == "nmcli" then
+    if has(argv, "radio") then
+        io.stdout:write("WIFI:enabled\n")
+    elseif has(argv, "list") then
+        io.stdout:write(":OpenWifi:\n:HomeWifi:WPA2\n")
+    elseif has(argv, "show") then
+        io.stdout:write("SavedNet:802-11-wireless\nWired:802-3-ethernet\n")
+    else
+        append_log(name, argv)
     end
 elseif name == "qalc" then
     io.stdout:write(os.getenv("MOCK_RESULT") or "16", "\n")

@@ -19,17 +19,15 @@
     name = "xdg-mime-mock";
     source = ./test-mocks/xdg-mime.lua;
   };
-  fuzzelMock = lua.mkApp {
-    name = "fuzzel-mock";
-    source = ./test-mocks/fuzzel.lua;
-    commands = ["fuzzel"];
+  anyrunMock = lua.mkApp {
+    name = "anyrun-mock";
+    source = ./test-mocks/anyrun.lua;
+    commands = ["anyrun"];
   };
   commandMock = lua.mkApp {
     name = "command-mock";
     source = ./test-mocks/command.lua;
     commands = [
-      "systemd-run"
-      "networkmanager_dmenu"
       "busctl"
       "bluetoothctl"
       "rfkill"
@@ -40,18 +38,18 @@
       "date"
       "wl-copy"
       "cliphist"
-      "qalc"
+      "nmcli"
+      "swaylock"
+      "loginctl"
     ];
   };
-  testEmojiData = final.runCommand "test-emoji-data" {} "cp ${./test-mocks/emoji-data} $out";
   testApps = import ./apps.nix {
     inherit lua;
-    fuzzel = "${fuzzelMock}/bin/fuzzel";
+    anyrun = "${anyrunMock}/bin/anyrun";
+    anyrunPlugin = "mock-plugin";
     wlCopy = "${commandMock}/bin/wl-copy";
-    qalc = "${commandMock}/bin/qalc";
     cliphist = "${commandMock}/bin/cliphist";
-    networkmanager_dmenu = "${commandMock}/bin/networkmanager_dmenu";
-    emojiData = testEmojiData;
+    nmcli = "${commandMock}/bin/nmcli";
   };
   # `nix fmt`; the automation test builds the same script against the mock.
   formatter = lua.mkApp {
@@ -81,10 +79,8 @@ in {
       testHelpers = ./test-helpers.lua;
       actionsScript = ../modules/home/linux/actions.lua;
       bluetoothScript = ../modules/home/linux/bluetooth.lua;
-      calcScript = ../modules/home/linux/calc.lua;
       clipboardScript = ../modules/home/linux/clipboard.lua;
-      emojiScript = ../modules/home/linux/emoji.lua;
-      launcherScript = ../modules/home/linux/launcher.lua;
+      wifiScript = ../modules/home/linux/wifi.lua;
       formatterScript = "${formatterTest}/libexec/formatter.lua";
       mimeMock = "${mimeMock}/libexec/xdg-mime.lua";
       lsnixScript = ../modules/home/common/lsnix.lua;
@@ -93,21 +89,17 @@ in {
       swayidleScript = ../modules/home/linux/swayidle-command.lua;
       sxngScript = ../modules/nixos/services/searxng/sxng.lua;
     } "${lua.interpreter} ${./lua-automation-test.lua}";
-    fuzzel-automation = final.runCommand "fuzzel-automation-test" {
+    anyrun-automation = final.runCommand "anyrun-automation-test" {
       luaCommand = lua.interpreter;
       runtimeBin = "${lua.runtime}/bin";
       sleepCommand = "${final.coreutils}/bin/sleep";
       testHelpers = ./test-helpers.lua;
       commandBin = "${commandMock}/bin";
-      fuzzelMock = "${fuzzelMock}/bin/fuzzel";
-      emojiData = testEmojiData;
       actionsApp = "${testApps.actions}/bin/actions";
-      launcherApp = "${testApps.launcher}/bin/launcher";
-      calcApp = "${testApps.calc}/bin/calc";
-      clipboardApp = "${testApps.clipboard}/bin/clipboard";
-      emojiApp = "${testApps.emoji}/bin/emoji";
       bluetoothApp = "${testApps.bluetooth}/bin/bluetooth";
-    } "${lua.interpreter} ${./fuzzel-automation-test.lua}";
+      clipboardApp = "${testApps.clipboard}/bin/clipboard";
+      wifiApp = "${testApps.wifi}/bin/wifi";
+    } "${lua.interpreter} ${./anyrun-automation-test.lua}";
   };
 
   devShells.default = final.mkShell {

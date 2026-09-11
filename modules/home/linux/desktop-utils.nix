@@ -69,15 +69,11 @@ in {
     wl-clipboard
 
     # System / Desktop Integration
-    fuzzel
-    axseem.launcher
     axseem.actions
     axseem.bluetooth
-    axseem.emoji
     axseem.clipboard
-    axseem.calc
+    axseem.wifi
     cliphist
-    networkmanager_dmenu
     pavucontrol
     gcr_4
   ];

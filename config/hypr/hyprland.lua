@@ -1,7 +1,6 @@
 local terminal = "foot"
 local fileManager = "nautilus"
-local menu = "launcher"
-local emoji = "emoji"
+local menu = "anyrun"
 local actions = "actions"
 local mainMod = "SUPER"
 
@@ -16,6 +15,7 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- to that target. The script imports the environment, then starts the target.
 hl.on("hyprland.start", function()
     hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/graphical-session.lua")
+    hl.exec_cmd("anyrun daemon")
 end)
 
 hl.config({
@@ -40,8 +40,6 @@ hl.config({
 
 hl.bind(mainMod .. " + O", hl.dsp.exec_cmd(actions .. " --worker screenshot-area"))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + period", hl.dsp.exec_cmd(emoji))
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("calc"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exit())

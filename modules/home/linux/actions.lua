@@ -1,15 +1,8 @@
 #!/usr/bin/env lua
 
+-- Worker for the anyrun actions plugin. The menu entries live in
+-- anyrun/actions.ron; this script owns the side effects.
 local process = require("axseem.process")
-local picker = require("axseem.picker")
-local action_data = require("axseem.actions")
-
-local fuzzel = "@fuzzel@"
-local networkmanager_dmenu = "@networkmanager_dmenu@"
-local bluetooth = "@bluetooth@"
-local emoji = "@emoji@"
-local clipboard = "@clipboard@"
-local calc = "@calc@"
 
 local function trim(value)
     return (value:gsub("^%s+", ""):gsub("%s+$", ""))
@@ -19,26 +12,6 @@ local function write_file(path, contents)
     local file = assert(io.open(path, "wb"))
     assert(file:write(contents))
     assert(file:close())
-end
-
-local function rows(entries)
-    local lines = {}
-    for _, entry in ipairs(entries) do
-        local line = entry.label
-        if entry.icon then
-            line = line .. "\0icon\x1f" .. entry.icon
-        end
-        lines[#lines + 1] = line
-    end
-    return table.concat(lines, "\n") .. "\n"
-end
-
-local function confirm(label)
-    local selection = picker.pick(fuzzel, {
-        prompt = "Confirm",
-        lines = "Cancel\n" .. label .. "\n",
-    })
-    return selection == label
 end
 
 local function screenshot(area)
@@ -72,75 +45,29 @@ local function screenshot(area)
     return process.feed({"wl-copy"}, image.out)
 end
 
-local function run_detached(action)
-    local argv = {
-        "systemd-run",
-        "--user",
-        "--collect",
-        "--no-block",
-        "--quiet",
-        "--service-type=exec",
-        "--expand-environment=no",
-    }
-    for _, name in ipairs({
-        "DISPLAY",
-        "HOME",
-        "HYPRLAND_INSTANCE_SIGNATURE",
-        "PATH",
-        "SCREENSHOT_DIR",
-        "WAYLAND_DISPLAY",
-        "XDG_CURRENT_DESKTOP",
-        "XDG_RUNTIME_DIR",
-        "XDG_SESSION_ID",
-    }) do
-        local value = os.getenv(name)
-        if value then
-            argv[#argv + 1] = "--setenv=" .. name .. "=" .. value
-        end
+local function logout()
+    local session = os.getenv("XDG_SESSION_ID")
+    if session and session ~= "" then
+        return process.run({"loginctl", "terminate-session", session})
     end
-    argv[#argv + 1] = "--"
-    argv[#argv + 1] = arg[0]
-    argv[#argv + 1] = "--worker"
-    argv[#argv + 1] = action
-    return process.run(argv)
+    return 1
 end
 
 local function worker(action)
-    if action == "wifi" then
-        return process.exec({networkmanager_dmenu})
-    elseif action == "bluetooth" then
-        return process.exec({bluetooth})
-    elseif action == "audio" then
-        return process.exec({"pavucontrol"})
-    elseif action == "files" then
-        return process.exec({"nautilus"})
-    elseif action == "emoji" then
-        return process.exec({emoji})
-    elseif action == "clipboard" then
-        return process.exec({clipboard})
-    elseif action == "calculator" then
-        return process.exec({calc})
-    elseif action == "screenshot-area" then
+    if action == "screenshot-area" then
         return screenshot(true)
     elseif action == "screenshot-full" then
         return screenshot(false)
     elseif action == "lock" then
         return process.exec({"swaylock", "-f"})
     elseif action == "suspend" then
-        return confirm("Suspend") and process.run({"systemctl", "suspend"}) or 0
+        return process.exec({"systemctl", "suspend"})
     elseif action == "logout" then
-        if not confirm("Log out") then
-            return 0
-        end
-        local session = os.getenv("XDG_SESSION_ID")
-        if session and session ~= "" then
-            return process.run({"loginctl", "terminate-session", session})
-        end
-        return 1
+        return logout()
     elseif action == "reboot" then
-        return confirm("Restart") and process.run({"systemctl", "reboot"}) or 0
+        return process.exec({"systemctl", "reboot"})
     elseif action == "poweroff" then
-        return confirm("Power off") and process.run({"systemctl", "poweroff"}) or 0
+        return process.exec({"systemctl", "poweroff"})
     end
 
     io.stderr:write("unknown action: " .. tostring(action) .. "\n")
@@ -151,18 +78,5 @@ if arg[1] == "--worker" then
     os.exit(worker(arg[2]))
 end
 
-local selection = picker.pick(fuzzel, {prompt = "", lines = rows(action_data.entries)})
-if not selection then
-    os.exit(0)
-end
-local chosen
-for _, entry in ipairs(action_data.entries) do
-    if entry.label == selection then
-        chosen = entry
-        break
-    end
-end
-if not chosen then
-    os.exit(0)
-end
-os.exit(run_detached(chosen.action))
+io.stderr:write("usage: actions --worker <action>\n")
+os.exit(2)

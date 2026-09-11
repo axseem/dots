@@ -3,7 +3,8 @@
 local process = require("axseem.process")
 local picker = require("axseem.picker")
 
-local fuzzel = "@fuzzel@"
+local anyrun = "@anyrun@"
+local anyrun_plugin = "@anyrun_plugin@"
 
 local adapter_path
 
@@ -74,18 +75,14 @@ local function bluetoothctl(...)
     return process.run(command, {stdout = "discard"})
 end
 
-local function pick(prompt, entries)
-    local prompts = {}
+local function pick(entries)
+    local labels = {}
     local by_label = {}
     for _, entry in ipairs(entries) do
-        local line = entry.label
-        if entry.icon then
-            line = line .. "\0icon\x1f" .. entry.icon
-        end
-        prompts[#prompts + 1] = line
+        labels[#labels + 1] = entry.label
         by_label[entry.label] = entry
     end
-    local selection = picker.pick(fuzzel, {prompt = prompt, lines = table.concat(prompts, "\n") .. "\n"})
+    local selection = picker.pick(anyrun, anyrun_plugin, {lines = table.concat(labels, "\n") .. "\n"})
     if not selection then
         return nil
     end
@@ -103,7 +100,7 @@ local function main_entries(tree)
         return nil
     end
     if not powered then
-        return {{label = "Turn Bluetooth on", icon = "bluetooth-disabled", value = {kind = "power-on"}}}
+        return {{label = "Turn Bluetooth on", value = {kind = "power-on"}}}
     end
 
     local devices = {}
@@ -130,15 +127,13 @@ local function main_entries(tree)
             label = label .. " " .. device.address
         end
         used[label] = true
-        local icon = device.state == "connected" and "network-bluetooth-activated" or "network-bluetooth"
         entries[#entries + 1] = {
             label = label,
-            icon = icon,
             value = {kind = "device", address = device.address},
         }
     end
-    entries[#entries + 1] = {label = "Scan for devices", icon = "edit-find", value = {kind = "scan"}}
-    entries[#entries + 1] = {label = "Turn Bluetooth off", icon = "bluetooth-disabled", value = {kind = "power-off"}}
+    entries[#entries + 1] = {label = "Scan for devices", value = {kind = "scan"}}
+    entries[#entries + 1] = {label = "Turn Bluetooth off", value = {kind = "power-off"}}
     return entries
 end
 
@@ -153,17 +148,14 @@ local function device_entries(address)
     return {
         {
             label = connected and "Disconnect" or "Connect",
-            icon = "network-bluetooth",
             value = connected and "disconnect" or "connect",
         },
         {
             label = paired and "Remove pairing" or "Pair",
-            icon = "emblem-system",
             value = paired and "remove" or "pair",
         },
         {
             label = trusted and "Untrust" or "Trust",
-            icon = "security-high",
             value = trusted and "untrust" or "trust",
         },
     }
@@ -176,7 +168,7 @@ while true do
         os.exit(1)
     end
 
-    local choice = pick("Bluetooth", main_entries(tree))
+    local choice = pick(main_entries(tree))
     if not choice then
         os.exit(0)
     end
@@ -190,7 +182,7 @@ while true do
     elseif value.kind == "scan" then
         bluetoothctl("--timeout", "8", "scan", "on")
     elseif value.kind == "device" then
-        local action = pick(choice.label, device_entries(value.address))
+        local action = pick(device_entries(value.address))
         if action then
             bluetoothctl(action.value, value.address)
         end
