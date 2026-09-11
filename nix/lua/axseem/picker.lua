@@ -24,7 +24,7 @@ function picker.pick(anyrun, plugin, options)
     -- previous window; the daemon answers "already visible" (exit 1) until
     -- that show is gone.
     local result
-    for _ = 1, 5 do
+    for _ = 1, 10 do
         result = process.capture(argv, options.lines or "", {stderr = "discard"})
         if result.code ~= 1 then
             break
