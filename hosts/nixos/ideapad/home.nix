@@ -4,23 +4,14 @@
   username,
   config,
   ...
-}: {
+}: let
+  importTree = import ../../../nix/import-tree.nix;
+in {
   imports = [
     inputs.opencode-config.homeModules.default
 
-    ../../../modules/home/common/fish
-    ../../../modules/home/common/tmux.nix
-    ../../../modules/home/common/vscodium
-    ../../../modules/home/common/git.nix
-    ../../../modules/home/common/cli.nix
-    ../../../modules/home/common/node.nix
-
-    ../../../modules/home/linux/ui.nix
-    ../../../modules/home/linux/xdg.nix
-    ../../../modules/home/linux/cli-linux.nix
-    ../../../modules/home/linux/media.nix
-    ../../../modules/home/linux/apps.nix
-    ../../../modules/home/linux/desktop-utils.nix
+    (importTree ../../../modules/home/common)
+    (importTree ../../../modules/home/linux)
   ];
 
   home = {

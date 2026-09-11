@@ -1,18 +1,13 @@
 {
   inputs,
   username,
-  pkgs,
   ...
-}: {
+}: let
+  importTree = import ../../../nix/import-tree.nix;
+in {
   imports = [
-    # Common
-    ../../../modules/common/nix.nix
-    ../../../modules/common/fonts.nix
-
-    # Darwin
-    ../../../modules/darwin/homebrew.nix
-    ../../../modules/darwin/system.nix
-    ../../../modules/darwin/dev-tools.nix
+    (importTree ../../../modules/common)
+    (importTree ../../../modules/darwin)
 
     inputs.home-manager.darwinModules.home-manager
   ];

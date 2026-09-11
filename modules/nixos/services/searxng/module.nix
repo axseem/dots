@@ -8,8 +8,6 @@ with lib; let
   cfg = config.services.searxng-local;
   lua = import ../../../../nix/lua.nix {inherit pkgs;};
 in {
-  imports = [../lazy-socket/module.nix];
-
   options.services.searxng-local = {
     enable = mkEnableOption "Local SearXNG search engine with lazy socket activation";
   };

@@ -1,11 +1,10 @@
 {
   inputs,
   username,
-  lib,
-  config,
-  pkgs,
   ...
-}: {
+}: let
+  importTree = import ../../../nix/import-tree.nix;
+in {
   # The MT7925 Bluetooth USB function can become permanently unresponsive
   # after an autosuspend remote wakeup (kernel error -110). Keep it active;
   # a full power-off is required once the controller is already stuck.
@@ -17,36 +16,8 @@
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
     ./hardware-configuration.nix
 
-    # Common
-    ../../../modules/common/nix.nix
-    ../../../modules/common/fonts.nix
-
-    # Hardware
-    ../../../modules/nixos/hardware/graphics.nix
-    ../../../modules/nixos/hardware/audio.nix
-    ../../../modules/nixos/hardware/bluetooth.nix
-    ../../../modules/nixos/hardware/power.nix
-
-    # System
-    ../../../modules/nixos/system/boot.nix
-    ../../../modules/nixos/system/networking.nix
-    ../../../modules/nixos/system/locale.nix
-    ../../../modules/nixos/system/users.nix
-    ../../../modules/nixos/system/dev-tools.nix
-    ../../../modules/nixos/system/audio-production.nix
-
-    # Desktop
-    ../../../modules/nixos/desktop/hyprland.nix
-    ../../../modules/nixos/desktop/display-manager.nix
-
-    # Services
-    ../../../modules/nixos/services/system.nix
-    ../../../modules/nixos/services/ssh-lan.nix
-    ../../../modules/nixos/services/virtualization.nix
-    ../../../modules/nixos/services/searxng/module.nix
-
-    # Security
-    ../../../modules/nixos/security/hardening.nix
+    (importTree ../../../modules/common)
+    (importTree ../../../modules/nixos)
 
     inputs.home-manager.nixosModules.home-manager
   ];

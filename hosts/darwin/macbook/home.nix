@@ -4,15 +4,13 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  importTree = import ../../../nix/import-tree.nix;
+in {
   imports = [
     inputs.opencode-config.homeModules.default
 
-    ../../../modules/home/common/fish
-    ../../../modules/home/common/git.nix
-    ../../../modules/home/common/cli.nix
-    ../../../modules/home/common/node.nix
-    ../../../modules/home/common/vscodium
+    (importTree ../../../modules/home/common)
   ];
 
   xdg.configFile."ghostty".source = ../../../config/ghostty;
