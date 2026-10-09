@@ -97,14 +97,31 @@ elseif name == "cliphist" then
         error("unexpected cliphist command: " .. tostring(argv[1]))
     end
 elseif name == "nmcli" then
-    if has(argv, "radio") then
-        io.stdout:write("WIFI:enabled\n")
-    elseif has(argv, "list") then
-        io.stdout:write(":OpenWifi:\n:HomeWifi:WPA2\n")
-    elseif has(argv, "show") then
-        io.stdout:write("SavedNet:802-11-wireless\nWired:802-3-ethernet\n")
-    else
-        append_log(name, argv)
+    append_log(name, argv)
+    if argv[1] == "-t" then
+        if has(argv, "list") then
+            -- Deliberately unsorted, with one SSID repeated at two strengths
+            -- and enough extra networks to overflow a menu page.
+            io.stdout:write(
+                "*:reprisabe:30:WPA3\n:HomeWifi:42:WPA2\n:OpenWifi:65:\n:HomeWifi:70:WPA2\n"
+            )
+            for index = 1, 15 do
+                io.stdout:write(
+                    ":Extra" .. string.format("%02d", index) .. ":" .. 61 - index * 3 .. ":WPA2\n"
+                )
+            end
+        elseif has(argv, "--active") then
+            io.stdout:write("reprisabe:d6c23df2-be6a-4cca-8eb1-f595a47fb1fc:802-11-wireless\n")
+        elseif has(argv, "show") then
+            io.stdout:write(
+                "SavedNet:11111111-2222-3333-4444-555555555555:802-11-wireless\n"
+                    .. "Wired:66666666-7777-8888-9999-000000000000:802-3-ethernet\n"
+            )
+        elseif has(argv, "radio") then
+            io.stdout:write("WIFI:enabled\n")
+        elseif has(argv, "networking") then
+            io.stdout:write("enabled\n")
+        end
     end
 else
     error("unexpected mock command: " .. name)
