@@ -17,7 +17,8 @@
     };
 
     # imv is the only image viewer; make it the default handler. MIME defaults
-    # have no wildcard, so list the formats imv's backends support.
+    # have no wildcard, so list the formats imv's backends support. COSMIC
+    # Files is the only file manager, so it owns directories.
     mimeApps.defaultApplications = let
       types = [
         "image/png"
@@ -38,7 +39,10 @@
           name = type;
           value = "imv.desktop";
         })
-        types);
+        types)
+      // {
+        "inode/directory" = "com.system76.CosmicFiles.desktop";
+      };
 
     # xdg-open's generic Hyprland path does not honor Terminal=true. Launch
     # Neovim in Foot explicitly so browsers and file managers get a window.

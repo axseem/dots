@@ -1,5 +1,5 @@
 local terminal = "foot"
-local fileManager = "nautilus"
+local fileManager = "cosmic-files"
 local menu = "anyrun"
 local emoji = "emoji"
 local actions = "actions"
@@ -13,7 +13,8 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 -- Hyprland 0.56 imports WAYLAND_DISPLAY into the user manager but does not
 -- activate graphical-session.target; swaync, swayidle and cliphist are bound
--- to that target. The script imports the environment, then starts the target.
+-- to that target. The script imports the environment, then starts NixOS's
+-- fake session target, which pulls in the real one.
 hl.on("hyprland.start", function()
     hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/scripts/graphical-session.lua")
     hl.exec_cmd("anyrun daemon")
@@ -26,11 +27,13 @@ hl.config({
         layout = "dwindle",
     },
     decoration = {
-        shadow = { enabled = false }, blur = { enabled = false }, rounding = 0,
+        shadow = { enabled = false },
+        glow = { enabled = true, range = 1, render_power = 4, color = "rgba(ffffff44)", color_inactive = "rgba(ffffff44)" },
+        blur = { enabled = false }, rounding = 0,
     },
     dwindle = { preserve_split = true },
     master = { new_status = "master" },
-    misc = { disable_hyprland_logo = true, background_color = "rgb(000000)" },
+    misc = { disable_hyprland_logo = true, disable_splash_rendering = true, background_color = "rgb(000000)" },
     animations = { enabled = false },
     input = {
         kb_layout = "us", kb_variant = "", kb_model = "", kb_options = "", kb_rules = "",

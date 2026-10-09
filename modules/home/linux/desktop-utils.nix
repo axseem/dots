@@ -47,7 +47,7 @@ in {
   home.packages = with pkgs; [
     # File Management
     file-roller
-    nautilus
+    cosmic-files
 
     # Utilities
     libqalculate

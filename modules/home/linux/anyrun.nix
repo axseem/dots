@@ -25,19 +25,23 @@
       "actions.ron".text = ''
         Config(
           enable_power_actions: false,
+          // commands are run through sh -c; the actions plugin waits for their
+          // stdout and stderr to reach EOF before closing its window, and a
+          // detached process inherits those pipes, so redirect them or the
+          // launcher stays open until the detached program exits
           custom_actions: [
-            (title: "Wi-Fi settings", command: "setsid -f wifi", description: "Network connections", icon: "network-wireless-symbolic"),
-            (title: "Clipboard history", command: "setsid -f clipboard", description: "Recent clipboard entries", icon: "edit-paste-symbolic"),
-            (title: "Emoji picker", command: "setsid -f emoji", description: "Search and copy an emoji", icon: "face-smile-symbolic"),
-            (title: "Audio settings", command: "setsid -f pavucontrol", description: "Volume and devices", icon: "audio-volume-high-symbolic"),
-            (title: "Browse files", command: "setsid -f nautilus", description: "File manager", icon: "folder-symbolic"),
-            (title: "Screenshot area", command: "setsid -f actions --worker screenshot-area", description: "Capture a selection", icon: "camera-photo-symbolic"),
-            (title: "Screenshot full screen", command: "setsid -f actions --worker screenshot-full", description: "Capture the display", icon: "camera-photo-symbolic"),
-            (title: "Lock screen", command: "setsid -f actions --worker lock", description: "Lock the session", icon: "system-lock-screen-symbolic"),
-            (title: "Suspend", command: "setsid -f actions --worker suspend", description: "Suspend to RAM", icon: "media-playback-pause-symbolic", confirm: true),
-            (title: "Log out", command: "setsid -f actions --worker logout", description: "End the session", icon: "system-log-out-symbolic", confirm: true),
-            (title: "Restart", command: "setsid -f actions --worker reboot", description: "Reboot the machine", icon: "system-reboot-symbolic", confirm: true),
-            (title: "Power off", command: "setsid -f actions --worker poweroff", description: "Shut down the machine", icon: "system-shutdown-symbolic", confirm: true),
+            (title: "Wi-Fi settings", command: "setsid -f wifi >/dev/null 2>&1", description: "Network connections", icon: "network-wireless-symbolic"),
+            (title: "Clipboard history", command: "setsid -f clipboard >/dev/null 2>&1", description: "Recent clipboard entries", icon: "edit-paste-symbolic"),
+            (title: "Emoji picker", command: "setsid -f emoji >/dev/null 2>&1", description: "Search and copy an emoji", icon: "face-smile-symbolic"),
+            (title: "Audio settings", command: "setsid -f pavucontrol >/dev/null 2>&1", description: "Volume and devices", icon: "audio-volume-high-symbolic"),
+            (title: "Browse files", command: "setsid -f cosmic-files >/dev/null 2>&1", description: "File manager", icon: "folder-symbolic"),
+            (title: "Screenshot area", command: "setsid -f actions --worker screenshot-area >/dev/null 2>&1", description: "Capture a selection", icon: "camera-photo-symbolic"),
+            (title: "Screenshot full screen", command: "setsid -f actions --worker screenshot-full >/dev/null 2>&1", description: "Capture the display", icon: "camera-photo-symbolic"),
+            (title: "Lock screen", command: "setsid -f actions --worker lock >/dev/null 2>&1", description: "Lock the session", icon: "system-lock-screen-symbolic"),
+            (title: "Suspend", command: "setsid -f actions --worker suspend >/dev/null 2>&1", description: "Suspend to RAM", icon: "media-playback-pause-symbolic", confirm: true),
+            (title: "Log out", command: "setsid -f actions --worker logout >/dev/null 2>&1", description: "End the session", icon: "system-log-out-symbolic", confirm: true),
+            (title: "Restart", command: "setsid -f actions --worker reboot >/dev/null 2>&1", description: "Reboot the machine", icon: "system-reboot-symbolic", confirm: true),
+            (title: "Power off", command: "setsid -f actions --worker poweroff >/dev/null 2>&1", description: "Shut down the machine", icon: "system-shutdown-symbolic", confirm: true),
           ],
         )
       '';
@@ -45,7 +49,7 @@
       "stdin.ron".text = ''
         Config(
           allow_invalid: false,
-          max_entries: 12,
+          max_entries: 64,
           preserve_order: false,
         )
       '';
