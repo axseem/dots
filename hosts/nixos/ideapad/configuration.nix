@@ -1,5 +1,6 @@
 {
   inputs,
+  pkgs,
   username,
   ...
 }: let
@@ -12,10 +13,17 @@ in {
     options btusb enable_autosuspend=0
   '';
 
+  # The remote-wakeup hang is fixed upstream in btmtk ("Bluetooth: btmtk:
+  # Disable remote wakeup for MT7922/MT7925", e31d7616), which first landed in
+  # 7.2. The 6.18 LTS never got the backport. Drop this once the default
+  # kernel is >= 7.2.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   imports = [
     inputs.nixos-hardware.nixosModules.lenovo-ideapad-16ahp9
     ./hardware-configuration.nix
     ./boot.nix
+    ./keyboard.nix
     ./power.nix
     ./ssh-lan.nix
 
