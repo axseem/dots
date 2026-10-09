@@ -23,12 +23,11 @@ end)
 hl.config({
     general = {
         gaps_in = 0, gaps_out = 0, border_size = 0,
-        col = { active_border = "rgb(222222)", inactive_border = "rgb(222222)" },
         layout = "dwindle",
     },
     decoration = {
         shadow = { enabled = false },
-        glow = { enabled = true, range = 1, render_power = 4, color = "rgba(ffffff44)", color_inactive = "rgba(ffffff44)" },
+        glow = { enabled = true, range = 1, render_power = 1, color = "rgba(ffffff44)", color_inactive = "rgba(ffffff22)" },
         blur = { enabled = false }, rounding = 0,
     },
     dwindle = { preserve_split = true },
