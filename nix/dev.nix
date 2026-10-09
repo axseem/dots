@@ -39,6 +39,26 @@
       "swaylock"
     ];
   };
+  tmuxMock = lua.mkApp {
+    name = "tmux-mock";
+    source = ./test-mocks/tmux.lua;
+    commands = ["tmux"];
+  };
+  resurrectMock = lua.mkApp {
+    name = "resurrect-mock";
+    source = ./test-mocks/resurrect.lua;
+  };
+  tmuxSessionTest = lua.mkApp {
+    name = "tmux-session-test";
+    source = ../modules/home/linux/tmux-session.lua;
+    replacements = {
+      tmux = "${tmuxMock}/bin/tmux";
+      bash = lua.interpreter;
+      resurrectSave = "${resurrectMock}/libexec/resurrect.lua";
+      resurrectRestore = "${resurrectMock}/libexec/resurrect.lua";
+      path = "${lua.runtime}/bin";
+    };
+  };
   testEmojiData = final.runCommand "test-emoji-data" {} "cp ${./test-mocks/emoji-data} $out";
   testApps = import ./menu-apps.nix {
     inherit lua;
@@ -87,6 +107,7 @@ in {
       secretScript = ../modules/nixos/services/searxng/secret.lua;
       swayidleScript = ../modules/home/linux/swayidle-command.lua;
       sxngScript = ../modules/nixos/services/searxng/sxng.lua;
+      tmuxSessionScript = "${tmuxSessionTest}/libexec/tmux-session.lua";
     } "${lua.interpreter} ${./lua-automation-test.lua}";
     anyrun-automation = final.runCommand "anyrun-automation-test" {
       luaCommand = lua.interpreter;
