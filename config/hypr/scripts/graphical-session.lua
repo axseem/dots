@@ -10,4 +10,6 @@ assert(process.run({
     "XDG_CURRENT_DESKTOP",
     "HYPRLAND_INSTANCE_SIGNATURE",
 }) == 0)
-assert(process.run({"systemctl", "--user", "start", "graphical-session.target"}) == 0)
+-- graphical-session.target refuses manual starts; NixOS's fake session target
+-- binds to it, so starting the fake target activates the real one.
+assert(process.run({"systemctl", "--user", "start", "nixos-fake-graphical-session.target"}) == 0)
