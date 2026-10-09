@@ -69,11 +69,11 @@
 
     # Dev Utilities
     axseem.lsnix
+    axseem.mk
     entr
     watchexec
     hyperfine
     tokei
-    just
     act
     pre-commit
 
@@ -93,6 +93,7 @@
     ffmpeg
     imagemagick
     exiftool
+    jpegli
 
     # Security
     age
@@ -111,5 +112,6 @@
     bun
 
     inputs.nvim.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.harness.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 }

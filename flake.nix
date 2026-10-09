@@ -23,6 +23,10 @@
       url = "github:axseem/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    harness = {
+      url = "git+ssh://git@github.com/axseem/harness.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     abstruct = {
       url = "git+https://codeberg.org/axseem/abstruct.git";
       inputs = {

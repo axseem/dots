@@ -57,6 +57,26 @@
         "type": "github"
       }
     },
+    "harness": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791479020,
+        "narHash": "sha256-Bnt3QJI08fl/VPRnnsWz53OwwLDWLhQdJBeYminqKp4=",
+        "ref": "refs/heads/main",
+        "rev": "318df7d2b7d03cad20deb6eff16a6a26377185a1",
+        "revCount": 72,
+        "type": "git",
+        "url": "ssh://git@github.com/axseem/harness.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/axseem/harness.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -178,15 +198,14 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "opencode-source": "opencode-source",
-        "token-trim": "token-trim"
+        "opencode-source": "opencode-source"
       },
       "locked": {
-        "lastModified": 1788261108,
-        "narHash": "sha256-dJJm2PbU/MkS/YWS3LMn/mDWMVueD43gUmbyb1UIZRc=",
+        "lastModified": 1790625606,
+        "narHash": "sha256-nR46AW5BtS1aiRLrYoiKnbfgRYsgxAlwRgOECjLaB8k=",
         "ref": "refs/heads/main",
-        "rev": "7bc4daa7d0944f5130e553f521ab143cc5c5312a",
-        "revCount": 59,
+        "rev": "c558f832693f7482417e2964aec613bcf85d1c62",
+        "revCount": 65,
         "type": "git",
         "url": "https://codeberg.org/axseem/opencode-config"
       },
@@ -198,15 +217,16 @@
     "opencode-source": {
       "flake": false,
       "locked": {
-        "lastModified": 1784531346,
-        "narHash": "sha256-ywKuog9oiZpxJSqLCd+7oGmKetjFcMxuDlZUkdOGPt8=",
+        "lastModified": 1790380652,
+        "narHash": "sha256-QyzzA9SUnnCunYucJPjZAw/EkUN1EKoDcrFalIOYVps=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "a19b52e85bf2630b86157030e2cf7c9fc20ce552",
+        "rev": "cd9a14a6b688d4021bee381dfd39d2cef9c0f862",
         "type": "github"
       },
       "original": {
         "owner": "anomalyco",
+        "ref": "v2.0.18",
         "repo": "opencode",
         "type": "github"
       }
@@ -235,6 +255,7 @@
     "root": {
       "inputs": {
         "abstruct": "abstruct",
+        "harness": "harness",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
@@ -242,27 +263,6 @@
         "nvim": "nvim",
         "opencode-config": "opencode-config",
         "pre-commit-hooks": "pre-commit-hooks"
-      }
-    },
-    "token-trim": {
-      "inputs": {
-        "nixpkgs": [
-          "opencode-config",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1784797984,
-        "narHash": "sha256-TSa3ZYTGacvrnaPoBu0sd6U3zJ1bHD5Rfd3YPpt29rM=",
-        "ref": "refs/heads/main",
-        "rev": "67214a1dcebb20c882710f4489159cd0f781da85",
-        "revCount": 4,
-        "type": "git",
-        "url": "https://codeberg.org/axseem/opencode-token-trim"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://codeberg.org/axseem/opencode-token-trim"
       }
     }
   },
