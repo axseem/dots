@@ -21,6 +21,12 @@ in {
     // {
       inherit lua;
 
+      # make/just replacement: `mk <task>` runs Taskfile.lua via axseem.task.
+      mk = lua.mkApp {
+        name = "mk";
+        source = ./lua/mk.lua;
+        commands = ["mk"];
+      };
       lsnix = lua.mkApp {
         name = "lsnix";
         source = ../modules/home/common/lsnix.lua;
@@ -34,6 +40,27 @@ in {
           "swayidle-displays-off"
           "swayidle-displays-on"
         ];
+      };
+      tmux-session = lua.mkApp {
+        name = "tmux-session";
+        source = ../modules/home/linux/tmux-session.lua;
+        commands = ["tmux-session"];
+        replacements = {
+          tmux = "${final.tmux}/bin/tmux";
+          bash = "${final.bash}/bin/bash";
+          resurrectSave = "${final.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+          resurrectRestore = "${final.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
+          path = final.lib.makeBinPath [
+            final.tmux
+            final.bash
+            final.coreutils
+            final.gnugrep
+            final.gnused
+            final.gawk
+            final.procps
+            final.findutils
+          ];
+        };
       };
       sxng = lua.mkApp {
         name = "sxng";

@@ -25,9 +25,13 @@ Enter the repository environment explicitly with `nix develop`. The repository
 does not use `.envrc` because direnv evaluates that file with Bash.
 
 ```bash
-nix fmt              # format Nix files (alejandra)
-nix flake check      # run the pre-commit and Lua automation checks
+mk fmt               # format Nix files (alejandra)
+mk check             # pre-commit + Lua automation checks
+mk --list            # every task
 ```
+
+`mk` is the task runner (`axseem.task`, installed by this repo); `Taskfile.lua`
+declares the tasks as argv values, so no shell is involved.
 
 The flake publishes only the host configurations and dev tooling; the modules
 are internal and are not a reusable module API.

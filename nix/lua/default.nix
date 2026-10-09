@@ -3,13 +3,14 @@
   module = name: source:
     packages.toLuaModule (pkgs.writeTextFile {
       name = "axseem-${name}";
-      destination = "/share/lua/${pkgs.luajit.luaversion}/axseem/${name}.lua";
+      destination = "/share/lua/${pkgs.luajit.luaversion}/axseem/${builtins.replaceStrings ["."] ["/"] name}.lua";
       text = builtins.readFile source;
     });
   runtime = pkgs.luajit.withPackages (_: [
     packages.luaposix
     (module "process" ./axseem/process.lua)
     (module "picker" ./axseem/picker.lua)
+    (module "task" ./axseem/task.lua)
   ]);
 in {
   inherit runtime;
